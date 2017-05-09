@@ -48,26 +48,26 @@ KODI_PASSWORD="[YOUR_KODI_PASSWORD]"
 
 
 ### C) Set up IFTTT with your Google Home
+
 1. Go to [IFTTT](https://ifttt.com)
 2. Create a new applet: if *This* then *That*
-  1. For *This* choose: *Google Assistance*
-  2. Choose *Say a phrase with a text ingredient*
-  3. In *What do you want to say?* enter something like:
-  > Kodi play movie $
-  
-  4. In *What do you want the Assistant to say in response?* enter something like:
-  > ok playing $ movie
-  
-  5. For *That* choose: *Maker Webhooks*
-  6. Choose *Make a web request*
-  7. In *URL* enter:
-  >[YOUR_GLITCH_SERVER_ADDRESS]/playmovie?q= {{TextField}}
-  
-  For example, if your glitch server address is 'green-icecream.glitch.me', your should enter:
-  >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
-  
-  8. Method: *Get*
-  9. Content Type: *application/json*
+3. For *This* choose: *Google Assistance*
+    1. Choose *Say a phrase with a text ingredient*
+    2. In *What do you want to say?* enter something like:
+    > Kodi play movie $
+    3. In *What do you want the Assistant to say in response?* enter something like:
+    > ok playing $ movie
+4. For *That* choose: *Maker Webhooks*
+    1. Choose *Make a web request*
+    2. In *URL* enter:
+    >[YOUR_GLITCH_SERVER_ADDRESS]/playmovie?q= {{TextField}}
+    
+    For example, if your glitch server address is 'green-icecream.glitch.me', your should enter:
+    >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
+    
+    8. Method: *Get*
+    9. Content Type: *application/json*
+
 
 Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.
 
@@ -75,11 +75,15 @@ Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla
 
 **Note2:** Eventually anyone who'll send a get request to your glitch server will be able to play a movie or stop your kodi player. (a better security mechanism could fix this).
 
-For Tv show support, follow all the steps in **C**, except choose a different phrase (e.g. "Kodi play an episode of $") and use this URL:
+For **Tv show support**, follow all the steps in **C**, except choose a different phrase (e.g. "Kodi play an episode of $") and use this URL:
 >[YOUR_GLITCH_SERVER_ADDRESS]/playtvshow?q= {{TextField}}
 
-To pause or resume kodi follow the instructions in **C** but choose *Say a simple phrase* in step 2 and use this URL:
+To **pause or resume** kodi follow the instructions in **C** but choose "*Say a simple phrase*" in step 3 and use this URL:
 >[YOUR_GLITCH_SERVER_ADDRESS]/playpause
+
+To **Stop** kodi, follow the same instructions as *pause* but use this URL:
+>[YOUR_GLITCH_SERVER_ADDRESS]/stop
+
 
 ------------
 ## Credits ##
