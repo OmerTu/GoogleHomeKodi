@@ -1,4 +1,4 @@
-Control Kodi through your Google Home / Google Assistance
+Control Kodi through your Google Home / Google Assistant
 =========================
 
 ------------
