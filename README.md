@@ -21,7 +21,7 @@ Eventually, this let you to easily control your kodi using simple voice commands
 ------------
 ## How to setup
 
-Disclaimer: The security aspect of this setup can be improved. Use on your own risk and choose complex username & password in the below steps.
+Disclaimer: Use on your own risk and choose complex username & password in the below steps.
 
 ### **A) Enable webserver access in kodi**
 1. In Kodi, go to *Settings* >> *Web server*
@@ -43,7 +43,10 @@ KODI_IP="[YOUR_EXTERNAL_IP_ADDRESS]"
 KODI_PORT="[YOUR_KODI_PORT]"
 KODI_USER="[YOUR_KODI_USER_NAME]"
 KODI_PASSWORD="[YOUR_KODI_PASSWORD]"
+AUTH_TOKEN="[YOUR_CONNECTION_PASSWORD]"
 ```
+*[YOUR_CONNECTION_PASSWORD]* can be anything you want.
+
 6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar.
 
 
@@ -67,13 +70,13 @@ KODI_PASSWORD="[YOUR_KODI_PASSWORD]"
     
     8. Method: *Get*
     9. Content Type: *application/json*
+    10. Body:
+    >{"token":"*[YOUR_CONNECTION_PASSWORD]*"}
 
 
 Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.
 
-**Note1:** If your external IP changes, this will stop working (consider getting a static IP address)
-
-**Note2:** Eventually anyone who'll send a get request to your glitch server will be able to play a movie or stop your kodi player. (a better security mechanism could fix this).
+**Note:** If your external IP changes, this will stop working (consider getting a static IP address)
 
 For **Tv show support**, follow all the steps in **C**, except choose a different phrase (e.g. "Kodi play an episode of $") and use this URL:
 >[YOUR_GLITCH_SERVER_ADDRESS]/playtvshow?q= {{TextField}}
