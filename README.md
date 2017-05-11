@@ -32,7 +32,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 6. Find your external IP address (i.e. Google 'what's my ip?')
 
 
-### **B) Setup a Google assistance to kodi webserver in Glitch**
+### **B) Setup a webserver in Glitch to control your kodi**
 1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
 2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
