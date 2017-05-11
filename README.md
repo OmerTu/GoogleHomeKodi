@@ -32,7 +32,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 6. Find your external IP address (i.e. Google 'what's my ip?')
 
 
-### **B) Setup a webserver in Glitch to control your kodi**
+### **B) Set up a webserver in Glitch to control your kodi**
 1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
 2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
@@ -74,9 +74,13 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
     >{"token":"*YOUR_CONNECTION_PASSWORD*"}
 
 
+
 Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.
 
 **Note:** If your external IP changes, this will stop working (consider getting a static IP address)
+
+
+### Setting up other actions: ###
 
 For **Tv show support**, follow all the steps in **C**, except choose a different phrase (e.g. "Kodi play an episode of $") and use this URL:
 >YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q= {{TextField}}
