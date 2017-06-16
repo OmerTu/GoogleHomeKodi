@@ -80,7 +80,7 @@ var kodiStop = function(request, response) {
 
 
 // Parse request to watch a movie
-// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q[MOVIE_NAME]
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.get("/playmovie", function (request, response) {
   validateRequest(request, response, kodiPlayMovie)
 });
@@ -116,20 +116,45 @@ var kodiPlayMovie = function(request, response) {
 
 
 // Parse request to watch your next unwatched episode for a given tv show
-// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q[TV_SHOW_NAME]
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
 app.get("/playtvshow", function (request, response) {
   validateRequest(request, response, kodiPlayTvshow)
 });
 
 var kodiPlayTvshow = function(request, response) {
-  var tvshowTitle = request.query.q;
-  tvshowTitle = tvshowTitle.trim().toLowerCase();
-  console.log("TV Show request received to play \"" + tvshowTitle + "\"");
+  var param = {
+    tvshowTitle: request.query.q.trim().toLowerCase()
+  };
+  
+  console.log("TV Show request received to play \"" + param["tvshowTitle"] + "\"");
 
-  kodiFindTvshow (request, response, tvshowTitle);
+  kodiFindTvshow (request, response, kodiPlayNextUnwatchedEpisode, param);
 };
 
-/*
+
+// Parse request to watch a specific episode for a given tv show
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playepisode?q[TV_SHOW_NAME]season[SEASON_NUMBER]episode&e[EPISODE_NUMBER]
+// For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:  
+// http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
+app.get("/playepisode", function (request, response) {
+  validateRequest(request, response, kodiPlayEpisodeHandler)
+});
+
+var kodiPlayEpisodeHandler = function(request, response) {
+  var requestPartOne = request.query.q.split("season");
+  var param = {
+    tvshowTitle: requestPartOne[0].trim().toLowerCase(),
+    seasonNum: requestPartOne[1].trim().toLowerCase(),
+    episodeNum: request.query.e
+  };
+  
+  console.log("Specific Episode request received to play \"" + param["tvshowTitle"] + "\" Season " + param["seasonNum"] + " Episode " + param["episodeNum"]);
+  
+  kodiFindTvshow (request, response, kodiPlaySpecificEpisode, param);
+};
+
+
+var kodiFindTvshow = function(req, res, nextAction, param) {
   kodi.VideoLibrary.GetTVShows()
   .then(
     function(shows) {
@@ -138,91 +163,16 @@ var kodiPlayTvshow = function(request, response) {
       }
       // Create the fuzzy search object
       var fuse = new Fuse(shows.result.tvshows, fuzzySearchOptions)
-      var searchResult = fuse.search(tvshowTitle)
-
-      // If there's a result
-      if (searchResult.length > 0) {
-        var tvshowFound = searchResult[0];
-        console.log("Found tv show \"" + tvshowFound.label + "\" (" + tvshowFound.tvshowid + ")");
-        return tvshowFound.tvshowid;
-      } else {
-        throw new Error("Couldn\'t find tv show \"" + tvshowTitle + "\"");
-      }
-    }
-  )
-  .catch(function(e) {
-    console.log(e);
-  })
-  .then(
-    function(requestedTvShowId) {
-      if (requestedTvShowId == null) {
-        return;
-      }
-      console.log("Searching for next episode of Show ID " + requestedTvShowId + "...");          
-
-      // Build filter to search unwatched episodes
-      var param = {
-              tvshowid: requestedTvShowId,
-              properties: ['playcount', 'showtitle', 'season', 'episode'],
-              // Sort the result so we can grab the first unwatched episode
-              sort: {
-                order: 'ascending',
-                method: 'episode',
-                ignorearticle: true
-              }
-            }
-      kodi.VideoLibrary.GetEpisodes(param)
-      .then(function (episodeResult) {
-        if(!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
-          throw new Error('no results');
-        }
-        var episodes = episodeResult.result.episodes;
-        // Check if there are episodes for this TV show
-        if (episodes) {
-          console.log("found episodes..");
-          // Check whether we have seen this episode already
-          var firstUnplayedEpisode = episodes.filter(function (item) {
-            return item.playcount === 0
-          })
-          if (firstUnplayedEpisode.length > 0) {
-            var episdoeToPlay = firstUnplayedEpisode[0]; // Resolve the first unplayed episode
-            console.log("Playing season " + episdoeToPlay.season + " episode " + episdoeToPlay.episode + " (ID: " + episdoeToPlay.episodeid + ")");
-
-            var param = {
-                item: {
-                  episodeid: episdoeToPlay.episodeid
-                }
-              }
-            return kodi.Player.Open(param);
-          }
-        }
-      })
-      .catch(function(e) {
-        console.log(e);
-      });     
-    })  
-  response.sendStatus(200);
-};
-*/
-
-var kodiFindTvshow = function(req, res, tvshowName) {
-  kodi.VideoLibrary.GetTVShows()
-  .then(
-    function(shows) {
-      if(!(shows && shows.result && shows.result.tvshows && shows.result.tvshows.length > 0)) {
-        throw new Error('no results');
-      }
-      // Create the fuzzy search object
-      var fuse = new Fuse(shows.result.tvshows, fuzzySearchOptions)
-      var searchResult = fuse.search(tvshowName)
+      var searchResult = fuse.search(param["tvshowTitle"])
 
       // If there's a result
       if (searchResult.length > 0 && searchResult[0].tvshowid != null) {
         var tvshowFound = searchResult[0];
         console.log("Found tv show \"" + tvshowFound.label + "\" (" + tvshowFound.tvshowid + ")");
-        kodiPlayEpisode (req, res, tvshowFound.tvshowid);
+        param["tvshowid"] = tvshowFound.tvshowid;
+        nextAction (req, res, param);
       } else {
-        throw new Error("Couldn\'t find tv show \"" + tvshowName + "\"");
+        throw new Error("Couldn\'t find tv show \"" + param["tvshowTitle"] + "\"");
       }
     }
   )
@@ -231,12 +181,13 @@ var kodiFindTvshow = function(req, res, tvshowName) {
   })
 };
 
-var kodiPlayEpisode = function(req, res, tvshowId) {
-  console.log("Searching for next episode of Show ID " + tvshowId + "...");          
+
+var kodiPlayNextUnwatchedEpisode = function(req, res, RequestParams) {
+  console.log("Searching for next episode of Show ID " + RequestParams["tvshowid"]  + "...");          
 
   // Build filter to search unwatched episodes
   var param = {
-          tvshowid: tvshowId,
+          tvshowid: RequestParams["tvshowid"],
           properties: ['playcount', 'showtitle', 'season', 'episode'],
           // Sort the result so we can grab the first unwatched episode
           sort: {
@@ -275,6 +226,49 @@ var kodiPlayEpisode = function(req, res, tvshowId) {
   });
   res.sendStatus(200);
 };
+
+
+var kodiPlaySpecificEpisode = function(req, res, RequestParams) {
+  console.log("Searching Season " + RequestParams["seasonNum"] + ", episode " + RequestParams["episodeNum"] + " of Show ID " + RequestParams["tvshowid"] + "...");          
+
+  // Build filter to search for specific season number
+  var param = {
+          tvshowid: RequestParams["tvshowid"],
+          //episode: requestedEpisodeNum,
+          season: parseInt(RequestParams["seasonNum"]),
+          properties: ['playcount', 'showtitle', 'season', 'episode']
+        }
+  kodi.VideoLibrary.GetEpisodes(param)
+  .then(function (episodeResult) {
+    if(!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
+      throw new Error('no results');
+    }
+    var episodes = episodeResult.result.episodes;
+    // Check if there are episodes for this TV show
+    if (episodes) {
+      console.log("found episodes..");
+      // Check for the episode number requested
+      var matchedEpisodes = episodes.filter(function (item) {
+        return item.episode === parseInt(RequestParams["episodeNum"])
+      })
+      if (matchedEpisodes.length > 0) {
+        var episdoeToPlay = matchedEpisodes[0];
+        console.log("Playing season " + episdoeToPlay.season + " episode " + episdoeToPlay.episode + " (ID: " + episdoeToPlay.episodeid + ")");
+        var param = {
+            item: {
+              episodeid: episdoeToPlay.episodeid
+            }
+          }
+        return kodi.Player.Open(param);
+      }
+    }
+  })
+  .catch(function(e) {
+    console.log(e);
+  });
+  res.sendStatus(200);
+};
+
 
 app.get("/", function (request, response) {
   //response.sendStatus(200);

@@ -94,6 +94,7 @@ For **Tv show support - Specific episode**, follow all the steps in **C**, excep
   * Choose "*Say a phrase with both a number and a text ingredient*" in step 3
   * Choose a different phrase (e.g. "Kodi play $ episode #"). 
   
+  
   For this to work, when you talk to your GoogleHome, the $ part must be in the format of *"[TV_SHOW_NAME] season [SEASON_NUMBER]"*. Meaning the word "Season" has to be said, the tv show name must be said before it and the season number must be said after it (i.e. "okay google kodi play bla season 4 episode 1")
   * Use this URL:
     >YOUR_GLITCH_SERVER_ADDRESS/playepisode?q= {{TextField}}&e= {{NumberField}}
