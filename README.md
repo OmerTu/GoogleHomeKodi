@@ -109,6 +109,14 @@ To **Stop** kodi, follow the same instructions as *pause* but use this URL:
 
 
 ------------
+## How to update to the latest version
+1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
+2. Select your Glitch project and under *advance settings* choose *Import from GitHub*
+3. Enter this project *OmerTu/GoogleHomeKodi*
+
+
+
+------------
 ## Credits ##
 I used some code from these 2 projects:
 https://github.com/MarvinSchenkel/HomeyKodi
