@@ -9,8 +9,11 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Play a movie:**
 "Hey Google, kodi play movie [movie name]" --> will search for the given movie name and play it.
 
-### **Play next unwatched episode:**
+### **Play the next unwatched episode:**
 "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
+
+### **Play a specific episode:**
+"Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.
 
 ### **Pause / Resume kodi:**
 "Hey Google, pause kodi"
@@ -57,21 +60,21 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 3. For *This* choose: *Google Assistance*
     1. Choose *Say a phrase with a text ingredient*
     2. In *What do you want to say?* enter something like:
-    > Kodi play movie $
+      > Kodi play movie $
     3. In *What do you want the Assistant to say in response?* enter something like:
-    > ok playing $ movie
+      > ok playing $ movie
 4. For *That* choose: *Maker Webhooks*
     1. Choose *Make a web request*
     2. In *URL* enter:
-    >YOUR_GLITCH_SERVER_ADDRESS/playmovie?q= {{TextField}}
+      >YOUR_GLITCH_SERVER_ADDRESS/playmovie?q= {{TextField}}
     
     For example, if your glitch server address is 'green-icecream.glitch.me', your should enter:
-    >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
+      >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
     
     8. Method: *Get*
     9. Content Type: *application/json*
     10. Body:
-    >{"token":"*YOUR_CONNECTION_PASSWORD*"}
+      >{"token":"*YOUR_CONNECTION_PASSWORD*"}
 
 
 
@@ -82,14 +85,25 @@ Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla
 
 ### Setting up other actions: ###
 
-For **Tv show support**, follow all the steps in **C**, except choose a different phrase (e.g. "Kodi play an episode of $") and use this URL:
->YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q= {{TextField}}
+For **Tv show support - Next unwatched episode**, follow all the steps in **C**, except these changes: 
+  * Choose a different phrase (e.g. "Kodi play an episode of $")
+  * Use this URL:
+    >YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q= {{TextField}}
 
-To **pause or resume** kodi follow the instructions in **C** but choose "*Say a simple phrase*" in step 3 and use this URL:
->YOUR_GLITCH_SERVER_ADDRESS/playpause
+For **Tv show support - Specific episode**, follow all the steps in **C**, except these changes:
+  * Choose "*Say a phrase with both a number and a text ingredient*" in step 3
+  * Choose a different phrase (e.g. "Kodi play $ episode #"). 
+  For this to work, when you talk to your GoogleHome, the $ part must be in the format of *"[TV_SHOW_NAME] season [SEASON_NUMBER]"*. Meaning the word "Season" has to be said, the tv show name must be said before it and the season number must be said after it (i.e. "okay google kodi play bla season 4 episode 1")
+  * Use this URL:
+    >YOUR_GLITCH_SERVER_ADDRESS/playepisode?q= {{TextField}}&e= {{NumberField}}
+
+To **pause or resume** kodi follow the instructions in **C**, except these changes:
+  * Choose "*Say a simple phrase*" in step 3
+  * Use this URL:
+    >YOUR_GLITCH_SERVER_ADDRESS/playpause
 
 To **Stop** kodi, follow the same instructions as *pause* but use this URL:
->YOUR_GLITCH_SERVER_ADDRESS/stop
+  >YOUR_GLITCH_SERVER_ADDRESS/stop
 
 
 ------------
