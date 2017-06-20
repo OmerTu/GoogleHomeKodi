@@ -7,7 +7,7 @@ Control Kodi through your Google Home / Google Assistant
 Follow these steps to easily control your kodi using simple voice commands with your Google Home or Google assistant:
 
 ### **Play a movie:**
-"Hey Google, kodi play movie [movie name]" --> will search for the given movie name and play it.
+"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
 
 ### **Play the next unwatched episode:**
 "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
