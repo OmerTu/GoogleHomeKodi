@@ -60,7 +60,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 3. For *This* choose: *Google Assistance*
     1. Choose *Say a phrase with a text ingredient*
     2. In *What do you want to say?* enter something like:
-      > Kodi play movie $
+      > Kodi play $
     3. In *What do you want the Assistant to say in response?* enter something like:
       > ok playing $ movie
 4. For *That* choose: *Maker Webhooks*
