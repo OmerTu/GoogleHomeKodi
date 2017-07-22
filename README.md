@@ -114,7 +114,22 @@ To **Stop** kodi, follow the same instructions as *pause* but use this URL:
 2. Select your Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
 
+------------
+## Troubleshooting
+If your can't preform a simple action like pausing a video, try to narrow down to problem:
 
+1. While a video is being played in Kodi, try pausing it by entering this in your browser:
+>http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+
+If you get prompt to enter username and password choose the ones you set in Kodi (step A above).
+If that doesn't work, you probably have a problem with your kodi setup.
+
+2. If that works, try pausing a video using your external IP:
+>http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+
+If that doesn't work you probably have a problem with your router configuration.
+
+3. If it does work, there might be something wrong in your glich or IFTTT settings.
 
 ------------
 ## Credits ##
