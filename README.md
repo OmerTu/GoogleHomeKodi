@@ -143,3 +143,7 @@ And this wonderful website makes setting this up super easy -  Glitch (https://g
 -----------------
 Made by Omer Turgeman
 -----------------
+I hope you find this helpful!
+If you'd like, you can give me a cup of coffee :) 
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=7KPWVMH4T5UTJ&lc=US&item_name=Kodi%20control%20project&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
