@@ -270,6 +270,74 @@ var kodiPlaySpecificEpisode = function(req, res, RequestParams) {
 };
 
 
+// Parse request to watch a PVR channel by name
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
+app.get("/playpvrchannelbyname", function (request, response) {
+  validateRequest(request, response, kodiPlayChannelByName)
+});
+
+var kodiPlayChannelByName = function(request, response) {
+  var channelName = request.query.q.trim();
+  console.log("PVR channel (by name) request received to play \"" + channelName + "\"");
+    
+  // Build filter to search TV channel groups
+  var param = {
+    channeltype : "tv"
+  }
+  
+  kodi.PVR.GetChannelGroups(param)
+  .then(function(channelGroups) {
+    if(!(channelGroups && channelGroups.result && channelGroups.result.channelgroups && channelGroups.result.channelgroups.length > 0)) {
+      throw new Error('no channels group were found. Perhaps PVR is not setup?');
+    }
+
+    // For each tv PVR channel group, search for all channels
+    var chGroups = channelGroups.result.channelgroups;
+    
+    tryPlayingChannelInGroup(channelName, chGroups, 0);
+  })
+  .catch(function(e) { 
+        console.log(e);
+  })
+};
+
+    
+var tryPlayingChannelInGroup = function(reqChannelName, chGroups, currGroupI) {
+    if (currGroupI < chGroups.length) {
+      
+      // Build filter to search for all channel under the channel group
+      var param = {
+        channelgroupid : chGroups[currGroupI].channelgroupid
+      }
+      
+      kodi.PVR.GetChannels(param)
+      .then(function(channels) {
+        if(!(channels && channels.result && channels.result.channels && channels.result.channels.length > 0)){ 
+          throw new Error('no channels were found');
+        }
+        
+        var rChannels = channels.result.channels;
+        // Create the fuzzy search object
+        var fuse = new Fuse(rChannels, fuzzySearchOptions)
+        var searchResult = fuse.search(reqChannelName)
+        
+        // If there's a result
+        if (searchResult.length > 0) {
+          var channelFound = searchResult[0];
+          console.log("Found PVR channel \"" + channelFound.label + "\" (" + channelFound.channelid + ")");
+          return kodi.Player.Open({item: { channelid: channelFound.channelid }}); 
+        } else {
+          
+          tryPlayingChannelInGroup(reqChannelName, chGroups, currGroupI+1);
+        }
+      })
+      .catch(function(e) { 
+        console.log(e);
+      })
+    }
+  };
+
+
 app.get("/", function (request, response) {
   //response.sendStatus(200);
   response.sendFile(__dirname + '/views/index.html');

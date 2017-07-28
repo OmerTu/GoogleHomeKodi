@@ -7,7 +7,7 @@ Control Kodi through your Google Home / Google Assistant
 Follow these steps to easily control your kodi using simple voice commands with your Google Home or Google assistant:
 
 ### **Play a movie:**
-"Hey Google, kodi play movie [movie name]" --> will search for the given movie name and play it.
+"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
 
 ### **Play the next unwatched episode:**
 "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
@@ -60,7 +60,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 3. For *This* choose: *Google Assistance*
     1. Choose *Say a phrase with a text ingredient*
     2. In *What do you want to say?* enter something like:
-      > Kodi play movie $
+      > Kodi play $
     3. In *What do you want the Assistant to say in response?* enter something like:
       > ok playing $ movie
 4. For *That* choose: *Maker Webhooks*
@@ -109,6 +109,29 @@ To **Stop** kodi, follow the same instructions as *pause* but use this URL:
 
 
 ------------
+## How to update to the latest version
+1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
+2. Select your Glitch project and under *advance settings* choose *Import from GitHub*
+3. Enter this project *OmerTu/GoogleHomeKodi*
+
+------------
+## Troubleshooting
+If your can't preform a simple action like pausing a video, try to narrow down to problem:
+
+1. While a video is being played in Kodi, try pausing it by entering this in your browser:
+>http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+
+If you get prompt to enter username and password choose the ones you set in Kodi (step A above).
+If that doesn't work, you probably have a problem with your kodi setup.
+
+2. If that works, try pausing a video using your external IP:
+>http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+
+If that doesn't work you probably have a problem with your router configuration.
+
+3. If it does work, there might be something wrong in your glich or IFTTT settings.
+
+------------
 ## Credits ##
 I used some code from these 2 projects:
 https://github.com/MarvinSchenkel/HomeyKodi
@@ -120,3 +143,7 @@ And this wonderful website makes setting this up super easy -  Glitch (https://g
 -----------------
 Made by Omer Turgeman
 -----------------
+I hope you find this helpful!
+If you'd like, you can give me a cup of coffee :) 
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=7KPWVMH4T5UTJ&lc=US&item_name=Kodi%20control%20project&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
