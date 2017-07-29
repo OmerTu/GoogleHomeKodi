@@ -21,6 +21,15 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Stop kodi:**
 "Hey Google, stop kodi"
 
+### **Mute kodi:**
+"Hey Google, mute/unmute kodi"
+
+### **Set volume:**
+"Hey Google, set kodi volume to 60"
+
+### **Play PVR channel:**
+"Hey Google, switch kodi to BBC channel"
+
 ------------
 ## How to setup
 
@@ -112,6 +121,11 @@ To **Mute** kodi, follow the same instructions as *pause* but use this URL:
   
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   >YOUR_GLITCH_SERVER_ADDRESS/volume?q= {{NumberField}}
+  
+For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
+  * Choose a different phrase (e.g. "switch kodi to $ channel")
+  * Use this URL:
+    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q= {{TextField}}
 
 ------------
 ## How to update to the latest version
