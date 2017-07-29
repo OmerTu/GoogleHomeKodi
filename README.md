@@ -107,6 +107,11 @@ To **pause or resume** kodi follow the instructions in **C**, except these chang
 To **Stop** kodi, follow the same instructions as *pause* but use this URL:
   >YOUR_GLITCH_SERVER_ADDRESS/stop
 
+To **Mute** kodi, follow the same instructions as *pause* but use this URL:
+  >YOUR_GLITCH_SERVER_ADDRESS/mute
+  
+To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
+  >YOUR_GLITCH_SERVER_ADDRESS/volume?q= {{NumberField}}
 
 ------------
 ## How to update to the latest version
