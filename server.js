@@ -78,6 +78,28 @@ var kodiStop = function(request, response) {
   response.sendStatus(200);
 };
 
+// mute or unmute kodi
+app.get("/mute", function (request, response) {
+  validateRequest(request, response, kodiMuteToggle)
+});
+
+var kodiMuteToggle = function(request, response) {
+  console.log("mute/unmute request received");
+  kodi.Application.SetMute({"mute":"toggle"});
+  response.sendStatus(200);
+};
+
+// set kodi volume
+app.get("/volume", function (request, response) {
+  validateRequest(request, response, kodiSetVolume)
+});
+
+var kodiSetVolume = function(request, response) {
+  var setVolume = request.query.q.trim();
+  console.log("set volume to \"" + setVolume + "\" percent request received");
+  kodi.Application.SetVolume({"volume":parseInt(setVolume)});
+  response.sendStatus(200);
+};
 
 // Parse request to watch a movie
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
