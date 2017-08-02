@@ -28,7 +28,10 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, set kodi volume to 60"
 
 ### **Play PVR channel:**
-"Hey Google, switch kodi to BBC channel"
+"Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
+
+### **Turn on TV:**
+"Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
 
 ------------
 ## How to setup
@@ -127,6 +130,24 @@ For **PVR TV support - Set channel by name**, follow all the steps in **C**, exc
   * Use this URL:
     >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q= {{TextField}}
 
+For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
+
+  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q= {{NumberField}}
+    
+
+
+To **Turn on the TV and switch to Kodi's HDMI input** 
+  * This requires Kodi 17 (Krypton) and above
+  * This also requires that both your kodi device and TV support CEC commands
+  * You need to install [this script.json-cec](https://github.com/joshjowen/script.json-cec/raw/master/script.json-cec.zip) add-on: Download and move it to your kodi device and then in Kodi choose Settings>Add-ons>Install from zip file > choose the zip your just downloaded.
+  * Finally you can use this in 2 ways:
+    * Add another command: follow the same instructions as *pause* but use this URL:
+    >YOUR_GLITCH_SERVER_ADDRESS/activatetv
+    
+    *  Add the following line to your .env file (see step B-5 above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
+    >ACTIVATE_TV="true"
+
+    
 ------------
 ## How to update to the latest version
 1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
@@ -152,11 +173,13 @@ If that doesn't work you probably have a problem with your router configuration.
 
 ------------
 ## Credits ##
-I used some code from these 2 projects:
-https://github.com/MarvinSchenkel/HomeyKodi
-https://github.com/Jephuff/kodi-rpc
+I used some code from these 3 projects:
+[MarvinSchenkel/HomeyKodi](https://github.com/MarvinSchenkel/HomeyKodi)
+[Jephuff/kodi-rpc](https://github.com/Jephuff/kodi-rpc)
+[joshjowen/script.json-cec](https://github.com/joshjowen/script.json-cec)
 
-And this wonderful website makes setting this up super easy -  Glitch (https://glitch.com/about)
+
+And this wonderful website makes setting this up super easy -  [Glitch](https://glitch.com/about)
 
 
 -----------------

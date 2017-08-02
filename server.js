@@ -101,6 +101,32 @@ var kodiSetVolume = function(request, response) {
   response.sendStatus(200);
 };
 
+
+// Turn on TV and Switch to Kodi's HDMI input
+app.get("/activatetv", function (request, response) {
+  validateRequest(request, response, kodiActivateTv)
+});
+
+var kodiActivateTv = function(request, response) {
+  console.log("Activate TV request received");
+
+  var params = {
+          addonid: "script.json-cec",
+          params: {
+            command: "activate"
+          }
+        };
+  kodi.Addons.ExecuteAddon(params);
+};
+
+var tryActivateTv = function() {
+  if (process.env.ACTIVATE_TV != null && process.env.ACTIVATE_TV == "true") {
+    console.log("Activating TV first..");
+    kodiActivateTv(null, null);
+  }
+};
+
+
 // Parse request to watch a movie
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.get("/playmovie", function (request, response) {
@@ -108,6 +134,8 @@ app.get("/playmovie", function (request, response) {
 });
 
 var kodiPlayMovie = function(request, response) {
+  tryActivateTv();
+  
   var movieTitle = request.query.q.trim();
   console.log("Movie request received to play \"" + movieTitle + "\"");
     
@@ -144,6 +172,7 @@ app.get("/playtvshow", function (request, response) {
 });
 
 var kodiPlayTvshow = function(request, response) {
+  tryActivateTv();
   var param = {
     tvshowTitle: request.query.q.trim().toLowerCase()
   };
@@ -163,6 +192,7 @@ app.get("/playepisode", function (request, response) {
 });
 
 var kodiPlayEpisodeHandler = function(request, response) {
+  tryActivateTv();
   var requestPartOne = request.query.q.split("season");
   var param = {
     tvshowTitle: requestPartOne[0].trim().toLowerCase(),
@@ -298,9 +328,28 @@ app.get("/playpvrchannelbyname", function (request, response) {
   validateRequest(request, response, kodiPlayChannelByName)
 });
 
+// Parse request to watch a PVR channel by number
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
+app.get("/playpvrchannelbynumber", function (request, response) {
+  validateRequest(request, response, kodiPlayChannelByNumber)
+});
+
 var kodiPlayChannelByName = function(request, response) {
-  var channelName = request.query.q.trim();
-  console.log("PVR channel (by name) request received to play \"" + channelName + "\"");
+  tryActivateTv();
+  kodiPlayChannel(request, response, fuzzySearchOptions);
+}
+  
+var kodiPlayChannelByNumber = function(request, response) {
+  tryActivateTv();
+  var pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
+  pvrFuzzySearchOptions.keys[0] = "channelnumber"
+  kodiPlayChannel(request, response, pvrFuzzySearchOptions);
+}
+  
+var kodiPlayChannel = function(request, response, searchOptions) {
+  
+  var reqChannel = request.query.q.trim();
+  console.log("PVR channel request received to play \"" + reqChannel + "\"");
     
   // Build filter to search TV channel groups
   var param = {
@@ -316,7 +365,7 @@ var kodiPlayChannelByName = function(request, response) {
     // For each tv PVR channel group, search for all channels
     var chGroups = channelGroups.result.channelgroups;
     
-    tryPlayingChannelInGroup(channelName, chGroups, 0);
+    tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, 0);
   })
   .catch(function(e) { 
         console.log(e);
@@ -324,7 +373,7 @@ var kodiPlayChannelByName = function(request, response) {
 };
 
     
-var tryPlayingChannelInGroup = function(reqChannelName, chGroups, currGroupI) {
+var tryPlayingChannelInGroup = function(searchOptions, reqChannel, chGroups, currGroupI) {
     if (currGroupI < chGroups.length) {
       
       // Build filter to search for all channel under the channel group
@@ -340,17 +389,17 @@ var tryPlayingChannelInGroup = function(reqChannelName, chGroups, currGroupI) {
         
         var rChannels = channels.result.channels;
         // Create the fuzzy search object
-        var fuse = new Fuse(rChannels, fuzzySearchOptions)
-        var searchResult = fuse.search(reqChannelName)
+        var fuse = new Fuse(rChannels, searchOptions)
+        var searchResult = fuse.search(reqChannel)
         
         // If there's a result
         if (searchResult.length > 0) {
           var channelFound = searchResult[0];
-          console.log("Found PVR channel \"" + channelFound.label + "\" (" + channelFound.channelid + ")");
+          console.log("Found PVR channel \"" + channelFound.label + "\" - " + channelFound.channelnumber + " (" + channelFound.channelid + ")");
           return kodi.Player.Open({item: { channelid: channelFound.channelid }}); 
         } else {
           
-          tryPlayingChannelInGroup(reqChannelName, chGroups, currGroupI+1);
+          tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, currGroupI+1);
         }
       })
       .catch(function(e) { 
@@ -361,7 +410,6 @@ var tryPlayingChannelInGroup = function(reqChannelName, chGroups, currGroupI) {
 
 
 app.get("/", function (request, response) {
-  //response.sendStatus(200);
   response.sendFile(__dirname + '/views/index.html');
 });
 
