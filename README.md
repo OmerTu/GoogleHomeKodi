@@ -28,7 +28,7 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, set kodi volume to 60"
 
 ### **Play PVR channel:**
-"Hey Google, switch kodi to BBC channel"
+"Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
 
 ### **Turn on TV:**
 "Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
@@ -129,6 +129,11 @@ For **PVR TV support - Set channel by name**, follow all the steps in **C**, exc
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
     >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q= {{TextField}}
+
+For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
+
+  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q= {{NumberField}}
+    
 
 To **Turn on the TV and switch to Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above
