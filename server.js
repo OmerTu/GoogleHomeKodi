@@ -78,6 +78,54 @@ var kodiStop = function(request, response) {
   response.sendStatus(200);
 };
 
+// mute or unmute kodi
+app.get("/mute", function (request, response) {
+  validateRequest(request, response, kodiMuteToggle)
+});
+
+var kodiMuteToggle = function(request, response) {
+  console.log("mute/unmute request received");
+  kodi.Application.SetMute({"mute":"toggle"});
+  response.sendStatus(200);
+};
+
+// set kodi volume
+app.get("/volume", function (request, response) {
+  validateRequest(request, response, kodiSetVolume)
+});
+
+var kodiSetVolume = function(request, response) {
+  var setVolume = request.query.q.trim();
+  console.log("set volume to \"" + setVolume + "\" percent request received");
+  kodi.Application.SetVolume({"volume":parseInt(setVolume)});
+  response.sendStatus(200);
+};
+
+
+// Turn on TV and Switch to Kodi's HDMI input
+app.get("/activatetv", function (request, response) {
+  validateRequest(request, response, kodiActivateTv)
+});
+
+var kodiActivateTv = function(request, response) {
+  console.log("Activate TV request received");
+
+  var params = {
+          addonid: "script.json-cec",
+          params: {
+            command: "activate"
+          }
+        };
+  kodi.Addons.ExecuteAddon(params);
+};
+
+var tryActivateTv = function() {
+  if (process.env.ACTIVATE_TV != null && process.env.ACTIVATE_TV == "true") {
+    console.log("Activating TV first..");
+    kodiActivateTv(null, null);
+  }
+};
+
 
 // Parse request to watch a movie
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
@@ -86,6 +134,8 @@ app.get("/playmovie", function (request, response) {
 });
 
 var kodiPlayMovie = function(request, response) {
+  tryActivateTv();
+  
   var movieTitle = request.query.q.trim();
   console.log("Movie request received to play \"" + movieTitle + "\"");
     
@@ -122,6 +172,7 @@ app.get("/playtvshow", function (request, response) {
 });
 
 var kodiPlayTvshow = function(request, response) {
+  tryActivateTv();
   var param = {
     tvshowTitle: request.query.q.trim().toLowerCase()
   };
@@ -141,6 +192,7 @@ app.get("/playepisode", function (request, response) {
 });
 
 var kodiPlayEpisodeHandler = function(request, response) {
+  tryActivateTv();
   var requestPartOne = request.query.q.split("season");
   var param = {
     tvshowTitle: requestPartOne[0].trim().toLowerCase(),
@@ -277,6 +329,7 @@ app.get("/playpvrchannelbyname", function (request, response) {
 });
 
 var kodiPlayChannelByName = function(request, response) {
+  tryActivateTv();
   var channelName = request.query.q.trim();
   console.log("PVR channel (by name) request received to play \"" + channelName + "\"");
     
