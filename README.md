@@ -135,6 +135,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
   >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q= {{NumberField}}
     
 
+
 To **Turn on the TV and switch to Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above
   * This also requires that both your kodi device and TV support CEC commands
