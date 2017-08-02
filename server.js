@@ -410,12 +410,6 @@ var tryPlayingChannelInGroup = function(searchOptions, reqChannel, chGroups, cur
 
 
 app.get("/", function (request, response) {
-  //response.sendStatus(200);
-  console.log(fuzzySearchOptions);
-  var pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
-  pvrFuzzySearchOptions.keys[0] = "channelnumber"
-  console.log(pvrFuzzySearchOptions);
-  console.log(fuzzySearchOptions);
   response.sendFile(__dirname + '/views/index.html');
 });
 
