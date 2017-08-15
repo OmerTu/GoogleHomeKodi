@@ -51,7 +51,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
 2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
-4. Change Glitch project settings to private (under *advance settings*)
+4. Change Glitch project settings to private (under *share* > *Make private*)
 5. Edit the *.env* file in your Glitch project with the following settings:
 ```
 KODI_IP="YOUR_EXTERNAL_IP_ADDRESS"
