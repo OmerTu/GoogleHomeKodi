@@ -8,13 +8,20 @@ var app = express();
 var Fuse = require('fuse.js')
 var Kodi = require('./kodi-connection/node.js');
 var config;
+var authToken;
 try {
     config = require('./config.js');
+    authToken = config.kodiAuthToken;
 } catch (e) {
+    require('dotenv').load();
     if (e.code !== 'MODULE_NOT_FOUND') {
         throw e;
     }
-    console.log('You need to copy the config.js.dist to config.js, and fill in your KODI details.');
+    authToken = process.env.AUTH_TOKEN;
+    if (!process.env.AUTH_TOKEN || !process.env.KODI_IP || !process.env.KODI_USER || !process.env.KODI_PASSWORD || !process.env.KODI_PORT) {
+      console.log('Make sure you have configured the environment variables in the .env when using Glitch or copy the config.js.dist to config.js, and fill in your KODI details.');
+      process.exit()
+    }
 }
 
 var kodi = new Kodi(process.env.KODI_IP || config.kodiIp, process.env.KODI_PORT || config.kodiPort, process.env.KODI_USER || config.kodiUser, process.env.KODI_PASSWORD || config.kodiPassword);
@@ -53,7 +60,7 @@ var validateRequest = function(req, res, processRequest){
       if (jsonBody != null) {
         requestToken = jsonBody['token'];
         console.log("Request token = " + requestToken);
-        if (requestToken == config.kodiAuthToken) {
+        if (requestToken == authToken) {
           console.log("Authentication succeeded");
           processRequest(req, res);
           return;
