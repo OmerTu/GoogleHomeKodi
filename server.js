@@ -12,15 +12,17 @@ var authToken;
 try {
     config = require('./config.js');
     authToken = config.kodiAuthToken;
+    console.log('Loaded config from config.js');
 } catch (e) {
     require('dotenv').load();
     if (e.code !== 'MODULE_NOT_FOUND') {
         throw e;
     }
+    console.log('No config.js detected')
     authToken = process.env.AUTH_TOKEN;
     if (!process.env.AUTH_TOKEN || !process.env.KODI_IP || !process.env.KODI_USER || !process.env.KODI_PASSWORD || !process.env.KODI_PORT) {
       console.log('Make sure you have configured the environment variables in the .env when using Glitch or copy the config.js.dist to config.js, and fill in your KODI details.');
-      process.exit()
+      process.exit();
     }
 }
 
@@ -74,7 +76,7 @@ var validateRequest = function(req, res, processRequest){
 
 // Pause or Resume video player
 app.get("/playpause", function (request, response) {
-  validateRequest(request, response, kodiPlayPause)
+  validateRequest(request, response, kodiPlayPause);
 });
 
 var kodiPlayPause = function(request, response) {
@@ -85,7 +87,7 @@ var kodiPlayPause = function(request, response) {
 
 // Stop video player
 app.get("/stop", function (request, response) {
-  validateRequest(request, response, kodiStop)
+  validateRequest(request, response, kodiStop);
 });
 
 var kodiStop = function(request, response) {
@@ -96,7 +98,7 @@ var kodiStop = function(request, response) {
 
 // mute or unmute kodi
 app.get("/mute", function (request, response) {
-  validateRequest(request, response, kodiMuteToggle)
+  validateRequest(request, response, kodiMuteToggle);
 });
 
 var kodiMuteToggle = function(request, response) {
@@ -107,7 +109,7 @@ var kodiMuteToggle = function(request, response) {
 
 // set kodi volume
 app.get("/volume", function (request, response) {
-  validateRequest(request, response, kodiSetVolume)
+  validateRequest(request, response, kodiSetVolume);
 });
 
 var kodiSetVolume = function(request, response) {
@@ -119,7 +121,7 @@ var kodiSetVolume = function(request, response) {
 
 // Turn on TV and Switch to Kodi's HDMI input
 app.get("/activatetv", function (request, response) {
-  validateRequest(request, response, kodiActivateTv)
+  validateRequest(request, response, kodiActivateTv);
 });
 
 var kodiActivateTv = function(request, response) {
@@ -145,7 +147,7 @@ var tryActivateTv = function() {
 // Parse request to watch a movie
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.get("/playmovie", function (request, response) {
-  validateRequest(request, response, kodiPlayMovie)
+  validateRequest(request, response, kodiPlayMovie);
 });
 
 var kodiPlayMovie = function(request, response) {
@@ -161,8 +163,8 @@ var kodiPlayMovie = function(request, response) {
     }
 
     // Create the fuzzy search object
-    var fuse = new Fuse(movies.result.movies, fuzzySearchOptions)
-    var searchResult = fuse.search(movieTitle)
+    var fuse = new Fuse(movies.result.movies, fuzzySearchOptions);
+    var searchResult = fuse.search(movieTitle);
 
     // If there's a result
     if (searchResult.length > 0) {
@@ -366,7 +368,7 @@ app.get("/playpvrchannelbyname", function (request, response) {
 // Parse request to watch a PVR channel by number
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
 app.get("/playpvrchannelbynumber", function (request, response) {
-  validateRequest(request, response, kodiPlayChannelByNumber)
+  validateRequest(request, response, kodiPlayChannelByNumber);
 });
 
 var kodiPlayChannelByName = function(request, response) {

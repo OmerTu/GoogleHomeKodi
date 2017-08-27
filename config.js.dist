@@ -1,4 +1,4 @@
-config = {}
+config = module.exports = {}
 
 // YOUR_EXTERNAL_IP_ADDRESS
 config.kodiIp = ''
