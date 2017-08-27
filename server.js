@@ -2,13 +2,22 @@
 // where your node app starts
 
 // init project
-require('dotenv').load();
 var express = require('express');
 var app = express();
 
 var Fuse = require('fuse.js')
 var Kodi = require('./kodi-connection/node.js');
-var kodi = new Kodi(process.env.KODI_IP, process.env.KODI_PORT, process.env.KODI_USER, process.env.KODI_PASSWORD);
+var config;
+try {
+    config = require('./config.js');
+} catch (e) {
+    if (e.code !== 'MODULE_NOT_FOUND') {
+        throw e;
+    }
+    console.log('You need to copy the config.js.dist to config.js, and fill in your KODI details.');
+}
+
+var kodi = new Kodi(process.env.KODI_IP || config.kodiIp, process.env.KODI_PORT || config.kodiPort, process.env.KODI_USER || config.kodiUser, process.env.KODI_PASSWORD || config.kodiPassword);
 
 // Set option for fuzzy search
 var fuzzySearchOptions = {
@@ -44,7 +53,7 @@ var validateRequest = function(req, res, processRequest){
       if (jsonBody != null) {
         requestToken = jsonBody['token'];
         console.log("Request token = " + requestToken);
-        if (requestToken == process.env.AUTH_TOKEN) {
+        if (requestToken == config.kodiAuthToken) {
           console.log("Authentication succeeded");
           processRequest(req, res);
           return;
@@ -100,7 +109,6 @@ var kodiSetVolume = function(request, response) {
   kodi.Application.SetVolume({"volume":parseInt(setVolume)});
   response.sendStatus(200);
 };
-
 
 // Turn on TV and Switch to Kodi's HDMI input
 app.get("/activatetv", function (request, response) {
@@ -164,6 +172,25 @@ var kodiPlayMovie = function(request, response) {
   response.sendStatus(200);
 };
 
+// Parse request to open a specific tv show
+// Request format:   http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
+app.get("/opentvshow", function (request, response) {
+  validateRequest(request, response, kodiOpenTvshow);
+});
+
+var kodiOpenTvshow = function(request, response) {
+  var param = {
+    tvshowTitle: request.query.q.trim().toLowerCase()
+  };
+  kodiFindTvShow(request, response, param).then(function(data) {
+    kodiOpenVideoWindow(data.file);
+  });
+};
+
+var kodiOpenVideoWindow = function(file) {
+  params = {"window": "videos", "parameters": [file]}
+  kodi.GUI.ActivateWindow(params);
+}
 
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:   http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
@@ -179,7 +206,9 @@ var kodiPlayTvshow = function(request, response) {
   
   console.log("TV Show request received to play \"" + param["tvshowTitle"] + "\"");
 
-  kodiFindTvshow (request, response, kodiPlayNextUnwatchedEpisode, param);
+  kodiFindTvShow(request, response, param).then(function(data) {
+    kodiPlayNextUnwatchedEpisode(request, response, data);
+  });
 };
 
 
@@ -201,38 +230,37 @@ var kodiPlayEpisodeHandler = function(request, response) {
   };
   
   console.log("Specific Episode request received to play \"" + param["tvshowTitle"] + "\" Season " + param["seasonNum"] + " Episode " + param["episodeNum"]);
-  
-  kodiFindTvshow (request, response, kodiPlaySpecificEpisode, param);
+
+  kodiFindTvShow(request, response, param).then(function(data) {
+    kodiPlaySpecificEpisode(request, response, data);
+  });
 };
 
+var kodiFindTvShow = function(req, res, param) {
+  return new Promise(function (resolve, reject) {
+    kodi.VideoLibrary.GetTVShows({"properties": ["file"]})
+    .then(
+      function(shows) {
+        if(!(shows && shows.result && shows.result.tvshows && shows.result.tvshows.length > 0)) {
+          throw new Error('no results');
+        }
+        // Create the fuzzy search object
+        var fuse = new Fuse(shows.result.tvshows, fuzzySearchOptions);
+        var searchResult = fuse.search(param["tvshowTitle"]);
 
-var kodiFindTvshow = function(req, res, nextAction, param) {
-  kodi.VideoLibrary.GetTVShows()
-  .then(
-    function(shows) {
-      if(!(shows && shows.result && shows.result.tvshows && shows.result.tvshows.length > 0)) {
-        throw new Error('no results');
+        // If there's a result
+        if (searchResult.length > 0 && searchResult[0].tvshowid != null) {
+          resolve(searchResult[0]);
+        } else {
+          reject("Couldn\'t find tv show \"" + param["tvshowTitle"] + "\"");
+        }
       }
-      // Create the fuzzy search object
-      var fuse = new Fuse(shows.result.tvshows, fuzzySearchOptions)
-      var searchResult = fuse.search(param["tvshowTitle"])
-
-      // If there's a result
-      if (searchResult.length > 0 && searchResult[0].tvshowid != null) {
-        var tvshowFound = searchResult[0];
-        console.log("Found tv show \"" + tvshowFound.label + "\" (" + tvshowFound.tvshowid + ")");
-        param["tvshowid"] = tvshowFound.tvshowid;
-        nextAction (req, res, param);
-      } else {
-        throw new Error("Couldn\'t find tv show \"" + param["tvshowTitle"] + "\"");
-      }
-    }
-  )
-  .catch(function(e) {
-    console.log(e);
+    )
+    .catch(function(e) {
+      console.log(e);
+    })
   })
 };
-
 
 var kodiPlayNextUnwatchedEpisode = function(req, res, RequestParams) {
   console.log("Searching for next episode of Show ID " + RequestParams["tvshowid"]  + "...");          
@@ -414,6 +442,6 @@ app.get("/", function (request, response) {
 });
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT || config.listenerPort, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
