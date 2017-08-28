@@ -285,7 +285,7 @@ const kodiOpenVideoWindow = function(file) {
     kodi.GUI.ActivateWindow(params); // eslint-disable-line new-cap
 };
 
-exports.kodiOpenTvshow = function(request, response) { // eslint-disable-line no-unused-vars
+exports.kodiOpenTvshow = function(request, response) {
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
     };
@@ -293,6 +293,12 @@ exports.kodiOpenTvshow = function(request, response) { // eslint-disable-line no
     kodiFindTvShow(request, response, param).then(function(data) {
         kodiOpenVideoWindow(data.file);
     });
+};
+
+// Start a full library scan
+exports.kodiScanLibrary = function(request, response) {
+    kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
+    response.sendStatus(200);
 };
 
 const tryPlayingChannelInGroup = function(searchOptions, reqChannel, chGroups, currGroupI) {

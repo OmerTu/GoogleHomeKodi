@@ -97,6 +97,11 @@ app.get('/opentvshow', function(request, response) {
     validateRequest(request, response, Helper.kodiOpenTvshow);
 });
 
+// Start a new library scan
+app.get('/scanlibrary', function(request, response) {
+    validateRequest(request, response, Helper.kodiScanLibrary);
+});
+
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
 app.get('/playtvshow', function(request, response) {
