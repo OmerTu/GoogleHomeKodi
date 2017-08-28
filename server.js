@@ -6,106 +6,111 @@
 const express = require('express');
 const app = express();
 const Helper = require('./helpers.js');
-let config = {};
-let authToken = '';
-
-try {
-    config = require('./config.js'); // eslint-disable-line global-require
-    authToken = config.kodiAuthToken;
-    console.log('Loaded config from config.js');
-} catch (e) {
-    require('dotenv').load(); // eslint-disable-line global-require
-    if (e.code !== 'MODULE_NOT_FOUND') {
-        throw e;
-    }
-    console.log('No config.js detected');
-    authToken = process.env.AUTH_TOKEN;
-    if (!authToken) {
-        console.log('Missing AuthToken. Please configure one using the .env (when using Glitch) or the config.js file.');
-        process.exit();
-    }
-}
+const LoadConfig = require('./config.js');
+const config = new LoadConfig();
 
 app.use(express.static('public'));
 
-const validateRequest = function(req, res, processRequest) {
-    let jsonString = '';
-    let requestToken = '';
-    let jsonBody;
+const validateRequest = function(req, res) {
+    return new Promise((resolve, reject) => {
+        let jsonString = '';
+        let requestToken = '';
+        let jsonBody;
 
-    if (req === null || req.query === req) {
-        console.log('403 - Unauthorized request');
-        res.sendStatus(403);
-        return;
-    }
+        if (req === null || req.query === req) {
+            console.log('403 - Unauthorized request');
+            res.sendStatus(403);
+            reject('403 - Unauthorized request');
+            return;
+        }
 
-    req.on('data', function(data) {
-        jsonString += data;
-    });
-    req.on('end', function() {
-        if (jsonString !== '') {
-            jsonBody = JSON.parse(jsonString);
-            if (jsonBody != null) {
-                requestToken = jsonBody.token;
-                console.log(`Request token = ${requestToken}`);
-                if (requestToken === authToken) {
-                    console.log('Authentication succeeded');
-                    processRequest(req, res);
-                    return;
+        req.on('data', (data) => {
+            jsonString += data;
+        });
+        req.on('end', () => {
+            if (jsonString !== '') {
+                jsonBody = JSON.parse(jsonString);
+                if (jsonBody != null) {
+                    requestToken = jsonBody.token;
+                    console.log(`Request token = ${requestToken}`);
+                    if (requestToken === config.global.authToken) {
+                        console.log('Authentication succeeded');
+                        resolve('Authentication succeeded');
+                        return;
+                    }
                 }
             }
-        }
-        console.log('401 - Authentication failed');
-        res.sendStatus(401);
+            console.log('401 - Authentication failed');
+            res.sendStatus(401);
+            reject('401 - Authentication failed'); 
+        });
     });
 };
 
 // Pause or Resume video player
 app.get('/playpause', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayPause);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayPause(request, response);
+    });
 });
 
 // Stop video player
 app.get('/stop', function(request, response) {
-    validateRequest(request, response, Helper.kodiStop);
+    validateRequest(request, response).then(() => {
+        Helper.kodiStop(request, response);
+    });
 });
 
 // mute or unmute kodi
 app.get('/mute', function(request, response) {
-    validateRequest(request, response, Helper.kodiMuteToggle);
+    validateRequest(request, response).then(() => {
+        Helper.kodiMuteToggle(request, response);
+    });
 });
 
 // set kodi volume
 app.get('/volume', function(request, response) {
-    validateRequest(request, response, Helper.kodiSetVolume);
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetVolume(request, response);
+    });
 });
 
 // Turn on TV and Switch to Kodi's HDMI input
 app.get('/activatetv', function(request, response) {
-    validateRequest(request, response, Helper.kodiActivateTv);
+    validateRequest(request, response).then(() => {
+        Helper.kodiActivateTv(request, response);
+    });
 });
 
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.get('/playmovie', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayMovie);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayMovie(request, response, config);
+    });
 });
 
 // Parse request to open a specific tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
 app.get('/opentvshow', function(request, response) {
-    validateRequest(request, response, Helper.kodiOpenTvshow);
+    validateRequest(request, response).then(() => {
+        Helper.kodiOpenTvshow(request, response);
+    });
 });
 
 // Start a new library scan
 app.get('/scanlibrary', function(request, response) {
-    validateRequest(request, response, Helper.kodiScanLibrary);
+    validateRequest(request, response).then(() => {
+        Helper.kodiScanLibrary(request, response);
+    });
 });
 
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
 app.get('/playtvshow', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayTvshow);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayTvshow(request, response);
+    });
 });
 
 // Parse request to watch a specific episode for a given tv show
@@ -113,26 +118,32 @@ app.get('/playtvshow', function(request, response) {
 // For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
 // http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
 app.get('/playepisode', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayEpisodeHandler);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayEpisodeHandler(request, response);
+    });
 });
 
 // Parse request to watch a PVR channel by name
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
 app.get('/playpvrchannelbyname', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayChannelByName);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayChannelByName(request, response);
+    });
 });
 
 // Parse request to watch a PVR channel by number
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
 app.get('/playpvrchannelbynumber', function(request, response) {
-    validateRequest(request, response, Helper.kodiPlayChannelByNumber);
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayChannelByNumber(request, response);
+    });
 });
 
-app.get('/', function(request, response) {
+app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
 });
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT || config.listenerPort, function() {
+const listener = app.listen(config.global.listenerPort, () => {
     console.log(`Your app is listening on port ${listener.address().port}`);
 });

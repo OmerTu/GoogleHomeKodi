@@ -1,22 +1,5 @@
 'use strict'; // eslint-disable-line strict
 const Fuse = require('fuse.js');
-const Kodi = require('./kodi-connection/node.js');
-let config = {};
-
-try {
-    config = require('./config.js'); // eslint-disable-line global-require
-    console.log('Loaded config from config.js');
-} catch (e) {
-    require('dotenv').load(); // eslint-disable-line global-require
-    if (e.code !== 'MODULE_NOT_FOUND') {
-        throw e;
-    }
-    console.log('No config.js detected');
-    if (!process.env.KODI_IP || !process.env.KODI_PORT || !process.env.KODI_USER || !process.env.KODI_PASSWORD) {
-        console.log('Make sure you have configured the environment variables in the .env when using Glitch or copy the config.js.dist to config.js, and fill in your KODI details.');
-        process.exit();
-    }
-}
 
 // Set option for fuzzy search
 const fuzzySearchOptions = {
@@ -30,10 +13,7 @@ const fuzzySearchOptions = {
     keys: ['label']
 };
 
-
-const kodi = new Kodi(process.env.KODI_IP || config.kodiIp, process.env.KODI_PORT || config.kodiPort, process.env.KODI_USER || config.kodiUser, process.env.KODI_PASSWORD || config.kodiPassword);
-
-exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayPause = (request, response, conf) => { // eslint-disable-line no-unused-vars
     console.log('Play/Pause request received');
     kodi.Player.PlayPause({ // eslint-disable-line new-cap
         playerid: 1
@@ -41,7 +21,7 @@ exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unuse
     response.sendStatus(200);
 };
 
-exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiStop = (request, response, conf) => { // eslint-disable-line no-unused-vars
     console.log('Stop request received');
     kodi.Player.Stop({ // eslint-disable-line new-cap
         playerid: 1
@@ -49,7 +29,7 @@ exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-var
     response.sendStatus(200);
 };
 
-exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiMuteToggle = (request, response, conf) => { // eslint-disable-line no-unused-vars
     console.log('mute/unmute request received');
     kodi.Application.SetMute({ // eslint-disable-line new-cap
         'mute': 'toggle'
@@ -57,7 +37,7 @@ exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unus
     response.sendStatus(200);
 };
 
-exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiSetVolume = (request, response, conf) => { // eslint-disable-line no-unused-vars
     let setVolume = request.query.q.trim();
 
     console.log(`set volume to "${setVolume}" percent request received`);
@@ -67,7 +47,7 @@ exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unuse
     response.sendStatus(200);
 };
 
-exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiActivateTv = (request, response, conf) => { // eslint-disable-line no-unused-vars
     console.log('Activate TV request received');
 
     let params = {
@@ -82,14 +62,16 @@ exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unus
 
 const tryActivateTv = () => {
     if (process.env.ACTIVATE_TV != null && process.env.ACTIVATE_TV === 'true') {
-        console.log("Activating TV first..");
+        console.log('Activating TV first..');
         kodiActivateTv(null, null);
     }
 };
 
-const kodiFindMovie = (movieTitle) => {
+const kodiFindMovie = (movieTitle, conf) => {
     return new Promise((resolve, reject) => {
-        kodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
+        let firstKodi = conf.kodiHosts[0].host;
+
+        firstKodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
         .then((movies) => {
             if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
                 throw new Error('no results');
@@ -115,14 +97,16 @@ const kodiFindMovie = (movieTitle) => {
     });
 };
 
-exports.kodiPlayMovie = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayMovie = (request, response, conf) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
 
     let movieTitle = request.query.q.trim();
 
     console.log(`Movie request received to play "${movieTitle}"`);
-    kodiFindMovie(movieTitle).then((data) => {
-        return kodi.Player.Open({ // eslint-disable-line new-cap
+    kodiFindMovie(movieTitle, conf).then((data) => {
+        let firstKodi = conf.kodiHosts[0].host;
+
+        return firstKodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 movieid: data.movieid
             }
@@ -206,7 +190,7 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
     res.sendStatus(200);
 };
 
-exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayTvshow = (request, response, conf) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
@@ -266,7 +250,7 @@ const kodiPlaySpecificEpisode = (request, res, RequestParams) => {
     res.sendStatus(200);
 };
 
-exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayEpisodeHandler = (request, response, conf) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let requestPartOne = request.query.q.split('season');
     let param = {
@@ -291,7 +275,7 @@ const kodiOpenVideoWindow = (file) => {
     kodi.GUI.ActivateWindow(params); // eslint-disable-line new-cap
 };
 
-exports.kodiOpenTvshow = (request, response) => {
+exports.kodiOpenTvshow = (request, response, conf) => {
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
     };
@@ -302,7 +286,7 @@ exports.kodiOpenTvshow = (request, response) => {
 };
 
 // Start a full library scan
-exports.kodiScanLibrary = (request, response) => {
+exports.kodiScanLibrary = (request, response, conf) => {
     kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
     response.sendStatus(200);
 };
@@ -371,12 +355,12 @@ const kodiPlayChannel = (request, response, searchOptions) => {
         });
 };
 
-exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayChannelByName = (request, response, conf) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     kodiPlayChannel(request, response, fuzzySearchOptions);
 };
 
-exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayChannelByNumber = (request, response, conf) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
 
