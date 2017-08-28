@@ -42,7 +42,7 @@ const validateRequest = function(req, res) {
             }
             console.log('401 - Authentication failed');
             res.sendStatus(401);
-            reject('401 - Authentication failed'); 
+            reject('401 - Authentication failed');
         });
     });
 };
