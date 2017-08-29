@@ -13,43 +13,51 @@ const fuzzySearchOptions = {
     keys: ['label']
 };
 
-exports.kodiPlayPause = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Play/Pause request received');
-    kodi.Player.PlayPause({ // eslint-disable-line new-cap
+    let Kodi = request.kodi;
+
+    Kodi.Player.PlayPause({ // eslint-disable-line new-cap
         playerid: 1
     });
     response.sendStatus(200);
 };
 
-exports.kodiStop = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Stop request received');
-    kodi.Player.Stop({ // eslint-disable-line new-cap
+    let Kodi = request.kodi;
+
+    Kodi.Player.Stop({ // eslint-disable-line new-cap
         playerid: 1
     });
     response.sendStatus(200);
 };
 
-exports.kodiMuteToggle = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('mute/unmute request received');
-    kodi.Application.SetMute({ // eslint-disable-line new-cap
+    let Kodi = request.kodi;
+
+    Kodi.Application.SetMute({ // eslint-disable-line new-cap
         'mute': 'toggle'
     });
     response.sendStatus(200);
 };
 
-exports.kodiSetVolume = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unused-vars
     let setVolume = request.query.q.trim();
+    let Kodi = request.kodi;
 
     console.log(`set volume to "${setVolume}" percent request received`);
-    kodi.Application.SetVolume({ // eslint-disable-line new-cap
+    Kodi.Application.SetVolume({ // eslint-disable-line new-cap
         'volume': parseInt(setVolume)
     });
     response.sendStatus(200);
 };
 
-exports.kodiActivateTv = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Activate TV request received');
 
+    let Kodi = request.kodi;
     let params = {
         addonid: 'script.json-cec',
         params: {
@@ -57,7 +65,7 @@ exports.kodiActivateTv = (request, response, conf) => { // eslint-disable-line n
         }
     };
 
-    kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
+    Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
 };
 
 const tryActivateTv = () => {
@@ -67,11 +75,9 @@ const tryActivateTv = () => {
     }
 };
 
-const kodiFindMovie = (movieTitle, conf) => {
+const kodiFindMovie = (movieTitle, Kodi) => {
     return new Promise((resolve, reject) => {
-        let firstKodi = conf.kodiHosts[0].host;
-
-        firstKodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
+        Kodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
         .then((movies) => {
             if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
                 throw new Error('no results');
@@ -97,16 +103,15 @@ const kodiFindMovie = (movieTitle, conf) => {
     });
 };
 
-exports.kodiPlayMovie = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayMovie = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
 
     let movieTitle = request.query.q.trim();
+    let Kodi = request.kodi;
 
     console.log(`Movie request received to play "${movieTitle}"`);
-    kodiFindMovie(movieTitle, conf).then((data) => {
-        let firstKodi = conf.kodiHosts[0].host;
-
-        return firstKodi.Player.Open({ // eslint-disable-line new-cap
+    kodiFindMovie(movieTitle, Kodi).then((data) => {
+        return Kodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 movieid: data.movieid
             }
@@ -117,7 +122,9 @@ exports.kodiPlayMovie = (request, response, conf) => { // eslint-disable-line no
 
 const kodiFindTvShow = (request, res, param) => {
     return new Promise((resolve, reject) => {
-        kodi.VideoLibrary.GetTVShows({ // eslint-disable-line new-cap
+        let Kodi = request.kodi;
+
+        Kodi.VideoLibrary.GetTVShows({ // eslint-disable-line new-cap
             'properties': ['file']
         }).then((shows) => {
             if (!(shows && shows.result && shows.result.tvshows && shows.result.tvshows.length > 0)) {
@@ -152,8 +159,9 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
             ignorearticle: true
         }
     };
+    let Kodi = request.kodi;
 
-    kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
+    Kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
         .then((episodeResult) => {
             if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
                 throw new Error('no results');
@@ -172,15 +180,14 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
                 if (firstUnplayedEpisode.length > 0) {
                     let episdoeToPlay = firstUnplayedEpisode[0]; // Resolve the first unplayed episode
 
-                    console.log(`Playing season ${episdoeToPlay.season} ${episode} ${episdoeToPlay.episode} (ID: ${episdoeToPlay.episodeid})`);
+                    console.log(`Playing season ${episdoeToPlay.season} episode ${episdoeToPlay.episode} (ID: ${episdoeToPlay.episodeid})`);
                     let paramPlayerOpen = {
                         item: {
                             episodeid: episdoeToPlay.episodeid
                         }
                     };
-
-                    // FIXME: This is returned from an async method. So what's the use for this?
-                    return kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+                    Kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+                    return;
                 }
             }
         })
@@ -190,7 +197,7 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
     res.sendStatus(200);
 };
 
-exports.kodiPlayTvshow = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
@@ -203,18 +210,19 @@ exports.kodiPlayTvshow = (request, response, conf) => { // eslint-disable-line n
     });
 };
 
-const kodiPlaySpecificEpisode = (request, res, RequestParams) => {
-    console.log(`Searching Season ${RequestParams.seasonNum}, ${episode} ${RequestParams.episodeNum} of Show ID ${RequestParams.tvshowid}...`);
+const kodiPlaySpecificEpisode = (request, res, requestParams) => {
+    console.log(`Searching Season ${requestParams.seasonNum}, episode ${requestParams.episodeNum} of Show ID ${requestParams.tvshowid}...`);
 
-    // Build filter to search for specific season number
+    // Build filter to search for specific season and episode number
     let param = {
-        tvshowid: RequestParams.tvshowid,
-        // episode: requestedEpisodeNum,
-        season: parseInt(RequestParams.seasonNum),
-        properties: ['playcount', 'showtitle', 'season', 'episode']
+        tvshowid: requestParams.tvshowid,
+        season: parseInt(requestParams.seasonNum),
+        properties: ['playcount', 'showtitle', 'season', 'episode'],
+        filter: { field: 'episode', operator: 'is', value: requestParams.episodeNum }
     };
+    let Kodi = request.kodi;
 
-    kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
+    Kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
         .then((episodeResult) => {
             if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
                 throw new Error('no results');
@@ -226,21 +234,21 @@ const kodiPlaySpecificEpisode = (request, res, RequestParams) => {
                 console.log('found episodes..');
                 // Check for the episode number requested
                 let matchedEpisodes = episodes.filter((item) => {
-                    // FIXME: This is returned from an async method. So what's the use for this?
-                    return item.episode === parseInt(RequestParams.episodeNum);
+                    return item.episode === parseInt(requestParams.episodeNum);
                 });
 
                 if (matchedEpisodes.length > 0) {
                     let episdoeToPlay = matchedEpisodes[0];
 
-                    console.log(`Playing season ${episdoeToPlay.season} ${episode} ${episdoeToPlay.episode} (ID: ${episdoeToPlay.episodeid})`);
+                    console.log(`Playing season ${episdoeToPlay.season} episode ${episdoeToPlay.episode} (ID: ${episdoeToPlay.episodeid})`);
                     let paramPlayerOpen = {
                         item: {
                             episodeid: episdoeToPlay.episodeid
                         }
                     };
                     
-                    kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+                    Kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+                    return;
                 }
             }
         })
@@ -250,48 +258,50 @@ const kodiPlaySpecificEpisode = (request, res, RequestParams) => {
     res.sendStatus(200);
 };
 
-exports.kodiPlayEpisodeHandler = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let requestPartOne = request.query.q.split('season');
     let param = {
         tvshowTitle: requestPartOne[0].trim().toLowerCase(),
         seasonNum: requestPartOne[1].trim().toLowerCase(),
-        episodeNum: request.query.e
+        episodeNum: request.query.e.trim()
     };
 
-    console.log(`Specific Episode request received to play ${param.tvshowTitle} ${Season} ${param.seasonNum} ${Episode} ${param.episodeNum}`);
+    console.log(`Specific Episode request received to play ${param.tvshowTitle} Season ${param.seasonNum} Episode ${param.episodeNum}`);
 
     kodiFindTvShow(request, response, param).then((data) => {
+        data.seasonNum = param.seasonNum;
+        data.episodeNum = param.episodeNum;
         kodiPlaySpecificEpisode(request, response, data);
     });
 };
 
-const kodiOpenVideoWindow = (file) => {
+const kodiOpenVideoWindow = (file, Kodi) => {
     let params = {
         'window': 'videos',
         'parameters': [file]
     };
-
-    kodi.GUI.ActivateWindow(params); // eslint-disable-line new-cap
+    
+    Kodi.GUI.ActivateWindow(params); // eslint-disable-line new-cap
 };
 
-exports.kodiOpenTvshow = (request, response, conf) => {
+exports.kodiOpenTvshow = (request, response) => {
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
     };
 
     kodiFindTvShow(request, response, param).then((data) => {
-        kodiOpenVideoWindow(data.file);
+        kodiOpenVideoWindow(data.file, request.kodi);
     });
 };
 
 // Start a full library scan
-exports.kodiScanLibrary = (request, response, conf) => {
-    kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
+exports.kodiScanLibrary = (request, response) => {
+    request.kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
     response.sendStatus(200);
 };
 
-const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI) => {
+const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI < chGroups.length) {
 
         // Build filter to search for all channel under the channel group
@@ -299,7 +309,7 @@ const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroup
             channelgroupid: chGroups[currGroupI].channelgroupid
         };
 
-        kodi.PVR.GetChannels(param).then((channels) => { // eslint-disable-line new-cap
+        Kodi.PVR.GetChannels(param).then((channels) => { // eslint-disable-line new-cap
             if (!(channels && channels.result && channels.result.channels && channels.result.channels.length > 0)) {
                 throw new Error('no channels were found');
             }
@@ -314,13 +324,13 @@ const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroup
                 let channelFound = searchResult[0];
 
                 console.log(`Found PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
-                kodi.Player.Open({ // eslint-disable-line new-cap
+                Kodi.Player.Open({ // eslint-disable-line new-cap
                     item: {
                         channelid: channelFound.channelid
                     }
                 });
             } else {
-                tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, currGroupI + 1);
+                tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, currGroupI + 1, Kodi);
             }
         }).catch((e) => {
             console.log(e);
@@ -339,7 +349,7 @@ const kodiPlayChannel = (request, response, searchOptions) => {
         channeltype: 'tv'
     };
 
-    kodi.PVR.GetChannelGroups(param) // eslint-disable-line new-cap
+    Kodi.PVR.GetChannelGroups(param) // eslint-disable-line new-cap
         .then((channelGroups) => {
             if (!(channelGroups && channelGroups.result && channelGroups.result.channelgroups && channelGroups.result.channelgroups.length > 0)) {
                 throw new Error('no channels group were found. Perhaps PVR is not setup?');
@@ -348,19 +358,19 @@ const kodiPlayChannel = (request, response, searchOptions) => {
             // For each tv PVR channel group, search for all channels
             let chGroups = channelGroups.result.channelgroups;
 
-            tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, 0);
+            tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, 0, request.kodi);
         })
         .catch((e) => {
             console.log(e);
         });
 };
 
-exports.kodiPlayChannelByName = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     kodiPlayChannel(request, response, fuzzySearchOptions);
 };
 
-exports.kodiPlayChannelByNumber = (request, response, conf) => { // eslint-disable-line no-unused-vars
+exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv();
     let pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
 

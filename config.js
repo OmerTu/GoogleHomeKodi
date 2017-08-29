@@ -68,6 +68,31 @@ const Init = function() {
         this.global.authToken = process.env.AUTH_TOKEN;
         this.global.listenerPort = process.env.PORT;
     }
+
+    this.getHost = (kodiId) => {
+        let returnHost;
+
+        if (kodiId) {
+            returnHost = this.kodiHosts.map((kodiHost) => {
+                if (kodiHost.id === kodiId) {
+                    return kodiHost.host;
+                }
+            })[0];
+        } else {
+            returnHost = this.kodiHosts[0].host;
+        }
+        return returnHost;
+    };
+
+    /*
+    * Check the request to determine to which kodi instance we want to route the actions to.
+    * The request object is anylyzed. And the Kodi object is attached to the request, for further use.
+    */
+    this.routeKodiInstance = (request) => {
+        // For now we are only attaching the first host in the list.
+        // Next will be to determin a way of passing a host, through IFTTT.
+        request.kodi = this.getHost();
+    };
  
     console.log('Loaded config from config.js');
 };

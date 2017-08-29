@@ -35,6 +35,8 @@ const validateRequest = function(req, res) {
                     console.log(`Request token = ${requestToken}`);
                     if (requestToken === config.global.authToken) {
                         console.log('Authentication succeeded');
+
+                        config.routeKodiInstance(req);
                         resolve('Authentication succeeded');
                         return;
                     }
@@ -86,7 +88,7 @@ app.get('/activatetv', function(request, response) {
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.get('/playmovie', function(request, response) {
     validateRequest(request, response).then(() => {
-        Helper.kodiPlayMovie(request, response, config);
+        Helper.kodiPlayMovie(request, response);
     });
 });
 
