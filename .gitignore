@@ -1,1 +1,4 @@
-config.js
+kodi-hosts.config.js
+**/bower_components
+**/node_modules
+**/launch.json
