@@ -1,35 +1,20 @@
 'use strict'; // eslint-disable-line strict
-const Kodi = require('./kodi-connection/node.js');
+let kodiConfig = [];
+let globalConfig = {};
 
-const globalConfig = {
-    // YOUR_CONNECTION_PASSWORD
-    authToken: 'MyAuthTokenSharedWith_IFTTT_Applet',
-    // YOUR_LOCAL_LISTENING_PORT
-    listenerPort: '8099'
-};
+try {
+    // Try to import the kodi hosts. If not found, we'll asume that env varialbes are available.
+    let config = require('./kodi-hosts.config.js'); // eslint-disable-line global-require
 
-const kodiConfig = [{
-    id: 'kodi', // For now leave the first set to kodi.
-    // YOUR_EXTERNAL_IP_ADDRESS
-    kodiIp: '192.168.1.17',
-    // YOUR_KODI_PORT
-    kodiPort: '8080',
-    // YOUR_KODI_USER_NAME
-    kodiUser: 'kodi',
-    // YOUR_KODI_PASSWORD
-    kodiPassword: 'myKodiPass'
+    kodiConfig = config.kodiConfig;
+    globalConfig = config.globalConfig;
+} catch (e) {
+    if (e.code !== 'MODULE_NOT_FOUND') {
+        throw e;
+    }
 }
-    // You can use this to specify additonal kodi installation, that you'd like to control.
-    // ,{id: 'bedroom',
-    // // YOUR_EXTERNAL_IP_ADDRESS
-    // kodiIp: '192.168.1.18',
-    // // YOUR_KODI_PORT
-    // kodiPort: '8080',
-    // // YOUR_KODI_USER_NAME
-    // kodiUser: 'kodi',
-    // // YOUR_KODI_PASSWORD
-    // kodiPassword: ''}
-];
+
+const Kodi = require('./kodi-connection/node.js');
 
 const Init = function() {
     this.kodiHosts = [];
@@ -46,7 +31,7 @@ const Init = function() {
         });
         console.log(`Loaded ${this.kodiHosts.length} hosts from the config.js`);
     } else {
-        if (!authToken || !process.env.KODI_IP || !process.env.KODI_PORT || !process.env.KODI_USER || !process.env.KODI_PASSWORD) {
+        if (!process.env.AUTH_TOKEN || !process.env.KODI_IP || !process.env.KODI_PORT || !process.env.KODI_USER || !process.env.KODI_PASSWORD) {
             console.log('Missing kodi host config. Please configure one using the .env (when using Glitch) or the config.js file.');
             process.exit();
         }
