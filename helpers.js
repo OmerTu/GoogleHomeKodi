@@ -306,7 +306,8 @@ const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroup
 
         // Build filter to search for all channel under the channel group
         let param = {
-            channelgroupid: chGroups[currGroupI].channelgroupid
+            channelgroupid: 'alltv',
+            properties: ['uniqueid', 'channelnumber']
         };
 
         Kodi.PVR.GetChannels(param).then((channels) => { // eslint-disable-line new-cap
@@ -338,31 +339,53 @@ const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroup
     }
 };
 
-const kodiPlayChannel = (request, response, searchOptions) => {
 
+const kodiPlayChannel = (request, response, searchOptions) => {
     let reqChannel = request.query.q.trim();
 
     console.log(`PVR channel request received to play "${reqChannel}"`);
-
-    // Build filter to search TV channel groups
+    
+    // Build filter to search for all channel under the channel group
     let param = {
-        channeltype: 'tv'
+        channelgroupid: 'alltv',
+        properties: ['uniqueid', 'channelnumber']
     };
+    let Kodi = request.kodi;
 
-    Kodi.PVR.GetChannelGroups(param) // eslint-disable-line new-cap
-        .then((channelGroups) => {
-            if (!(channelGroups && channelGroups.result && channelGroups.result.channelgroups && channelGroups.result.channelgroups.length > 0)) {
-                throw new Error('no channels group were found. Perhaps PVR is not setup?');
+    Kodi.PVR.GetChannels(param).then((channels) => { // eslint-disable-line new-cap
+        if (!(channels && channels.result && channels.result.channels && channels.result.channels.length > 0)) {
+            throw new Error('no channels were found');
+        }
+
+        let rChannels = channels.result.channels;
+
+        // We need to override getFn, as we're trying to search an integer.
+        searchOptions.getFn = (obj, path) => {
+            if (Number.isInteger(obj[path])) {
+                return JSON.stringify(obj[path]);
             }
+            return obj[path];
+        };
 
-            // For each tv PVR channel group, search for all channels
-            let chGroups = channelGroups.result.channelgroups;
+        // Create the fuzzy search object
+        let fuse = new Fuse(rChannels, searchOptions);
+        let searchResult = fuse.search(reqChannel);
 
-            tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, 0, request.kodi);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
+        // If there's a result
+        if (searchResult.length > 0) {
+            let channelFound = searchResult[0];
+
+            console.log(`Found PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
+            Kodi.Player.Open({ // eslint-disable-line new-cap
+                item: {
+                    channelid: channelFound.channelid
+                }
+            });
+        }
+    }).catch((e) => {
+        console.log(e);
+    });
+
 };
 
 exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
