@@ -18,7 +18,7 @@ const Kodi = require('./kodi-connection/node.js');
 
 const Init = function() {
     this.kodiHosts = [];
-    this.global = {};
+    this.globalConf = {};
 
     require('dotenv').load(); // eslint-disable-line global-require
     if (kodiConfig.length !== 0) {
@@ -43,15 +43,15 @@ const Init = function() {
     }
 
     if (globalConfig) {
-        this.global.authToken = globalConfig.authToken;
-        this.global.listenerPort = globalConfig.listenerPort;
+        this.globalConf = globalConfig;
     } else {
         if (!process.env.AUTH_TOKEN || !process.env.PORT) {
             console.log('Missing AuthToken. Please configure one using the .env (when using Glitch) or the config.js file.');
             process.exit();
         }
-        this.global.authToken = process.env.AUTH_TOKEN;
-        this.global.listenerPort = process.env.PORT;
+        this.globalConf.authToken = process.env.AUTH_TOKEN;
+        this.globalConf.listenerPort = process.env.PORT;
+        this.globalConf.youtubeKey = process.env.YOUTUBE_KEY;
     }
 
     this.getHost = (kodiId) => {
@@ -77,6 +77,7 @@ const Init = function() {
         // For now we are only attaching the first host in the list.
         // Next will be to determin a way of passing a host, through IFTTT.
         request.kodi = this.getHost();
+        request.config = this.globalConf;
     };
  
     console.log('Loaded config from config.js');

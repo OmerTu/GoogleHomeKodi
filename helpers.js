@@ -1,4 +1,6 @@
 'use strict'; // eslint-disable-line strict
+
+const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 
 // Set option for fuzzy search
@@ -116,6 +118,8 @@ exports.kodiPlayMovie = (request, response) => { // eslint-disable-line no-unuse
                 movieid: data.movieid
             }
         });
+    }).catch((error) => {
+        console.log(error);
     });
     response.sendStatus(200);
 };
@@ -452,4 +456,37 @@ exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-lin
 
     pvrFuzzySearchOptions.keys[0] = 'channelnumber';
     kodiPlayChannel(request, response, pvrFuzzySearchOptions);
+};
+
+exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unused-vars
+    let searchString = request.query.q.trim();
+    let Kodi = request.kodi;
+
+    if (!request.config.youtubeKey) {
+        console.log('Youtube key missing. Configure using the env. variable YOUTUBE_KEY or the kodi-hosts.config.js.');
+    }
+
+    // Search youtube
+    console.log(`Searching youtube for ${searchString}`);
+    const opts = {
+        maxResults: 10,
+        key: request.config.youtubeKey
+    };
+
+    youtubeSearch(searchString, opts, (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        // Play first result
+        if (results && results.length !== 0) {
+            console.log(`Playing youtube video: ${results[0].description}`);
+            return Kodi.Player.Open({ // eslint-disable-line new-cap
+                item: {
+                    file: `plugin://plugin.video.youtube/?action=play_video&videoid=${results[0].id}`
+                }
+            });
+        }
+    });
 };

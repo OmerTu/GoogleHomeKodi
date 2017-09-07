@@ -25,5 +25,7 @@ exports.globalConfig = {
     // YOUR_CONNECTION_PASSWORD
     authToken: 'MyAuthTokenSharedWith_IFTTT_Applet',
     // YOUR_LOCAL_LISTENING_PORT
-    listenerPort: '8099'
+    listenerPort: '8099',
+    // YOUR_YOUTUBE_API_KEY
+    youtubeKey: 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w'
 };

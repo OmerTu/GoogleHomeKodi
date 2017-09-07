@@ -33,7 +33,7 @@ const validateRequest = function(req, res) {
                 if (jsonBody != null) {
                     requestToken = jsonBody.token;
                     console.log(`Request token = ${requestToken}`);
-                    if (requestToken === config.global.authToken) {
+                    if (requestToken === config.globalConf.authToken) {
                         console.log('Authentication succeeded');
 
                         config.routeKodiInstance(req);
@@ -152,6 +152,17 @@ app.get('/playpvrchannelbyname', function(request, response) {
     });
 });
 
+
+// Parse request to search for a youtube video. The video will be played using the youtube addon.
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playyoutube?q=[TV_SHOW_NAME]
+// For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
+// http://1.1.1.1/playyoutube?q=bla
+app.get('/playyoutube', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayYoutube(request, response);
+    });
+});
+
 // Parse request to watch a PVR channel by number
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
 app.get('/playpvrchannelbynumber', function(request, response) {
@@ -165,6 +176,6 @@ app.get('/', (request, response) => {
 });
 
 // listen for requests :)
-const listener = app.listen(config.global.listenerPort, () => {
+const listener = app.listen(config.globalConf.listenerPort, () => {
     console.log(`Your app is listening on port ${listener.address().port}`);
 });
