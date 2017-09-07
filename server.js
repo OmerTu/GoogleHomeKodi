@@ -116,13 +116,22 @@ app.get('/playtvshow', function(request, response) {
 });
 
 // Parse request to watch a specific episode for a given tv show
-// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q[TV_SHOW_NAME]season[SEASON_NUMBER]episode&e[EPISODE_NUMBER]
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q=[TV_SHOW_NAME]season=[SEASON_NUMBER]episode&e=[EPISODE_NUMBER]
 // For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
 // http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
 app.get('/playepisode', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayEpisodeHandler(request, response);
     });
+});
+
+// Parse request to Shutdown the kodi system
+// Request format:  http://[THIS_SERVER_IP_ADDRESS]/shutdown
+app.get('/shutdown', function(request, response) {
+    validateRequest(request, response).then(() => {
+        request.kodi.System.Shutdown();  // eslint-disable-line new-cap
+    });
+    response.sendStatus(200);
 });
 
 // Parse request to watch a PVR channel by name
