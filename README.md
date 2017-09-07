@@ -9,11 +9,17 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Play a movie:**
 "Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
 
+### **Search and play a youtube video:**
+"Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
+
 ### **Play the next unwatched episode:**
 "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
 
 ### **Play a specific episode:**
 "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.
+
+### **Play a random episode for a tv show:**
+"Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.
 
 ### **Pause / Resume kodi:**
 "Hey Google, pause kodi"
@@ -32,6 +38,12 @@ Follow these steps to easily control your kodi using simple voice commands with 
 
 ### **Turn on TV:**
 "Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
+
+### **Shutdown Kodi:**
+"Hey Google, kodi shutdown"
+
+### **Scan library:**
+"Hey Google, kodi scan library" --> Will start a full library scan
 
 ------------
 ## How to setup
@@ -63,6 +75,38 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
 
 6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar.
+
+### **B.2) Set up a local webserver to control your kodi**
+Alternative it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
+Additional using the hodi-hosts.config.js file, you can set up and control multiple kodi installations.
+1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
+2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
+3. You should now be able to start the node server by running: `node server.js`.
+
+Here is a systemd init config. To run it as a daemon.
+On a debian dist save it as `/etc/systemd/system/kodiassistant.service`.
+
+Don't forget to run: sudo systemctl enable `sudo systemctl enable kodiassistant.service` to start the deamon on startup.
+
+```
+[Unit]
+Description=Node.js Google Home Kodi Interface
+
+[Service]
+ExecStart=/usr/bin/node /opt/GoogleHomeKodi/server.js
+# Required on some systems
+WorkingDirectory=/opt/GoogleHomeKodi
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nodejs-example
+
+[Install]
+WantedBy=multi-user.target
+```
 
 
 ### C) Set up IFTTT with your Google Home
