@@ -186,6 +186,7 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
                             episodeid: episdoeToPlay.episodeid
                         }
                     };
+
                     Kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
                     return;
                 }
@@ -275,6 +276,58 @@ exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line
         kodiPlaySpecificEpisode(request, response, data);
     });
 };
+
+
+exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv();
+    let tvShowTitle = request.query.q;
+    let param = {
+        tvshowTitle: tvShowTitle.trim()
+    };
+
+    console.log(`A random Episode request received to play for show ${param.tvshowTitle}`);
+
+    kodiFindTvShow(request, response, param).then((data) => {
+        let paramGetEpisodes = {
+            tvshowid: data.tvshowid,
+            properties: ['playcount', 'showtitle', 'season', 'episode'],
+            // Sort the result so we can grab the first unwatched episode
+            sort: {
+                method: 'episode',
+                ignorearticle: true
+            }
+        };
+        let Kodi = request.kodi;
+        
+        Kodi.VideoLibrary.GetEpisodes(paramGetEpisodes) // eslint-disable-line new-cap
+        .then((episodeResult) => {
+            if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
+                throw new Error('no results');
+            }
+            let episodes = episodeResult.result.episodes;
+
+            // Check if there are episodes for this TV show
+            if (episodes) {
+                let randomEpisode = episodes[Math.floor(Math.random() * episodes.length)];
+
+                console.log(`found episodes, picking random episode: ${randomEpisode.label}`);
+
+                let paramPlayerOpen = {
+                    item: {
+                        episodeid: randomEpisode.episodeid
+                    }
+                };
+
+                Kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+                return;
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    });
+};
+
 
 const kodiOpenVideoWindow = (file, Kodi) => {
     let params = {
