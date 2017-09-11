@@ -78,6 +78,17 @@ var kodiStop = function(request, response) {
   response.sendStatus(200);
 };
 
+//Seek forward x seconds
+app.get("/seekforward", function(request, response) {
+ validateRequest(request,response,kodiSeek) 
+});
+
+var kodiSeek = function(request, response){
+  var seekForward = request.query.q.trim();
+  kodi.Player.Seek({"playerid":1,"value":{"seconds":parseInt(seekForward)} });
+  response.sendStatus(200);
+};
+
 // mute or unmute kodi
 app.get("/mute", function (request, response) {
   validateRequest(request, response, kodiMuteToggle)
