@@ -42,7 +42,8 @@ const Init = function() {
         };
     }
 
-    if (globalConfig) {
+    if (Object.keys(globalConfig).length > 0) {
+        console.log(`Starting using kodi-hosts.config.js, ${JSON.stringify(globalConfig)}`);
         this.globalConf = globalConfig;
     } else {
         if (!process.env.AUTH_TOKEN || !process.env.PORT) {
@@ -51,7 +52,8 @@ const Init = function() {
         }
         this.globalConf.authToken = process.env.AUTH_TOKEN;
         this.globalConf.listenerPort = process.env.PORT;
-        this.globalConf.youtubeKey = process.env.YOUTUBE_KEY;
+        this.globalConf.youtubeKey = process.env.YOUTUBE_KEY || 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w';
+        console.log('Loaded config from .env');
     }
 
     this.getHost = (kodiId) => {
@@ -79,8 +81,6 @@ const Init = function() {
         request.kodi = this.getHost();
         request.config = this.globalConf;
     };
- 
-    console.log('Loaded config from config.js');
 };
 
 module.exports = Init;
