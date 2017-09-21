@@ -490,3 +490,13 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
         }
     });
 };
+
+exports.kodiSeek = (request, response) => { // eslint-disable-line no-unused-vars
+    let seekForward = request.query.q.trim();
+
+    kodi.Player.Seek({ // eslint-disable-line new-cap
+        'playerid': 1, 'value': {
+            'seconds': parseInt(seekForward)
+        }
+    });
+};

@@ -33,6 +33,9 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Set volume:**
 "Hey Google, set kodi volume to 60"
 
+### **Seek forward:**
+"Hey Google, kodi jump 30 seconds"
+
 ### **Play PVR channel:**
 "Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
 
@@ -167,16 +170,19 @@ To **Mute** kodi, follow the same instructions as *pause* but use this URL:
   >YOUR_GLITCH_SERVER_ADDRESS/mute
   
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/volume?q= {{NumberField}}
+  >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
+  
+  To **Seek forward** the play by x seconds use "Say a phrase with a number" and the URL:
+  >YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q= {{TextField}}
+    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}
 
 For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
 
-  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q= {{NumberField}}
+  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}
 
 
 ## Full table with available actions
@@ -195,6 +201,8 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                    |
 | Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                    |
+| Say a phrase with a number                            | Kodi jump # seconds             | YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}                  |
+
 
 To **Turn on the TV and switch to Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above

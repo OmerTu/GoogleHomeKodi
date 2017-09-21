@@ -60,6 +60,13 @@ app.all('/stop', function(request, response) {
     });
 });
 
+// Seek forward x seconds
+app.all('/seekforward', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeek(request, response);
+    });
+});
+
 // mute or unmute kodi
 app.all('/mute', function(request, response) {
     validateRequest(request, response).then(() => {
