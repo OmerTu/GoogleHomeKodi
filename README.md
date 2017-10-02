@@ -9,11 +9,17 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Play a movie:**
 "Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
 
+### **Search and play a youtube video:**
+"Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
+
 ### **Play the next unwatched episode:**
 "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
 
 ### **Play a specific episode:**
 "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.
+
+### **Play a random episode for a tv show:**
+"Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.
 
 ### **Pause / Resume kodi:**
 "Hey Google, pause kodi"
@@ -35,6 +41,12 @@ Follow these steps to easily control your kodi using simple voice commands with 
 
 ### **Turn on TV:**
 "Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
+
+### **Shutdown Kodi:**
+"Hey Google, kodi shutdown"
+
+### **Scan library:**
+"Hey Google, kodi scan library" --> Will start a full library scan
 
 ------------
 ## How to setup
@@ -66,6 +78,38 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
 
 6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar.
+
+### **B.2) Set up a local webserver to control your kodi**
+Alternative it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
+Additional using the hodi-hosts.config.js file, you can set up and control multiple kodi installations.
+1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
+2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
+3. You should now be able to start the node server by running: `node server.js`.
+
+Here is a systemd init config. To run it as a daemon.
+On a debian dist save it as `/etc/systemd/system/kodiassistant.service`.
+
+Don't forget to run: sudo systemctl enable `sudo systemctl enable kodiassistant.service` to start the deamon on startup.
+
+```
+[Unit]
+Description=Node.js Google Home Kodi Interface
+
+[Service]
+ExecStart=/usr/bin/node /opt/GoogleHomeKodi/server.js
+# Required on some systems
+WorkingDirectory=/opt/GoogleHomeKodi
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nodejs-example
+
+[Install]
+WantedBy=multi-user.target
+```
 
 
 ### C) Set up IFTTT with your Google Home
@@ -126,20 +170,38 @@ To **Mute** kodi, follow the same instructions as *pause* but use this URL:
   >YOUR_GLITCH_SERVER_ADDRESS/mute
   
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/volume?q= {{NumberField}}
+  >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
   
   To **Seek forward** the play by x seconds use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/seekforward?q= {{NumberField}}
+  >YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q= {{TextField}}
+    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}
 
 For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
 
-  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q= {{NumberField}}
-    
+  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}
+
+
+## Full table with available actions
+| Type of phrase                                        | phrase                          | url                                                                       |
+|-------------------------------------------------------|---------------------------------|---------------------------------------------------------------------------|
+| Say a phrase with a text ingredient                   | Kodi play $                     | YOUR_GLITCH_SERVER_ADDRESS/playmovie?q={{TextField}}                      |
+| Say a phrase with a text ingredient                   | Kodi play an episode of $       | YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q={{TextField}}                     |
+| Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | YOUR_GLITCH_SERVER_ADDRESS/playepisode?q={{TextField}}&e= {{NumberField}} |
+| Say a simple phrase                                   | Kodi pause                      | YOUR_GLITCH_SERVER_ADDRESS/playpause                                      |
+| Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
+| Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
+| Say a phrase with a number                            | Kodi set volume #               | YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}                       |
+| Say a phrase with a text ingredient                   | switch kodi to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
+| Say a phrase with a number                            | switch kodi to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
+| Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
+| Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
+| Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                    |
+| Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                    |
+| Say a phrase with a number                            | Kodi jump # seconds             | YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}                  |
 
 
 To **Turn on the TV and switch to Kodi's HDMI input** 
