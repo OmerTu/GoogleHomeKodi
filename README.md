@@ -79,8 +79,8 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 
 6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar.
 
-### **B.2) Set up a local webserver to control your kodi**
-Alternative it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
+### **B.2) [OPTIONAL] Set up a local webserver to control your kodi**
+As an alternative to (B), it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
 Additional using the hodi-hosts.config.js file, you can set up and control multiple kodi installations.
 1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
 2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
@@ -241,7 +241,9 @@ If that doesn't work you probably have a problem with your router configuration.
 
 ------------
 ## Credits ##
-I used some code from these 3 projects:
+Thanks for everyone who contributed to this projects: [p0psicles](https://github.com/p0psicles), [Keljian](https://github.com/Keljian) and [Lunatixz](https://github.com/Lunatixz)
+
+I also used some code from these 3 projects:
 [MarvinSchenkel/HomeyKodi](https://github.com/MarvinSchenkel/HomeyKodi)
 [Jephuff/kodi-rpc](https://github.com/Jephuff/kodi-rpc)
 [joshjowen/script.json-cec](https://github.com/joshjowen/script.json-cec)
