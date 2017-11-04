@@ -70,10 +70,10 @@ exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unus
     Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
 };
 
-const tryActivateTv = () => {
+const tryActivateTv = (request, response) => {
     if (process.env.ACTIVATE_TV != null && process.env.ACTIVATE_TV === 'true') {
         console.log('Activating TV first..');
-        kodiActivateTv(null, null);
+        this.kodiActivateTv(request, response);
     }
 };
 
@@ -106,7 +106,7 @@ const kodiFindMovie = (movieTitle, Kodi) => {
 };
 
 exports.kodiPlayMovie = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
 
     let movieTitle = request.query.q.trim();
     let Kodi = request.kodi;
@@ -203,7 +203,7 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
 };
 
 exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
     let param = {
         tvshowTitle: request.query.q.trim().toLowerCase()
     };
@@ -264,7 +264,7 @@ const kodiPlaySpecificEpisode = (request, res, requestParams) => {
 };
 
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
     let requestPartOne = request.query.q.split('season');
     let param = {
         tvshowTitle: requestPartOne[0].trim().toLowerCase(),
@@ -283,7 +283,7 @@ exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line
 
 
 exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
     let tvShowTitle = request.query.q;
     let param = {
         tvshowTitle: tvShowTitle.trim()
@@ -446,12 +446,12 @@ const kodiPlayChannel = (request, response, searchOptions) => {
 };
 
 exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
     kodiPlayChannel(request, response, fuzzySearchOptions);
 };
 
 exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
-    tryActivateTv();
+    tryActivateTv(request, response);
     let pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
 
     pvrFuzzySearchOptions.keys[0] = 'channelnumber';
