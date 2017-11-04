@@ -130,7 +130,7 @@ WantedBy=multi-user.target
     For example, if your glitch server address is 'green-icecream.glitch.me', your should enter:
       >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
     
-    8. Method: *Get*
+    8. Method: *POST*
     9. Content Type: *application/json*
     10. Body:
       >{"token":"*YOUR_CONNECTION_PASSWORD*"}
