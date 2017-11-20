@@ -28,9 +28,6 @@ exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unuse
     response.sendStatus(200);
 };
 
-//New Damian
-//*****************************Start of Damians Functions
-
 //Navigation Controls
 
 //Navigation Down
@@ -520,7 +517,6 @@ exports.playercontrol = (request, response) => { // eslint-disable-line no-unuse
     
     response.sendStatus(200);
 };
-//*****************************End of Damians Functions
 
 exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Stop request received');
