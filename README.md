@@ -33,9 +33,6 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Set volume:**
 "Hey Google, set kodi volume to 60"
 
-### **Seek forward:**
-"Hey Google, kodi jump 30 seconds"
-
 ### **Play PVR channel:**
 "Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
 
@@ -47,6 +44,60 @@ Follow these steps to easily control your kodi using simple voice commands with 
 
 ### **Scan library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
+
+### **Navigate Up:**
+"Hey Google, kodi navigate up 3" --> Will navigate up the requested amount
+
+### **Navigate Down:**
+"Hey Google, kodi navigate down 3" --> Will navigate down the requested amount
+
+### **Navigate Left:**
+"Hey Google, kodi navigate left 3" --> Will navigate left the requested amount
+
+### **Navigate Right:**
+"Hey Google, kodi navigate right 3" --> Will navigate right the requested amount
+
+### **Navigate Back:**
+"Hey Google, kodi go back 3" --> Will navigate back requested amount
+
+### **Navigate Select:**
+"Hey Google, kodi Select" --> Will select the hightlighted item
+
+### **Navigate Context Menu:**
+"Hey Google, kodi open context menu" --> Will open the context menu for the selected item
+
+### **Navigate Go Home:**
+"Hey Google, kodi go home" --> Will open the main menu page
+
+### **Whats Playing:**
+"Hey Google, kodi Whats Playing" --> Will show whats playing information
+
+### **Change Subtitles:**
+"Hey Google, kodi subtitles on/off/previous/next/track number" --> Will change subtitle settings
+
+### **Change Audiostream(Language):**
+"Hey Google, kodi audiostream previous/next/track number" --> Will change audiostream settings
+
+### **Seek forward x minutes:**
+"Hey Google, kodi go forward 30 minutes"
+
+### **Seek backwards x minutes:**
+"Hey Google, kodi go backward 30 minutes"
+
+### **Seek to x minutes:**
+"Hey Google, kodi jump to 30 minutes"
+
+### **Play a song:**
+"Hey Google, kodi play the song [song name]" --> will search for the given song name and play it.
+
+### **Play an album:**
+"Hey Google, kodi play the album [album name]" --> will search for the given album name and play it.
+
+### **Play an artist:**
+"Hey Google, kodi play songs by the artist [music artist name]" --> will search for the given music artist name and play it.
+
+### **Playlist Control:**
+"Hey Google, kodi playlist previous/next/list item number" --> This will go forward/backward or select an item on the playlist #.
 
 ------------
 ## How to setup
@@ -199,10 +250,26 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number                            | switch kodi to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
-| Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                    |
-| Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                    |
-| Say a phrase with a number                            | Kodi jump # seconds             | YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}                  |
-
+| Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                   |
+| Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                       |
+| Say a phrase with a number                            | Kodi Navigate up #              | YOUR_GLITCH_SERVER_ADDRESS/navup?q={{NumberField}}                 |
+| Say a phrase with a number                            | Kodi Navigate down #            | YOUR_GLITCH_SERVER_ADDRESS/navdown?q={{NumberField}}                 |
+| Say a phrase with a number                            | Kodi Navigate left #            | YOUR_GLITCH_SERVER_ADDRESS/navleft?q={{NumberField}}                 |
+| Say a phrase with a number                            | Kodi Navigate right #           | YOUR_GLITCH_SERVER_ADDRESS/navright?q={{NumberField}}                 |
+| Say a phrase with a number                            | Kodi Navigate back #            | YOUR_GLITCH_SERVER_ADDRESS/navback?q={{NumberField}}                 |
+| Say a simple phrase                                   | Kodi select                     | YOUR_GLITCH_SERVER_ADDRESS/navselect                                         |
+| Say a simple phrase                                   | Kodi show context menu          | YOUR_GLITCH_SERVER_ADDRESS/navcontextmenu                                   |
+| Say a simple phrase                                   | Kodi go home                    | YOUR_GLITCH_SERVER_ADDRESS/navhome                                           |
+| Say a simple phrase                                   | Kodi whats playing              | YOUR_GLITCH_SERVER_ADDRESS/displayinfo                                       |
+| Say a phrase with a text ingredient                   | Kodi subtitles $                | YOUR_GLITCH_SERVER_ADDRESS/setsubtitles?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi audio stream $             | YOUR_GLITCH_SERVER_ADDRESS/setaudio?q={{TextField}}                   |
+| Say a phrase with a number                            | Kodi seek forward x minutes #   | YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}                       |
+| Say a phrase with a number                            | Kodi seek backward x minutes #  | YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes?q={{NumberField}}                       |
+| Say a phrase with a number                            | Kodi seek to x minutes #        | YOUR_GLITCH_SERVER_ADDRESS/seektominutes?q={{NumberField}}                       |
+| Say a phrase with a text ingredient                   | Kodi play the song $            | YOUR_GLITCH_SERVER_ADDRESS/playsong?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the album $           | YOUR_GLITCH_SERVER_ADDRESS/playalbum?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the artist $          | YOUR_GLITCH_SERVER_ADDRESS/playartist?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi playlist $                 | YOUR_GLITCH_SERVER_ADDRESS/playercontrol?q={{TextField}}                   |
 
 To **Turn on the TV and switch to Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above
