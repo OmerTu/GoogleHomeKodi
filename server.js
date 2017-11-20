@@ -60,13 +60,6 @@ app.all('/stop', function(request, response) {
     });
 });
 
-// Seek forward x seconds
-app.all('/seekforward', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeek(request, response);
-    });
-});
-
 // mute or unmute kodi
 app.all('/mute', function(request, response) {
     validateRequest(request, response).then(() => {
@@ -172,6 +165,156 @@ app.all('/playyoutube', function(request, response) {
 app.all('/playpvrchannelbynumber', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayChannelByNumber(request, response);
+    });
+});
+
+//*********************************Navigation
+
+//Navigation Down
+app.all('/navdown', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavDown(request, response);
+    });
+});
+
+//Navigation Up
+app.all('/navup', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavUp(request, response);
+    });
+});
+
+//Navigation Right
+app.all('/navright', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavRight(request, response);
+    });
+});
+
+//Navigation Left
+app.all('/navleft', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavLeft(request, response);
+    });
+});
+
+//Navigation Back
+app.all('/navback', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavBack(request, response);
+    });
+});
+
+//Navigation Select
+app.all('/navselect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavSelect(request, response);
+    });
+});
+
+//Navigation ContectMenu
+app.all('/navcontextmenu', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavContextMenu(request, response);
+    });
+});
+
+// Show Info
+app.all('/displayinfo', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiDisplayInfo(request, response);
+    });
+});
+
+//Navigation Home
+app.all('/navhome', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavHome(request, response);
+    });
+});
+
+//**************************End of navigation controls
+
+//Set subtitles
+app.all('/setsubtitles', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetSubs(request, response);
+    });
+});
+
+//Set audio stream
+app.all('/setaudio', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetAudio(request, response);
+    });
+});
+
+//Go to x minutes
+app.all('/seektominutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeektominutes(request, response);
+    });
+});
+
+/*
+//Bug when seeking forward less than 60 seconds in kodi json https://forum.kodi.tv/showthread.php?tid=237408 so I'm disabling this until a work around is working.
+//Seek forward x seconds
+app.all('/seekforwardseconds', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekForwardSeconds(request, response);
+    });
+});
+
+//Seek backward x seconds
+app.all('/seekbackwardseconds', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekBackwardSeconds(request, response);
+    });
+});
+*/
+
+//Seek forward x minutes
+app.all('/seekforwardminutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekForwardMinutes(request, response);
+    });
+});
+
+//Seek backward x minutes
+app.all('/seekbackwardminutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekBackwardMinutes(request, response);
+    });
+});
+
+// Parse request to play a song
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playsong?q=[SONG_NAME]
+app.all('/playsong', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlaySong(request, response);
+    });
+});
+
+// Parse request to play an album
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playalbum?q=[ALBUM_NAME]
+app.all('/playalbum', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayAlbum(request, response);
+    });
+});
+
+// Parse request to play an artist
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]
+app.all('/playartist', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayArtist(request, response);
+    });
+});
+
+//Playlist Control
+app.all('/playercontrol', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.playercontrol(request, response);
     });
 });
 
