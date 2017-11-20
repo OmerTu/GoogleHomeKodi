@@ -168,12 +168,6 @@ app.all('/playpvrchannelbynumber', function(request, response) {
     });
 });
 
-
-
-
-
-//*****************************Start of Damians Functions
-
 //*********************************Navigation
 
 //Navigation Down
@@ -323,7 +317,6 @@ app.all('/playercontrol', function(request, response) {
         Helper.playercontrol(request, response);
     });
 });
-//*****************************End of Damians Functions
 
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
