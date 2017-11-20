@@ -161,13 +161,70 @@ exports.kodiSetSubs = (request, response) => { // eslint-disable-line no-unused-
     if(setsubs == "previous" || setsubs == "next" || setsubs == "on" || setsubs == "off")
     {      
       Kodi.Player.SetSubtitle({"playerid":1,"subtitle":setsubs});
+	  
+	  console.log('Change subtitle request received - ' + setsubs);
     }
     else
     {
-      //Else parse the number for the subtitles track to set.
-      var subtitleIndex = parseInt(setsubs);      
-
-      Kodi.Player.SetSubtitle({"playerid":1,"subtitle":subtitleIndex});
+     //If not on/off/previous/next then set the subtitles to an index number
+      var subtitleStreamIndex;
+      
+      if(setsubs == "zero")
+      {
+        subtitleStreamIndex = 0
+      }
+      if(setsubs == "one")
+      {
+        subtitleStreamIndex = 1
+      }
+      else if(setsubs == "to" || setsubs == "too" || setsubs == "two")
+      {
+        subtitleStreamIndex = 2
+      }
+      else if(setsubs == "three")
+      {
+        subtitleStreamIndex = 3
+      }
+      else if(setsubs == "four")
+      {
+        subtitleStreamIndex = 4
+      }
+      else if(setsubs == "five")
+      {
+        subtitleStreamIndex = 5
+      }
+      else if(setsubs == "six")
+      {
+        subtitleStreamIndex = 6
+      }
+      else if(setsubs == "seven")
+      {
+        subtitleStreamIndex = 7
+      }
+      else if(setsubs == "eight")
+      {
+        subtitleStreamIndex = 8
+      }
+      else if(setsubs == "nine")
+      {
+        subtitleStreamIndex = 9
+      }
+      else if(setsubs == "ten")
+      {
+        subtitleStreamIndex = 10
+      }
+      else
+      {
+        //Sometimes the num is detected instead of the spelt number. if this is the case it can just be parsed!
+        //The number for the subtitle track to set.
+        subtitleStreamIndex = parseInt(setsubs);   
+        console.log('Parsed Int ' + subtitleStreamIndex);
+      }
+   
+      Kodi.Player.SetSubtitle({"playerid":1,"subtitle":subtitleStreamIndex});
+      
+      //Write to log
+      console.log('Change subtitle track request received - Index ' + subtitleStreamIndex);
     }
     
     response.sendStatus(200);
