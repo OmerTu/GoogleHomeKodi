@@ -203,55 +203,62 @@ app.all('/koditestconnection', function(request, response) {
     });
 });
 
-//*********************************Navigation
+// *********************************Navigation
 
-//Navigation Down
+// Navigation Down
 app.all('/navdown', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavDown(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Up
+// Navigation Up
 app.all('/navup', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavUp(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Right
+// Navigation Right
 app.all('/navright', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavRight(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Left
+// Navigation Left
 app.all('/navleft', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavLeft(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Back
+// Navigation Back
 app.all('/navback', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavBack(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Select
+// Navigation Select
 app.all('/navselect', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavSelect(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation ContectMenu
+// Navigation ContectMenu
 app.all('/navcontextmenu', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavContextMenu(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Show Info
@@ -259,36 +266,41 @@ app.all('/displayinfo', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiDisplayInfo(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Navigation Home
+// Navigation Home
 app.all('/navhome', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiNavHome(request, response);
     });
+    response.sendStatus(200);
 });
 
-//**************************End of navigation controls
+// **************************End of navigation controls
 
-//Set subtitles
+// Set subtitles
 app.all('/setsubtitles', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSetSubs(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Set audio stream
+// Set audio stream
 app.all('/setaudio', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSetAudio(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Go to x minutes
+// Go to x minutes
 app.all('/seektominutes', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSeektominutes(request, response);
     });
+    response.sendStatus(200);
 });
 
 /*
@@ -298,6 +310,7 @@ app.all('/seekforwardseconds', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSeekForwardSeconds(request, response);
     });
+    response.sendStatus(200);
 });
 
 //Seek backward x seconds
@@ -305,21 +318,24 @@ app.all('/seekbackwardseconds', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSeekBackwardSeconds(request, response);
     });
+    response.sendStatus(200);
 });
 */
 
-//Seek forward x minutes
+// Seek forward x minutes
 app.all('/seekforwardminutes', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSeekForwardMinutes(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Seek backward x minutes
+// Seek backward x minutes
 app.all('/seekbackwardminutes', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSeekBackwardMinutes(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to play a song
@@ -328,6 +344,7 @@ app.all('/playsong', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlaySong(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to play an album
@@ -336,6 +353,7 @@ app.all('/playalbum', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayAlbum(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to play an artist
@@ -344,13 +362,15 @@ app.all('/playartist', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayArtist(request, response);
     });
+    response.sendStatus(200);
 });
 
-//Playlist Control
+// Playlist Control
 app.all('/playercontrol', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.playercontrol(request, response);
     });
+    response.sendStatus(200);
 });
 
 app.get('/', (request, response) => {
