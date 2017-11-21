@@ -162,6 +162,63 @@ SyslogIdentifier=nodejs-example
 WantedBy=multi-user.target
 ```
 
+### **B.3) [OPTIONAL] controlling multiple kodi instances**
+Setting up the local node server, will allow you to utilize the kodi-hosts.config.js configuration.
+This configuration will allow you to address multiple kodi installations. For this you will need to extend the list. Like in this example:
+```
+exports.kodiConfig = [{
+    id: 'kodi', // For now leave the first set to kodi.
+    // YOUR_KODI_IP_ADDRESS
+    kodiIp: '192.168.178.10',
+    // YOUR_KODI_PORT
+    kodiPort: '8080',
+    // YOUR_KODI_USER_NAME
+    kodiUser: 'kodi',
+    // YOUR_KODI_PASSWORD
+    kodiPassword: 'myKodiPass'
+},
+    // You can use this to specify additonal kodi installation, that you'd like to control.
+    // For example alternate kodi destination 1:   
+{
+    id: 'bedroom',
+    // YOUR_KODI_IP_ADDRESS
+    kodiIp: '192.168.1.11',
+    // YOUR_KODI_PORT
+    kodiPort: '8080',
+    // YOUR_KODI_USER_NAME
+    kodiUser: 'kodi',
+    // YOUR_KODI_PASSWORD
+    kodiPassword: 'myKodiPass'
+},
+    // You can use this to specify additonal kodi installation, that you'd like to control.
+    // For example alternate kodi destination 2:   
+{
+    id: 'kitchen',
+    // YOUR_KODI_IP_ADDRESS
+    kodiIp: '192.168.1.12',
+    // YOUR_KODI_PORT
+    kodiPort: '8080',
+    // YOUR_KODI_USER_NAME
+    kodiUser: 'kodi',
+    // YOUR_KODI_PASSWORD
+    kodiPassword: 'myKodiPass'
+}
+];
+```
+
+The `id` will match your kodi instance with a spoken keyword.
+For every command / kodi destination you will need to add a new IFTTT applet.
+You'll only real change here, is the `body`. As up until now you have been using a body like: `{"token":"*YOUR_CONNECTION_PASSWORD*"}`.
+Now you will need to add the `kodiid` attribute to it, matching the id of your configuration.
+
+**Example scan library**
+If you normally would use a sentence like: `"Hey Google, kodi scan library" --> Will start a full library scan`.
+For running this command on your second kodi instance, you could copy the applet, and change it to:
+`"Hey Google, kodi scan library in the bedroom"`.
+
+In this new applet, you will need to make sure it will recognize this new sentence, and add the attribute `kodiid` to the body.
+For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
+
 
 ### C) Set up IFTTT with your Google Home
 

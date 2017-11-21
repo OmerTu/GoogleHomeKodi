@@ -1,6 +1,18 @@
+/**
+ * Custom response exception
+ * @param {*} message Exception message.
+ * @param {*} statusText Optional status text, retreived from the responses status text.
+ * @param {*} status Optional status response code.
+ */
+function ResponseException(message, statusText, status) {
+  this.message = message;
+  this.name = 'ResponseException';
+  this.statusText = statusText || this.message;
+  this.status = status || 400;
+}
+
 module.exports = function(fetch) {
   var namespaces = require('./api-methods.js');
-  var kodi_auth;
 
   function addMethods(obj) {
     namespaces.forEach(function(namespace) {
@@ -14,7 +26,7 @@ module.exports = function(fetch) {
   }
 
   function Kodi(ip, port, username, password) {
-    kodi_auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+    this.kodi_auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
     this.url = 'http://' + ip + ':' + port + '/jsonrpc';
     addMethods(this);
   }
@@ -24,7 +36,7 @@ module.exports = function(fetch) {
     var headers = {
       "Content-type": "application/json",
       'Accept': "application/json",
-      'Authorization': kodi_auth
+      'Authorization': this.kodi_auth
     };
 
     return fetch(this.url, {
@@ -33,6 +45,11 @@ module.exports = function(fetch) {
         headers: headers
       })
       .then(function (response) {
+        if (response.status !== 200) {
+          throw new ResponseException(`Error in response, ${response.statusText} with status code: ${response.status}`,
+                                      response.statusText,
+                                      response.status);
+        }
         return response.json();
       })
       .then(function(data) {

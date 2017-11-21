@@ -60,11 +60,11 @@ const Init = function() {
         let returnHost;
 
         if (kodiId) {
-            returnHost = this.kodiHosts.map((kodiHost) => {
+            returnHost = this.kodiHosts.filter((kodiHost) => {
                 if (kodiHost.id === kodiId) {
                     return kodiHost.host;
                 }
-            })[0];
+            })[0].host;
         } else {
             returnHost = this.kodiHosts[0].host;
         }
@@ -78,7 +78,7 @@ const Init = function() {
     this.routeKodiInstance = (request) => {
         // For now we are only attaching the first host in the list.
         // Next will be to determin a way of passing a host, through IFTTT.
-        request.kodi = this.getHost();
+        request.kodi = this.getHost(request.body.kodiid);
         request.config = this.globalConf;
     };
 };

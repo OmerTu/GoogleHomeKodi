@@ -51,6 +51,7 @@ app.all('/playpause', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayPause(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Stop video player
@@ -58,6 +59,7 @@ app.all('/stop', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiStop(request, response);
     });
+    response.sendStatus(200);
 });
 
 // mute or unmute kodi
@@ -65,6 +67,7 @@ app.all('/mute', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiMuteToggle(request, response);
     });
+    response.sendStatus(200);
 });
 
 // set kodi volume
@@ -72,6 +75,7 @@ app.all('/volume', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSetVolume(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Turn on TV and Switch to Kodi's HDMI input
@@ -79,6 +83,7 @@ app.all('/activatetv', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiActivateTv(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to watch a movie
@@ -87,6 +92,7 @@ app.all('/playmovie', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayMovie(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to open a specific tv show
@@ -95,6 +101,7 @@ app.all('/opentvshow', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiOpenTvshow(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Start a new library scan
@@ -102,6 +109,7 @@ app.all('/scanlibrary', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiScanLibrary(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to watch your next unwatched episode for a given tv show
@@ -110,6 +118,7 @@ app.all('/playtvshow', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayTvshow(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to watch a specific episode for a given tv show
@@ -120,6 +129,7 @@ app.all('/playepisode', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayEpisodeHandler(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to Shutdown the kodi system
@@ -139,6 +149,7 @@ app.all('/shuffleepisode', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiShuffleEpisodeHandler(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to watch a PVR channel by name
@@ -147,6 +158,7 @@ app.all('/playpvrchannelbyname', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayChannelByName(request, response);
     });
+    response.sendStatus(200);
 });
 
 
@@ -158,6 +170,7 @@ app.all('/playyoutube', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayYoutube(request, response);
     });
+    response.sendStatus(200);
 });
 
 // Parse request to watch a PVR channel by number
@@ -165,6 +178,28 @@ app.all('/playyoutube', function(request, response) {
 app.all('/playpvrchannelbynumber', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiPlayChannelByNumber(request, response);
+    });
+    response.sendStatus(200);
+});
+
+// Parse request to test the end2end kodi connectivity.
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection
+app.all('/koditestconnection', function(request, response) {
+    console.log('Request incomming for testing the end2end connectivity to kodi.');
+    validateRequest(request, response).then(() => {
+        Helper.kodiTestConnection(request, response)
+        .then(() => {
+            response.sendStatus(200);
+            console.log('Test seemed to successful, you should have seen a notification on your kodi GUI.');
+        })
+        .catch(error => { // eslint-disable-line arrow-parens
+            let status = 400;
+            
+            if (error.status) {
+                status = error.status;
+            }
+            response.status(status).send(error.message);
+        });
     });
 });
 
