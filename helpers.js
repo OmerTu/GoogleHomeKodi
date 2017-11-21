@@ -22,7 +22,6 @@ exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unuse
     Kodi.Player.PlayPause({ // eslint-disable-line new-cap
         playerid: 1
     });
-    response.sendStatus(200);
 };
 
 exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
@@ -32,7 +31,6 @@ exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-var
     Kodi.Player.Stop({ // eslint-disable-line new-cap
         playerid: 1
     });
-    response.sendStatus(200);
 };
 
 exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unused-vars
@@ -42,7 +40,6 @@ exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unus
     Kodi.Application.SetMute({ // eslint-disable-line new-cap
         'mute': 'toggle'
     });
-    response.sendStatus(200);
 };
 
 exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unused-vars
@@ -53,7 +50,6 @@ exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unuse
     Kodi.Application.SetVolume({ // eslint-disable-line new-cap
         'volume': parseInt(setVolume)
     });
-    response.sendStatus(200);
 };
 
 exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unused-vars
@@ -121,10 +117,9 @@ exports.kodiPlayMovie = (request, response) => { // eslint-disable-line no-unuse
     }).catch((error) => {
         console.log(error);
     });
-    response.sendStatus(200);
 };
 
-const kodiFindTvShow = (request, res, param) => {
+const kodiFindTvShow = (request, response, param) => {
     return new Promise((resolve, reject) => {
         let Kodi = request.kodi;
 
@@ -150,7 +145,7 @@ const kodiFindTvShow = (request, res, param) => {
     });
 };
 
-const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
+const kodiPlayNextUnwatchedEpisode = (request, response, RequestParams) => {
     console.log(`Searching for next episode of Show ID ${RequestParams.tvshowid}...`);
     // Build filter to search unwatched episodes
     let param = {
@@ -177,7 +172,6 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
                 console.log('found episodes..');
                 // Check whether we have seen this episode already
                 let firstUnplayedEpisode = episodes.filter((item) => {
-                    // FIXME: This is returned from an async method. So what's the use for this?
                     return item.playcount === 0;
                 });
 
@@ -199,7 +193,6 @@ const kodiPlayNextUnwatchedEpisode = (request, res, RequestParams) => {
         .catch((e) => {
             console.log(e);
         });
-    res.sendStatus(200);
 };
 
 exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
@@ -215,7 +208,7 @@ exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unus
     });
 };
 
-const kodiPlaySpecificEpisode = (request, res, requestParams) => {
+const kodiPlaySpecificEpisode = (request, response, requestParams) => {
     console.log(`Searching Season ${requestParams.seasonNum}, episode ${requestParams.episodeNum} of Show ID ${requestParams.tvshowid}...`);
 
     // Build filter to search for specific season and episode number
@@ -260,7 +253,6 @@ const kodiPlaySpecificEpisode = (request, res, requestParams) => {
         .catch((e) => {
             console.log(e);
         });
-    res.sendStatus(200);
 };
 
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
@@ -353,9 +345,8 @@ exports.kodiOpenTvshow = (request, response) => {
 };
 
 // Start a full library scan
-exports.kodiScanLibrary = (request, response) => {
+exports.kodiScanLibrary = (request, response) => { // eslint-disable-line no-unused-vars
     request.kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
-    response.sendStatus(200);
 };
 
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
@@ -442,7 +433,6 @@ const kodiPlayChannel = (request, response, searchOptions) => {
     }).catch((e) => {
         console.log(e);
     });
-
 };
 
 exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
