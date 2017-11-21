@@ -362,7 +362,7 @@ exports.kodiTestConnection = (request) => {
             resolve(result);
         })
         .catch((error) => {
-            console.log(`Failed to communicate with kodi. Error: ${error}`);
+            console.log(`Failed to communicate with kodi. Error: ${error.message}`);
             reject(error);
         });
     });

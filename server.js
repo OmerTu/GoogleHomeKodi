@@ -202,11 +202,9 @@ app.all('/koditestconnection', function(request, response) {
         })
         .catch(error => { // eslint-disable-line arrow-parens
             let status = 400;
-            const re = new RegExp('^.+([0-9]{3}$)', 'i');
-            const match = re.exec(error.message.trim());
             
-            if (match) {
-                status = match.slice(-1)[0];
+            if (error.status) {
+                status = error.status;
             }
             response.status(status).send(error.message);
         });

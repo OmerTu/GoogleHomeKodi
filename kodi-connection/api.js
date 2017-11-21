@@ -1,3 +1,16 @@
+/**
+ * Custom response exception
+ * @param {*} message Exception message.
+ * @param {*} statusText Optional status text, retreived from the responses status text.
+ * @param {*} status Optional status response code.
+ */
+function ResponseException(message, statusText, status) {
+  this.message = message;
+  this.name = 'ResponseException';
+  this.statusText = statusText || this.message;
+  this.status = status || 400;
+}
+
 module.exports = function(fetch) {
   var namespaces = require('./api-methods.js');
 
@@ -33,7 +46,9 @@ module.exports = function(fetch) {
       })
       .then(function (response) {
         if (response.status !== 200) {
-          throw new Error(`Error in response, ${response.statusText} with status code: ${response.status}`);
+          throw new ResponseException(`Error in response, ${response.statusText} with status code: ${response.status}`,
+                                      response.statusText,
+                                      response.status);
         }
         return response.json();
       })
