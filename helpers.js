@@ -349,6 +349,25 @@ exports.kodiScanLibrary = (request, response) => { // eslint-disable-line no-unu
     request.kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
 };
 
+exports.kodiTestConnection = (request) => {
+    return new Promise((resolve, reject) => {
+        let param = {
+            title: 'Initiated by IFTTT',
+            message: 'Test Successful!'
+        };
+    
+        request.kodi.GUI.ShowNotification(param) // eslint-disable-line new-cap
+        .then((result) => {
+            console.log(`Test successful. result: ${result}`);
+            resolve(result);
+        })
+        .catch((error) => {
+            console.log(`Failed to communicate with kodi. Error: ${error}`);
+            reject(error);
+        });
+    });
+};
+
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI < chGroups.length) {
 

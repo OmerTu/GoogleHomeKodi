@@ -190,6 +190,29 @@ app.all('/playpvrchannelbynumber', function(request, response) {
     response.sendStatus(200);
 });
 
+// Parse request to test the end2end kodi connectivity.
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection
+app.all('/koditestconnection', function(request, response) {
+    console.log('Request incomming for testing the end2end connectivity to kodi.');
+    validateRequest(request, response).then(() => {
+        Helper.kodiTestConnection(request, response)
+        .then(() => {
+            response.sendStatus(200);
+            console.log('Test seemed to successful, you should have seen a notification on your kodi GUI.');
+        })
+        .catch(error => { // eslint-disable-line arrow-parens
+            let status = 400;
+            const re = new RegExp('^.+([0-9]{3}$)', 'i');
+            const match = re.exec(error.message.trim());
+            
+            if (match) {
+                status = match.slice(-1)[0];
+            }
+            response.status(status).send(error.message);
+        });
+    });
+});
+
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
 });
