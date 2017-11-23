@@ -470,78 +470,32 @@ exports.kodiNavHome = (request, response) => { // eslint-disable-line no-unused-
 // Set subtitles
 exports.kodiSetSubs = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
-    const setsubs = request.query.q.trim();
-
-    console.log(`Change subtitles request received - setsubs`);
+  
+    var setsubs = request.query.q.trim();
+  
+    //Write to log
+    console.log('Change subtitles request received - ' + setsubs);
 
     if(setsubs == "previous" || setsubs == "next" || setsubs == "on" || setsubs == "off")
     {      
       Kodi.Player.SetSubtitle({"playerid":1,"subtitle":setsubs});
-	  
-	  console.log('Change subtitle request received - ' + setsubs);
     }
-    else
-    {
-     //If not on/off/previous/next then set the subtitles to an index number
-      var subtitleStreamIndex;
+    
+    response.sendStatus(200);
+};
+
+// Set subtitles direct
+exports.kodiSetSubsDirect = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+  
+    var setsubs = request.query.q.trim();
+  
+    //Write to log
+    console.log('Change subtitle track request received Index - ' + setsubs);
+            
+    Kodi.Player.SetSubtitle({"playerid":1,"subtitle":parseInt(setsubs)});
       
-      if(setsubs == "zero")
-      {
-        subtitleStreamIndex = 0
-      }
-      if(setsubs == "one")
-      {
-        subtitleStreamIndex = 1
-      }
-      else if(setsubs == "to" || setsubs == "too" || setsubs == "two")
-      {
-        subtitleStreamIndex = 2
-      }
-      else if(setsubs == "three")
-      {
-        subtitleStreamIndex = 3
-      }
-      else if(setsubs == "four")
-      {
-        subtitleStreamIndex = 4
-      }
-      else if(setsubs == "five")
-      {
-        subtitleStreamIndex = 5
-      }
-      else if(setsubs == "six")
-      {
-        subtitleStreamIndex = 6
-      }
-      else if(setsubs == "seven")
-      {
-        subtitleStreamIndex = 7
-      }
-      else if(setsubs == "eight")
-      {
-        subtitleStreamIndex = 8
-      }
-      else if(setsubs == "nine")
-      {
-        subtitleStreamIndex = 9
-      }
-      else if(setsubs == "ten")
-      {
-        subtitleStreamIndex = 10
-      }
-      else
-      {
-        //Sometimes the num is detected instead of the spelt number. if this is the case it can just be parsed!
-        //The number for the subtitle track to set.
-        subtitleStreamIndex = parseInt(setsubs);   
-        console.log('Parsed Int ' + subtitleStreamIndex);
-      }
-   
-      Kodi.Player.SetSubtitle({"playerid":1,"subtitle":subtitleStreamIndex});
-      
-      //Write to log
-      console.log('Change subtitle track request received - Index ' + subtitleStreamIndex);
-    }
+    response.sendStatus(200);
 };
 
 // Set audiostream
@@ -549,75 +503,30 @@ exports.kodiSetAudio = (request, response) => { // eslint-disable-line no-unused
     let Kodi = request.kodi;
   
     var setaudiostream = request.query.q.trim();
+  
+    //Write to log
+    console.log('Change audio stream request received - ' + setaudiostream);
     
     if(setaudiostream == "previous" || setaudiostream == "next")
     {      
       Kodi.Player.SetAudioStream({"playerid":1,"stream":setaudiostream});
-      
-      console.log('Change audio stream request received - ' + setaudiostream);
     }
-    else
-    {
-      //If not previous or next then set the audio stream to an index
-      var audioStreamIndex;
-      
-      if(setaudiostream == "zero")
-      {
-        audioStreamIndex = 0
-      }
-      if(setaudiostream == "one")
-      {
-        audioStreamIndex = 1
-      }
-      else if(setaudiostream == "to" || setaudiostream == "too" || setaudiostream == "two")
-      {
-        audioStreamIndex = 2
-      }
-      else if(setaudiostream == "three")
-      {
-        audioStreamIndex = 3
-      }
-      else if(setaudiostream == "four")
-      {
-        audioStreamIndex = 4
-      }
-      else if(setaudiostream == "five")
-      {
-        audioStreamIndex = 5
-      }
-      else if(setaudiostream == "six")
-      {
-        audioStreamIndex = 6
-      }
-      else if(setaudiostream == "seven")
-      {
-        audioStreamIndex = 7
-      }
-      else if(setaudiostream == "eight")
-      {
-        audioStreamIndex = 8
-      }
-      else if(setaudiostream == "nine")
-      {
-        audioStreamIndex = 9
-      }
-      else if(setaudiostream == "ten")
-      {
-        audioStreamIndex = 10
-      }
-      else
-      {
-        //Sometimes the num is detected instead of the spelt number. if this is the case it can just be parsed!
-        //The number for the audio stream to set.
-        audioStreamIndex = parseInt(setaudiostream);   
-        console.log('Parsed Int ' + audioStreamIndex);
-      }
-   
-      Kodi.Player.SetAudioStream({"playerid":1,"stream":audioStreamIndex});
-      
-      //Write to log
-      console.log('Change audio stream request received - Index ' + audioStreamIndex);
-    }
+  
+    response.sendStatus(200);
+};
+
+// Set audiostream direct
+exports.kodiSetAudioDirect = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+  
+    var setaudiostream = request.query.q.trim();
+  
+    //Write to log
+    console.log('Change audio stream request received Index - ' + setaudiostream);
+    
+    Kodi.Player.SetAudioStream({"playerid":1,"stream":parseInt(setaudiostream)});
+  
+    response.sendStatus(200);
 };
 
 // Go to x minutes
