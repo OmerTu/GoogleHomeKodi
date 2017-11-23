@@ -39,9 +39,13 @@ const validateRequest = function(req, res) {
                 resolve('Authentication succeeded');
                 return;
             }
+        } else {
+            console.log('401 - Missing request body');
+            reject('401 - Missing request body');
+            return;
         }
+
         console.log('401 - Authentication failed');
-        res.sendStatus(401);
         reject('401 - Authentication failed');
     });
 };
@@ -208,6 +212,10 @@ app.all('/koditestconnection', function(request, response) {
             }
             response.status(status).send(error.message);
         });
+    })
+    .catch(error => { // eslint-disable-line arrow-parens
+        console.log(`Error trying to validate the request. Error: ${error}`);
+        response.status(401).send(error);
     });
 });
 
