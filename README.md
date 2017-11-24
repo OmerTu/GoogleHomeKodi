@@ -73,10 +73,16 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, kodi Whats Playing" --> Will show whats playing information
 
 ### **Change Subtitles:**
-"Hey Google, kodi subtitles on/off/previous/next/track number" --> Will change subtitle settings
+"Hey Google, kodi subtitles on/off/previous/next" --> Will change subtitle settings
+
+### **Change Subtitles direct select:**
+"Hey Google, kodi change subtitle to track 3" --> Will change subtitle track to a specific track
 
 ### **Change Audiostream(Language):**
-"Hey Google, kodi audiostream previous/next/track number" --> Will change audiostream settings
+"Hey Google, kodi audiostream previous/next" --> Will change audiostream settings
+
+### **Change Audiostream(Language) direct select:**
+"Hey Google, kodi change audiostream to track 3" --> Will change audiostream settings
 
 ### **Seek forward x minutes:**
 "Hey Google, kodi go forward 30 minutes"
@@ -319,7 +325,9 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi go home                    | YOUR_GLITCH_SERVER_ADDRESS/navhome                                           |
 | Say a simple phrase                                   | Kodi whats playing              | YOUR_GLITCH_SERVER_ADDRESS/displayinfo                                       |
 | Say a phrase with a text ingredient                   | Kodi subtitles $                | YOUR_GLITCH_SERVER_ADDRESS/setsubtitles?q={{TextField}}                   |
+| Say a phrase with a number                            | Kodi subtitles direct select #  | YOUR_GLITCH_SERVER_ADDRESS/setsubtitlesdirect?q={{NumberField}}                 |
 | Say a phrase with a text ingredient                   | Kodi audio stream $             | YOUR_GLITCH_SERVER_ADDRESS/setaudio?q={{TextField}}                   |
+| Say a phrase with a number                            | Kodi audio stream direct select #| YOUR_GLITCH_SERVER_ADDRESS/setaudiodirect?q={{NumberField}}  
 | Say a phrase with a number                            | Kodi seek forward x minutes #   | YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}                       |
 | Say a phrase with a number                            | Kodi seek backward x minutes #  | YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes?q={{NumberField}}                       |
 | Say a phrase with a number                            | Kodi seek to x minutes #        | YOUR_GLITCH_SERVER_ADDRESS/seektominutes?q={{NumberField}}                       |

@@ -279,20 +279,32 @@ app.all('/navhome', function(request, response) {
 
 // **************************End of navigation controls
 
-// Set subtitles
+//Set subtitles
 app.all('/setsubtitles', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSetSubs(request, response);
     });
-    response.sendStatus(200);
 });
 
-// Set audio stream
+//Set subtitles direct track selection
+app.all('/setsubtitlesdirect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetSubsDirect(request, response);
+    });
+});
+
+//Set audio stream
 app.all('/setaudio', function(request, response) {
     validateRequest(request, response).then(() => {
         Helper.kodiSetAudio(request, response);
     });
-    response.sendStatus(200);
+});
+
+//Set audio stream direct track selection
+app.all('/setaudiodirect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetAudioDirect(request, response);
+    });
 });
 
 // Go to x minutes
