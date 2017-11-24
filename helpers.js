@@ -387,7 +387,7 @@ exports.kodiNavUp = (request, response) => { // eslint-disable-line no-unused-va
     // Loop for each button press!
     let i = 0;
 
-    for (i = 0; i < parseInt(navUp); i++) { 
+    for (i = 0; i < parseInt(navUp); i++) {
         Kodi.Input.Up(); // eslint-disable-line new-cap
     }
 };
@@ -402,7 +402,7 @@ exports.kodiNavLeft = (request, response) => { // eslint-disable-line no-unused-
     // Loop for each button press!
     let i = 0;
 
-    for (i = 0; i < parseInt(navLeft); i++) { 
+    for (i = 0; i < parseInt(navLeft); i++) {
         Kodi.Input.Left(); // eslint-disable-line new-cap
     }
 };
@@ -416,7 +416,7 @@ exports.kodiNavRight = (request, response) => { // eslint-disable-line no-unused
     // Loop for each button press!
     let i = 0;
 
-    for (i = 0; i < parseInt(navRight); i++) { 
+    for (i = 0; i < parseInt(navRight); i++) {
         Kodi.Input.Right(); // eslint-disable-line new-cap
     }
 };
@@ -430,7 +430,7 @@ exports.kodiNavBack = (request, response) => { // eslint-disable-line no-unused-
     // Loop for each button press!
     let i = 0;
 
-    for (i = 0; i < parseInt(navBack); i++) { 
+    for (i = 0; i < parseInt(navBack); i++) {
         Kodi.Input.Back(); // eslint-disable-line new-cap
     }
 };
@@ -470,63 +470,49 @@ exports.kodiNavHome = (request, response) => { // eslint-disable-line no-unused-
 // Set subtitles
 exports.kodiSetSubs = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
+    const setsubs = request.query.q.trim();
   
-    var setsubs = request.query.q.trim();
-  
-    //Write to log
-    console.log('Change subtitles request received - ' + setsubs);
+    // Write to log
+    console.log(`Change subtitles request received - ${setsubs}`);
 
-    if(setsubs == "previous" || setsubs == "next" || setsubs == "on" || setsubs == "off")
-    {      
-      Kodi.Player.SetSubtitle({"playerid":1,"subtitle":setsubs});
+    if (setsubs === 'previous' || setsubs === 'next' || setsubs === 'on' || setsubs === 'off') {
+        Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': setsubs }); // eslint-disable-line new-cap
     }
-    
-    response.sendStatus(200);
 };
 
 // Set subtitles direct
 exports.kodiSetSubsDirect = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
+    const setsubs = request.query.q.trim();
   
-    var setsubs = request.query.q.trim();
-  
-    //Write to log
-    console.log('Change subtitle track request received Index - ' + setsubs);
+    // Write to log
+    console.log(`Change subtitle track request received Index - ${setsubs}`);
             
-    Kodi.Player.SetSubtitle({"playerid":1,"subtitle":parseInt(setsubs)});
-      
-    response.sendStatus(200);
+    Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': parseInt(setsubs) }); // eslint-disable-line new-cap
 };
 
 // Set audiostream
 exports.kodiSetAudio = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
+    const setaudiostream = request.query.q.trim();
   
-    var setaudiostream = request.query.q.trim();
-  
-    //Write to log
-    console.log('Change audio stream request received - ' + setaudiostream);
+    // Write to log
+    console.log(`Change audio stream request received - ${setaudiostream}`);
     
-    if(setaudiostream == "previous" || setaudiostream == "next")
-    {      
-      Kodi.Player.SetAudioStream({"playerid":1,"stream":setaudiostream});
+    if (setaudiostream === 'previous' || setaudiostream === 'next') {
+        Kodi.Player.SetAudioStream({ 'playerid': 1, 'stream': setaudiostream }); // eslint-disable-line new-cap
     }
-  
-    response.sendStatus(200);
 };
 
 // Set audiostream direct
 exports.kodiSetAudioDirect = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
+    const setaudiostream = request.query.q.trim();
   
-    var setaudiostream = request.query.q.trim();
-  
-    //Write to log
-    console.log('Change audio stream request received Index - ' + setaudiostream);
+    // Write to log
+    console.log(`Change audio stream request received Index - ${setaudiostream}`);
     
-    Kodi.Player.SetAudioStream({"playerid":1,"stream":parseInt(setaudiostream)});
-  
-    response.sendStatus(200);
+    Kodi.Player.SetAudioStream({ 'playerid': 1, 'stream': parseInt(setaudiostream) }); // eslint-disable-line new-cap
 };
 
 // Go to x minutes
@@ -542,43 +528,6 @@ exports.kodiSeektominutes = (request, response) => { // eslint-disable-line no-u
     // Video player
     Kodi.Player.Seek({ playerid: 1, value: { minutes: parseInt(seektominutes) } }); // eslint-disable-line new-cap
 };
-
-/*
-//Bug when seeking forward less than 60 seconds in kodi json https://forum.kodi.tv/showthread.php?tid=237408 so I'm disabling this until a work around is working.
-// Seek x seconds forward
-exports.kodiSeekForwardSeconds = (request, response) => { // eslint-disable-line no-unused-vars
-    console.log('Seek x minutes forwards request received V2');
-    let Kodi = request.kodi;
-  
-    var seekForwardSeconds = request.query.q.trim();
-  
-    //Audio Player
-    Kodi.Player.Seek({"playerid":0,"value":{"seconds":parseInt(seekForwardSeconds)} });
-  
-    //Video Player
-    //If its under a minute it goes to instead of skipping
-    Kodi.Player.Seek({"playerid":1,"value":{"seconds":parseInt(seekForwardSeconds)} });
-  
-    response.sendStatus(200);
-};
-
-// Seek x seconds backward
-exports.kodiSeekBackwardSeconds = (request, response) => { // eslint-disable-line no-unused-vars
-    console.log('Seek x seconds backward request received');
-    let Kodi = request.kodi;
-  
-    var seekbackwardSeconds = request.query.q.trim();
-
-    //Audio Player  
-    //Kodi.Player.Seek({"playerid":0,"value":{"seconds":parseInt(-seekbackwardSeconds)} });
-  
-    //Video Player
-    Kodi.Player.Seek({"playerid":1,"value":{"seconds":parseInt(-seekbackwardSeconds)} });
-  
-    response.sendStatus(200);
-};
-*/
-
 
 // Seek x minutes forwards
 exports.kodiSeekForwardMinutes = (request, response) => { // eslint-disable-line no-unused-vars
@@ -602,10 +551,10 @@ exports.kodiSeekBackwardMinutes = (request, response) => { // eslint-disable-lin
     const seekbackwardminutes = request.query.q.trim();
   
     // Audio Player
-    Kodi.Player.Seek( { playerid: 0, value: { seconds: parseInt( -seekbackwardminutes * 60) } }); // eslint-disable-line new-cap
+    Kodi.Player.Seek({ playerid: 0, value: { seconds: parseInt(-seekbackwardminutes * 60) } }); // eslint-disable-line new-cap
   
     // Video Player
-    Kodi.Player.Seek({ playerid: 1, value: { seconds: parseInt( -seekbackwardminutes * 60) } }); // eslint-disable-line new-cap
+    Kodi.Player.Seek({ playerid: 1, value: { seconds: parseInt(-seekbackwardminutes * 60) } }); // eslint-disable-line new-cap
 };
 
 // Play Song
@@ -675,10 +624,10 @@ exports.playercontrol = (request, response) => { // eslint-disable-line no-unuse
     // Previous not working correctly! It just resets the song to 00:00 another kodi json bug!
     if (playercommand === 'previous') {
         // Audio Player
-        Kodi.Player.GoTo( { playerid: 0, to: playercommand }); // eslint-disable-line new-cap
+        Kodi.Player.GoTo({ playerid: 0, to: playercommand }); // eslint-disable-line new-cap
         
         // Video Player
-        Kodi.Player.GoTo( { playerid: 1, to: playercommand }); // eslint-disable-line new-cap
+        Kodi.Player.GoTo({ playerid: 1, to: playercommand }); // eslint-disable-line new-cap
     } else if (playercommand === 'next') {
         // Audio Player
         Kodi.Player.GoTo({ playerid: 0, to: playercommand }); // eslint-disable-line new-cap
