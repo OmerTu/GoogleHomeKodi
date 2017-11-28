@@ -77,15 +77,6 @@ app.all('/stop', function(request, response) {
     .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
 });
 
-// Seek forward x seconds
-app.all('/seekforward', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeek(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
-
 // mute or unmute kodi
 app.all('/mute', function(request, response) {
     validateRequest(request, response).then(() => {
@@ -238,6 +229,212 @@ app.all('/koditestconnection', function(request, response) {
             }
             response.status(status).send(error.message);
         });
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// *********************************Navigation
+
+// Navigation Down
+app.all('/navdown', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavDown(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Up
+app.all('/navup', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavUp(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Right
+app.all('/navright', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavRight(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Left
+app.all('/navleft', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavLeft(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Back
+app.all('/navback', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavBack(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Select
+app.all('/navselect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavSelect(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation ContectMenu
+app.all('/navcontextmenu', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavContextMenu(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Show Info
+app.all('/displayinfo', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiDisplayInfo(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Navigation Home
+app.all('/navhome', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiNavHome(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// **************************End of navigation controls
+
+// Set subtitles
+app.all('/setsubtitles', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetSubs(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Set subtitles direct track selection
+app.all('/setsubtitlesdirect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetSubsDirect(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Set audio stream
+app.all('/setaudio', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetAudio(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Set audio stream direct track selection
+app.all('/setaudiodirect', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSetAudioDirect(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Go to x minutes
+app.all('/seektominutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeektominutes(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+/*
+//Bug when seeking forward less than 60 seconds in kodi json https://forum.kodi.tv/showthread.php?tid=237408 so I'm disabling this until a work around is working.
+//Seek forward x seconds
+app.all('/seekforwardseconds', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekForwardSeconds(request, response);
+    });
+    response.sendStatus(200);
+});
+
+//Seek backward x seconds
+app.all('/seekbackwardseconds', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekBackwardSeconds(request, response);
+    });
+    response.sendStatus(200);
+});
+*/
+
+// Seek forward x minutes
+app.all('/seekforwardminutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekForwardMinutes(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Seek backward x minutes
+app.all('/seekbackwardminutes', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiSeekBackwardMinutes(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Parse request to play a song
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playsong?q=[SONG_NAME]
+app.all('/playsong', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlaySong(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Parse request to play an album
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playalbum?q=[ALBUM_NAME]
+app.all('/playalbum', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayAlbum(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Parse request to play an artist
+// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]
+app.all('/playartist', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.kodiPlayArtist(request, response);
+        response.sendStatus(200);
+    })
+    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
+});
+
+// Playlist Control
+app.all('/playercontrol', function(request, response) {
+    validateRequest(request, response).then(() => {
+        Helper.playercontrol(request, response);
+        response.sendStatus(200);
     })
     .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
 });
