@@ -176,6 +176,8 @@ SyslogIdentifier=nodejs-example
 [Install]
 WantedBy=multi-user.target
 ```
+Note: you server should run Node.js 6.10 or above (8 preferred)
+
 </details>
 
 ### **B.3) [OPTIONAL] controlling multiple kodi instances**
