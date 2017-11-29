@@ -139,6 +139,9 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 ### **B.2) [OPTIONAL] Set up a local webserver to control your kodi**
 As an alternative to (B), it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
 Additional using the hodi-hosts.config.js file, you can set up and control multiple kodi installations.
+<details>
+  <summary>Click to expand (B.2) instructions</summary>
+
 1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
 2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
 3. You should now be able to start the node server by running: `node server.js`.
@@ -167,10 +170,17 @@ SyslogIdentifier=nodejs-example
 [Install]
 WantedBy=multi-user.target
 ```
+</details>
 
 ### **B.3) [OPTIONAL] controlling multiple kodi instances**
 Setting up the local node server, will allow you to utilize the kodi-hosts.config.js configuration.
-This configuration will allow you to address multiple kodi installations. For this you will need to extend the list. Like in this example:
+This configuration will allow you to address multiple kodi installations (e.g. "Hey Google, kodi play [movie name] in the bedroom")
+
+<details>
+  <summary>Click to expand (B.3) instructions</summary>
+
+For this you will need to extend the list. Like in this example:
+
 ```
 exports.kodiConfig = [{
     id: 'kodi', // For now leave the first set to kodi.
@@ -224,6 +234,7 @@ For running this command on your second kodi instance, you could copy the applet
 
 In this new applet, you will need to make sure it will recognize this new sentence, and add the attribute `kodiid` to the body.
 For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
+</details>
 
 
 ### C) Set up IFTTT with your Google Home
