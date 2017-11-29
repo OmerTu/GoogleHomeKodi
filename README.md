@@ -1,5 +1,11 @@
 Control Kodi through your Google Home / Google Assistant
 =========================
+## Table of content:
+- [What it can do](#what-it-can-do)
+- [How to setup](#how-to-setup)
+- [Full table with available actions](#full-table-with-available-actions)
+- [How to update to the latest version](#how-to-update-to-the-latest-version)
+- [Troubleshooting](#troubleshooting)
 
 ------------
 ## What it can do
