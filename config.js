@@ -43,7 +43,7 @@ const Init = function() {
     }
 
     if (Object.keys(globalConfig).length > 0) {
-        console.log(`Starting using kodi-hosts.config.js, ${JSON.stringify(globalConfig)}`);
+        console.log(`Starting using kodi-hosts.config.js, ${JSON.stringify(globalConfig, null, 2)}`);
         this.globalConf = globalConfig;
     } else {
         if (!process.env.AUTH_TOKEN || !process.env.PORT) {

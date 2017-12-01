@@ -11,17 +11,28 @@ const LoadConfig = require('./config.js');
 const config = new LoadConfig();
 const ResponseException = require('./exceptions.js').ResponseException;
 
+const handleError = (error, request, response, next) => { // eslint-disable-line no-unused-vars
+
+    console.log('request failed');
+    console.log('route: ', request.route ? request.route.path : '');
+    console.log('query: ', request.query);
+    console.log('error: ', error);
+    console.log('body: ', request.body);
+
+    response
+        .status(error.status || 500)
+        .send(JSON.stringify(error, null, 2));
+};
+
 const exec = (action) => {
-    return (request, response) => {
-        action(request, response)
-        .then(() => response.send('OK'))
-        .catch((error) => {
-            response.status(error.status || 500).send(error);
-            console.log('request failed');
-            console.log('route: ', request.route.path);
-            console.log('query: ', request.query);
-            console.log('error: ', error);
-        });
+    return (request, response, next) => {
+        action(request, response, next)
+        .then(() => {
+            if (!response.headersSent) {
+                response.send('OK');
+            }
+        })
+        .catch((error) => handleError(error, request, response, next));
     };
 };
 
@@ -40,6 +51,7 @@ const authenticate = function(request, response, next) {
     let requestToken = request.body.token;
 
     if (!requestToken) {
+        console.log('401 - Missing request body');
         throw new ResponseException('401 - Missing access token', 401);
     }
 
@@ -57,11 +69,13 @@ const selectKodiInstance = function(request, response, next) {
     next();
 };
 
+const allRoutesExceptRoot = /\/.+/;
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.use('*', authenticate);
-app.use('*', selectKodiInstance);
+app.use(allRoutesExceptRoot, authenticate);
+app.use(allRoutesExceptRoot, selectKodiInstance);
 
 // Pause or Resume video player
 app.all('/playpause', exec(Helper.kodiPlayPause));
@@ -206,6 +220,9 @@ app.all('/playercontrol', exec(Helper.playercontrol));
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
 });
+
+// error handlers need to be last
+app.use(handleError);
 
 // listen for requests :)
 const listener = app.listen(config.globalConf.listenerPort, () => {
