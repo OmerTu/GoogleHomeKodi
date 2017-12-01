@@ -11,433 +11,201 @@ const LoadConfig = require('./config.js');
 const config = new LoadConfig();
 const ResponseException = require('./exceptions.js').ResponseException;
 
-app.use(bodyParser.json()); // for parsing application/json
+const exec = (action) => {
+    return (request, response) => {
+        action(request, response)
+        .then(() => response.send('OK'))
+        .catch((error) => {
+            response.status(500).send(error);
+            console.log('request failed');
+            console.log('route: ', request.route.path);
+            console.log('query: ', request.query);
+            console.log('error: ', error);
+        });
+    };
+};
+
+const authenticate = function(request, response, next) {
+
+    if (request === null || request.query === request) {
+        console.log('401 - Unauthorized request');
+        reject(new ResponseException('401 - Unauthorized request', 403));
+        return;
+    }
+
+    if (!request.body) {
+        console.log('401 - Missing request body');
+        reject(new ResponseException('401 - Missing request body', 401));
+        return;
+    }
+
+    let requestToken = request.body.token;
+
+    if (!requestToken) {
+        reject(new ResponseException('401 - Missing access token', 401));
+        return;
+    }
+
+    if (requestToken !== config.globalConf.authToken) {
+        console.log(`wrong secret token = ${requestToken}`);
+        reject(new ResponseException('403 - Forbidden', 403));
+        return;
+    }
+
+    console.log('Authentication succeeded');
+    next();
+};
+
+const selectKodiInstance = function(request, response, next) {
+    config.routeKodiInstance(request);
+    next();
+};
+
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
-const handleResponse = (response, error) => {
-    console.log(`Error trying to validate the request. Error: ${error.message}`);
-    if (error.status) {
-        response.status(error.status).send(error.message);
-    } else {
-        response.status(400).send(error);
-    }
-};
-
-const validateRequest = function(request) {
-    return new Promise((resolve, reject) => {
-        let requestToken = '';
-
-        if (request === null || request.query === request) {
-            console.log('403 - Unauthorized request');
-            reject(new ResponseException('403 - Unauthorized request', 403));
-            return;
-        }
-
-        if (request.body) {
-            requestToken = request.body.token;
-            if (!requestToken) {
-                reject(new ResponseException('You should configure an access token, to secure your app.', 401));
-                return;
-            }
-
-            console.log(`Request token = ${requestToken}`);
-            if (requestToken === config.globalConf.authToken) {
-                console.log('Authentication succeeded');
-
-                config.routeKodiInstance(request);
-                resolve('Authentication succeeded');
-                return;
-            }
-        } else {
-            console.log('401 - Missing request body');
-            reject(new ResponseException('401 - Missing request body', 401));
-            return;
-        }
-
-        console.log('401 - Authentication failed');
-        reject(new ResponseException('401 - Authentication failed', 401));
-    });
-};
+app.use('*', authenticate);
+app.use('*', selectKodiInstance);
 
 // Pause or Resume video player
-app.all('/playpause', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayPause(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playpause', exec(Helper.kodiPlayPause));
 
 // Stop video player
-app.all('/stop', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiStop(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/stop', exec(Helper.kodiStop));
 
 // mute or unmute kodi
-app.all('/mute', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiMuteToggle(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/mute', exec(Helper.kodiMuteToggle));
 
 // set kodi volume
-app.all('/volume', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSetVolume(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/volume', exec(Helper.kodiSetVolume));
 
 // Turn on TV and Switch to Kodi's HDMI input
-app.all('/activatetv', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiActivateTv(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/activatetv', exec(Helper.kodiActivateTv));
 
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
-app.all('/playmovie', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayMovie(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playmovie', exec(Helper.kodiPlayMovie));
 
 // Parse request to open a specific tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
-app.all('/opentvshow', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiOpenTvshow(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/opentvshow', exec(Helper.kodiOpenTvshow));
 
 // Start a new library scan
-app.all('/scanlibrary', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiScanLibrary(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/scanlibrary', exec(Helper.kodiScanLibrary));
 
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
-app.all('/playtvshow', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayTvshow(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playtvshow', exec(Helper.kodiPlayTvshow));
 
 // Parse request to watch a specific episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q=[TV_SHOW_NAME]season=[SEASON_NUMBER]episode&e=[EPISODE_NUMBER]
 // For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
 // http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
-app.all('/playepisode', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayEpisodeHandler(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playepisode', exec(Helper.kodiPlayEpisodeHandler));
 
 // Parse request to Shutdown the kodi system
 // Request format:  http://[THIS_SERVER_IP_ADDRESS]/shutdown
-app.all('/shutdown', function(request, response) {
-    validateRequest(request, response).then(() => {
-        request.kodi.System.Shutdown();  // eslint-disable-line new-cap
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/shutdown', exec(Helper.kodiShutdown));
 
 // Parse request to watch a random episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q[TV_SHOW_NAME]season[SEASON_NUMBER]episode&e[EPISODE_NUMBER]
 // For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
 // http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
-app.all('/shuffleepisode', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiShuffleEpisodeHandler(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/shuffleepisode', exec(Helper.kodiShuffleEpisodeHandler));
 
 // Parse request to watch a PVR channel by name
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
-app.all('/playpvrchannelbyname', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayChannelByName(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
-
+app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
 
 // Parse request to search for a youtube video. The video will be played using the youtube addon.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playyoutube?q=[TV_SHOW_NAME]
 // For example, if IP was 1.1.1.1 a request to watch season 2 episode 3 in tv show named 'bla' looks like:
 // http://1.1.1.1/playyoutube?q=bla
-app.all('/playyoutube', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayYoutube(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
 // Parse request to watch a PVR channel by number
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
-app.all('/playpvrchannelbynumber', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayChannelByNumber(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
 
 // Parse request to test the end2end kodi connectivity.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection
-app.all('/koditestconnection', function(request, response) {
-    console.log('Request incomming for testing the end2end connectivity to kodi.');
-    validateRequest(request, response)
-    .then(() => {
-        Helper.kodiTestConnection(request, response)
-        .then(() => {
-            response.sendStatus(200);
-            console.log('Test seemed to successful, you should have seen a notification on your kodi GUI.');
-        })
-        .catch(error => { // eslint-disable-line arrow-parens
-            let status = 400;
-            
-            if (error.status) {
-                status = error.status;
-            }
-            response.status(status).send(error.message);
-        });
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/koditestconnection', exec(Helper.kodiTestConnection));
 
 // *********************************Navigation
 
 // Navigation Down
-app.all('/navdown', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavDown(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navdown', exec(Helper.kodiNavDown));
 
 // Navigation Up
-app.all('/navup', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavUp(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navup', exec(Helper.kodiNavUp));
 
 // Navigation Right
-app.all('/navright', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavRight(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navright', exec(Helper.kodiNavRight));
 
 // Navigation Left
-app.all('/navleft', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavLeft(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navleft', exec(Helper.kodiNavLeft));
 
 // Navigation Back
-app.all('/navback', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavBack(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navback', exec(Helper.kodiNavBack));
 
 // Navigation Select
-app.all('/navselect', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavSelect(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navselect', exec(Helper.kodiNavSelect));
 
 // Navigation ContectMenu
-app.all('/navcontextmenu', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavContextMenu(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navcontextmenu', exec(Helper.kodiNavContextMenu));
 
 // Show Info
-app.all('/displayinfo', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiDisplayInfo(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/displayinfo', exec(Helper.kodiDisplayInfo));
 
 // Navigation Home
-app.all('/navhome', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiNavHome(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/navhome', exec(Helper.kodiNavHome));
 
 // **************************End of navigation controls
 
 // Set subtitles
-app.all('/setsubtitles', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSetSubs(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/setsubtitles', exec(Helper.kodiSetSubs));
 
 // Set subtitles direct track selection
-app.all('/setsubtitlesdirect', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSetSubsDirect(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/setsubtitlesdirect', exec(Helper.kodiSetSubsDirect));
 
 // Set audio stream
-app.all('/setaudio', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSetAudio(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/setaudio', exec(Helper.kodiSetAudio));
 
 // Set audio stream direct track selection
-app.all('/setaudiodirect', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSetAudioDirect(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/setaudiodirect', exec(Helper.kodiSetAudioDirect));
 
 // Go to x minutes
-app.all('/seektominutes', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeektominutes(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/seektominutes', exec(Helper.kodiSeektominutes));
 
 /*
 //Bug when seeking forward less than 60 seconds in kodi json https://forum.kodi.tv/showthread.php?tid=237408 so I'm disabling this until a work around is working.
 //Seek forward x seconds
-app.all('/seekforwardseconds', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeekForwardSeconds(request, response);
-    });
-    response.sendStatus(200);
-});
+app.all('/seekforwardseconds', exec(Helper.kodiSeekForwardSeconds));
 
 //Seek backward x seconds
-app.all('/seekbackwardseconds', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeekBackwardSeconds(request, response);
-    });
-    response.sendStatus(200);
-});
+app.all('/seekbackwardseconds', exec(Helper.kodiSeekBackwardSeconds));
 */
 
 // Seek forward x minutes
-app.all('/seekforwardminutes', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeekForwardMinutes(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/seekforwardminutes', exec(Helper.kodiSeekForwardMinutes));
 
 // Seek backward x minutes
-app.all('/seekbackwardminutes', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiSeekBackwardMinutes(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/seekbackwardminutes', exec(Helper.kodiSeekBackwardMinutes));
 
 // Parse request to play a song
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playsong?q=[SONG_NAME]
-app.all('/playsong', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlaySong(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playsong', exec(Helper.kodiPlaySong));
 
 // Parse request to play an album
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playalbum?q=[ALBUM_NAME]
-app.all('/playalbum', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayAlbum(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playalbum', exec(Helper.kodiPlayAlbum));
 
 // Parse request to play an artist
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]
-app.all('/playartist', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.kodiPlayArtist(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playartist', exec(Helper.kodiPlayArtist));
 
 // Playlist Control
-app.all('/playercontrol', function(request, response) {
-    validateRequest(request, response).then(() => {
-        Helper.playercontrol(request, response);
-        response.sendStatus(200);
-    })
-    .catch(error => handleResponse(response, error)); // eslint-disable-line arrow-parens
-});
+app.all('/playercontrol', exec(Helper.playercontrol));
 
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);

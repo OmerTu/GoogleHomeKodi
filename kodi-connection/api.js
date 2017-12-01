@@ -45,15 +45,17 @@ module.exports = function(fetch) {
         headers: headers
       })
       .then(function (response) {
-        if (response.status !== 200) {
-          throw new ResponseException(`Error in response, ${response.statusText} with status code: ${response.status}`,
-                                      response.statusText,
-                                      response.status);
+        if (response.ok) {
+          return response.json();
         }
-        return response.json();
+
+        throw new ResponseException(
+          `Error in response, ${response.statusText} with status code: ${response.status}`,
+          response.statusText,
+          response.status);
       })
       .then(function(data) {
-        if(callback) callback(data);
+        if (callback) callback(data);
         return data;
       });
   };
