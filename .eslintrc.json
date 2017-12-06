@@ -3,8 +3,6 @@
       "node": true,
       "es6": true
     },
-    "files": [ "**.js" ],
-    "excludedFiles": "./kodi-connection/**",
     "ecmaFeatures": {
       "arrowFunctions": true,
       "blockBindings": true,
