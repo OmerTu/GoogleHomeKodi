@@ -43,7 +43,7 @@ const authenticate = function(request, response, next) {
         throw new ResponseException('401 - Unauthorized request', 403);
     }
 
-    if (!request.body) {
+    if (!request.body){
         console.log('401 - Missing request body');
         throw new ResponseException('401 - Missing request body', 401);
     }
