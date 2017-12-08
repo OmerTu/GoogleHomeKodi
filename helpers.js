@@ -35,6 +35,17 @@ const playMovie = (request, movie) => {
     });
 };
 
+const resumeMovie = (request, movie) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            movieid: movie.movieid
+        },
+        options: {
+            resume: true
+        }
+    });
+};
+
 const selectRandomItem = (items) => {
     if (!(items && items.length)) {
         throw new Error('no matching items found in kodi library');
@@ -704,6 +715,17 @@ exports.kodiPlayMovie = (request, response) => {
     console.log(`Movie request received to play "${movieTitle}"`);
     return kodiFindMovie(movieTitle, Kodi)
         .then((movie) => playMovie(request, movie));
+};
+
+exports.kodiResumeMovie = (request, response) => {
+    tryActivateTv(request, response);
+
+    let movieTitle = request.query.q.trim();
+    let Kodi = request.kodi;
+
+    console.log(`Movie request received to resume "${movieTitle}"`);
+    return kodiFindMovie(movieTitle, Kodi)
+        .then((movie) => resumeMovie(request, movie));
 };
 
 exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars

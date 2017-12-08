@@ -102,6 +102,7 @@ app.all('/activatetv', exec(Helper.kodiActivateTv));
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.all('/playmovie', exec(Helper.kodiPlayMovie));
+app.all('/resumemovie', exec(Helper.kodiResumeMovie));
 
 // Supports optional genre and year query parameters
 app.all('/playrandommovie', exec(Helper.kodiPlayRandomMovie));
