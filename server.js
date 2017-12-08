@@ -10,6 +10,7 @@ const Helper = require('./helpers.js');
 const LoadConfig = require('./config.js');
 const config = new LoadConfig();
 const ResponseException = require('./exceptions.js').ResponseException;
+const SettingsApp = require('./apps/settings.js');
 
 const handleError = (error, request, response, next) => { // eslint-disable-line no-unused-vars
 
@@ -275,8 +276,9 @@ app.all('/toggleFullscreen', exec(Helper.kodiToggleFullscreen));
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));
 
-
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
+
+app.use('/settings', SettingsApp.build(exec));
 
 // error handlers need to be last
 app.use(handleError);

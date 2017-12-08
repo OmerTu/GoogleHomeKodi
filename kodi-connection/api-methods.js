@@ -44,6 +44,10 @@ module.exports = [
         methods: ['GetCurrentProfile', 'GetProfiles', 'LoadProfile']
     },
     {
+        name: 'Settings',
+        methods: ['GetCategories', 'GetSections', 'GetSettings', 'GetSettingValue', 'ResetSettingValue', 'SetSettingValue']
+    },
+    {
         name: 'System',
         methods: ['EjectOpticalDrive', 'GetProperties', 'Hibernate', 'Reboot', 'Shutdown', 'Suspend']
     },
