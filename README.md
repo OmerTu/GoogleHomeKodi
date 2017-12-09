@@ -151,6 +151,15 @@ Additional using the hodi-hosts.config.js file, you can set up and control multi
 1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
 2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
 3. You should now be able to start the node server by running: `node server.js`.
+```
+Note; on a debian based system:
+In case you want to install this on a debian-based system; before being able to run node server.js, the following steps might be required:
+
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+sudo npm install express youtube-search fuse.js body-parser dotenv
+```
 
 Here is a systemd init config. To run it as a daemon.
 On a debian dist save it as `/etc/systemd/system/kodiassistant.service`.
