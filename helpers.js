@@ -384,7 +384,7 @@ const kodiSeek = (Kodi, seekValue) => {
 
 const kodiExecuteMultipleTimes = (action, times) => {
 
-    let executions = [...Array(times)].map(() => action()); // eslint-disable-line new-cap
+    let executions = [...Array(times)].map(() => action());
 
     return Promise.all(executions);
 };

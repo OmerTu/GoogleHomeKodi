@@ -26,7 +26,12 @@ const Init = function() {
         this.kodiHosts = kodiConfig.map((config) => {
             return {
                 id: config.id,
-                host: new Kodi(config.kodiIp, config.kodiPort, config.kodiUser, config.kodiPassword)
+                host: new Kodi(
+                    config.kodiProtocol || 'http',
+                    config.kodiIp,
+                    config.kodiPort,
+                    config.kodiUser,
+                    config.kodiPassword)
             };
         });
         console.log(`Loaded ${this.kodiHosts.length} hosts from the config.js`);
@@ -38,7 +43,12 @@ const Init = function() {
 
         this.kodiHosts[0] = {
             id: 'kodi',
-            host: new Kodi(process.env.KODI_IP, process.env.KODI_PORT, process.env.KODI_USER, process.env.KODI_PASSWORD)
+            host: new Kodi(
+                process.env.KODI_PROTOCOL || 'http',
+                process.env.KODI_IP,
+                process.env.KODI_PORT,
+                process.env.KODI_USER,
+                process.env.KODI_PASSWORD)
         };
     }
 

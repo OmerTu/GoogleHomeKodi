@@ -1,5 +1,7 @@
 exports.kodiConfig = [{
     id: 'kodi', // For now leave the first set to kodi.
+    // YOUR_EXTERNAL_PROTOCOL (http or https)
+    kodiProtocol: 'http',
     // YOUR_EXTERNAL_IP_ADDRESS
     kodiIp: '192.168.1.17',
     // YOUR_KODI_PORT
@@ -10,7 +12,9 @@ exports.kodiConfig = [{
     kodiPassword: 'myKodiPassword'
 }
     // You can use this to specify additonal kodi installation, that you'd like to control.
-    // ,{id: 'bedroom', // For example the bedroom, will allow you to create IFTTT sentences like: `okay google bedroom play ..` 
+    // ,{id: 'bedroom', // For example the bedroom, will allow you to create IFTTT sentences like: `okay google bedroom play ..`
+    // YOUR_EXTERNAL_PROTOCOL (http or https)
+    // kodiProtocol: 'http',
     // // YOUR_EXTERNAL_IP_ADDRESS
     // kodiIp: '192.168.1.18',
     // // YOUR_KODI_PORT
