@@ -13,7 +13,14 @@ Control Kodi through your Google Home / Google Assistant
 Follow these steps to easily control your kodi using simple voice commands with your Google Home or Google assistant:
 
 ### **Play a movie:**
-"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
+"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.  
+"Hey Google, kodi resume [movie name]" --> will search for given movie name and pick up playback from where you left it.
+
+### **Play a random movie:**
+"Hey Google, kodi play a random movie" --> will play a random movie.  
+"Hey Google, kodi play a random horror movie" --> will play a random movie of the genre "Horror".  
+"Hey Google, kodi play a random movie of the year 2010" --> will play a random movie of the year 2010.  
+"Hey Google, kodi play a random horror movie of the year 2010" --> will play a random movie of the genre "Horror" and of the year 2010.  
 
 ### **Search and play a youtube video:**
 "Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
@@ -322,14 +329,16 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Type of phrase                                        | phrase                          | url                                                                       |
 |-------------------------------------------------------|---------------------------------|---------------------------------------------------------------------------|
 | Say a phrase with a text ingredient                   | Kodi play $                     | YOUR_GLITCH_SERVER_ADDRESS/playmovie?q={{TextField}}                      |
+| Say a phrase with a text ingredient                   | Kodi resume $                   | YOUR_GLITCH_SERVER_ADDRESS/resumemovie?q={{TextField}}                    |
+| Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| YOUR_GLITCH_SERVER_ADDRESS/playrandommovie?genre={{TextField}}&year={{NumberField}} |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q={{TextField}}                     |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | YOUR_GLITCH_SERVER_ADDRESS/playepisode?q={{TextField}}&e= {{NumberField}} |
 | Say a simple phrase                                   | Kodi pause                      | YOUR_GLITCH_SERVER_ADDRESS/playpause                                      |
 | Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
 | Say a phrase with a number                            | Kodi set volume #               | YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}                       |
-| Say a phrase with a text ingredient                   | switch kodi to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
-| Say a phrase with a number                            | switch kodi to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
+| Say a phrase with a text ingredient                   | Kodi switch to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
+| Say a phrase with a number                            | Kodi switch to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                   |

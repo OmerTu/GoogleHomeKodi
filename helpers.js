@@ -27,27 +27,125 @@ const tryActivateTv = (request, response) => {
     return Promise.resolve('tv already active');
 };
 
+const playMovie = (request, movie) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            movieid: movie.movieid
+        }
+    });
+};
+
+const resumeMovie = (request, movie) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            movieid: movie.movieid
+        },
+        options: {
+            resume: true
+        }
+    });
+};
+
+const selectRandomItem = (items) => {
+    if (!(items && items.length)) {
+        throw new Error('no matching items found in kodi library');
+    }
+
+    let randomItem = items[Math.floor(Math.random() * items.length)];
+
+    console.log('selected random item: ', randomItem);
+
+    return Promise.resolve(randomItem);
+};
+
+const fuzzySearchBestMatch = (items, needle) => {
+    let fuse = new Fuse(items, fuzzySearchOptions);
+    let searchResult = fuse.search(needle);
+
+    if (searchResult.length === 0) {
+        throw new Error(`No fuzzy match for '${needle}'`);
+    }
+
+    let bestMatch = searchResult[0];
+
+    console.log(`best fuzzy match for '${needle}' is:`, bestMatch);
+    return Promise.resolve(bestMatch);
+};
+
+const addYearFilterToParam = (request, param) => {
+    if (!(request.query && request.query.year)) {
+        return Promise.resolve(param);
+    }
+
+    let year = request.query.year.trim();
+
+    console.log(`added filter for the year ${year}`);
+
+    param.filter.and.push({
+        field: 'year',
+        operator: 'is',
+        value: year
+    });
+
+    return Promise.resolve(param);
+};
+
+const addGenreFilterToParam = (request, param) => {
+    if (!(request.query && request.query.genre)) {
+        return Promise.resolve(param);
+    }
+    let genre = request.query.genre.trim();
+
+    console.log(`looking up genre '${genre}'`);
+
+    return request.kodi.VideoLibrary.GetGenres({ type: 'movie' }) // eslint-disable-line new-cap
+        .then((results) => fuzzySearchBestMatch(results.result.genres, genre))
+        .then((result) => {
+
+            let matchedGenre = result.label;
+
+            console.log(`added filter for genre ${matchedGenre}`);
+
+            param.filter.and.push({
+                field: 'genre',
+                operator: 'is',
+                value: matchedGenre
+            });
+
+            return Promise.resolve(param);
+        });
+};
+
+const removeFilterFromParamIfEmpty = (param) => {
+    if (param.filter.and.length > 0) {
+        return Promise.resolve(param);
+    }
+
+    console.log('no filters added');
+
+    delete param.filter;
+    return Promise.resolve(param);
+};
+
+const getFilteredMovies = (request, param) => {
+    return request.kodi.VideoLibrary.GetMovies(param) // eslint-disable-line new-cap
+        .then((movies) => {
+            if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
+                throw new Error('No movies in your kodi library match your query');
+            }
+
+            return Promise.resolve(movies);
+        });
+};
+
 const kodiFindMovie = (movieTitle, Kodi) => {
     return Kodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
         .then((movies) => {
             if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
-                throw new Error('no results');
+                throw new Error('Your kodi library does not contain a single movie!');
             }
 
-            // Create the fuzzy search object
-            let fuse = new Fuse(movies.result.movies, fuzzySearchOptions);
-            let searchResult = fuse.search(movieTitle);
-
-            // If there's a result
-            if (searchResult.length === 0) {
-                console.log('Couldn`t find movie: ', movieTitle);
-                throw new Error('no matching results');
-            }
-
-            let movieFound = searchResult[0];
-
-            console.log(`Found movie "${movieFound.label}" (${movieFound.movieid})`);
-            return movieFound;
+            return fuzzySearchBestMatch(movies.result.movies, movieTitle);
         });
 };
 
@@ -55,22 +153,13 @@ const kodiFindTvShow = (request, response, param) => {
     let Kodi = request.kodi;
 
     return Kodi.VideoLibrary.GetTVShows({ // eslint-disable-line new-cap
-        'properties': ['file']
+        properties: ['file']
     }).then((shows) => {
         if (!(shows && shows.result && shows.result.tvshows && shows.result.tvshows.length > 0)) {
-            throw new Error('no results');
-        }
-        // Create the fuzzy search object
-        let fuse = new Fuse(shows.result.tvshows, fuzzySearchOptions);
-        let searchResult = fuse.search(param.tvshowTitle);
-
-        // If there's a result
-        if (searchResult.length === 0 || searchResult[0].tvshowid == null) {
-            console.log('Couldn`t find tv show ', param.tvshowTitle);
-            throw new Error('no matching results');
+            throw new Error('Your kodi library does not contain a single tvshow!');
         }
 
-        return searchResult[0];
+        return fuzzySearchBestMatch(shows.result.tvshows, param.tvshowTitle);
     });
 };
 
@@ -92,7 +181,7 @@ const kodiPlayNextUnwatchedEpisode = (request, response, RequestParams) => {
     return Kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
         .then((episodeResult) => {
             if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
-                throw new Error('no results');
+                throw new Error('tvshow has no episodes');
             }
             let episodes = episodeResult.result.episodes;
 
@@ -102,7 +191,7 @@ const kodiPlayNextUnwatchedEpisode = (request, response, RequestParams) => {
                 .filter((item) => item.playcount === 0);
 
             if (firstUnplayedEpisode.length === 0) {
-                throw new Error('no unwatched results');
+                throw new Error('no unwatched episodes');
             }
 
             let episdoeToPlay = firstUnplayedEpisode[0]; // Resolve the first unplayed episode
@@ -133,7 +222,7 @@ const kodiPlaySpecificEpisode = (request, response, requestParams) => {
     return Kodi.VideoLibrary.GetEpisodes(param) // eslint-disable-line new-cap
         .then((episodeResult) => {
             if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
-                throw new Error('no results');
+                throw new Error('specific episode not found in your kodi library');
             }
             let episodes = episodeResult.result.episodes;
 
@@ -174,21 +263,10 @@ const kodiFindSong = (songTitle, Kodi) => {
     return Kodi.AudioLibrary.GetSongs() // eslint-disable-line new-cap
         .then((songs) => {
             if (!(songs && songs.result && songs.result.songs && songs.result.songs.length > 0)) {
-                throw new Error('no results');
+                throw new Error('Your kodi library does not contain a single song!');
             }
 
-            // Create the fuzzy search object
-            let fuse = new Fuse(songs.result.songs, fuzzySearchOptions);
-            let searchResult = fuse.search(songTitle);
-
-            if (searchResult.length === 0) {
-                throw new Error('no results');
-            }
-
-            let songFound = searchResult[0];
-
-            console.log(`Found song "${songFound.label}" (${songFound.songid})`);
-            return songFound;
+            return fuzzySearchBestMatch(songs.result.songs, songTitle);
         });
 };
 
@@ -197,22 +275,10 @@ const kodiFindArtist = (artistTitle, Kodi) => {
     return Kodi.AudioLibrary.GetArtists() // eslint-disable-line new-cap
         .then((artists) => {
             if (!(artists && artists.result && artists.result.artists && artists.result.artists.length > 0)) {
-                throw new Error('no results');
+                throw new Error('Your kodi library does not contain a single artist!');
             }
 
-            // Create the fuzzy search object
-            let fuse = new Fuse(artists.result.artists, fuzzySearchOptions);
-            let searchResult = fuse.search(artistTitle);
-
-            // If there's a result
-            if (searchResult.length === 0) {
-                throw new Error('no results');
-            }
-
-            let artistFound = searchResult[0];
-
-            console.log(`Found artist "${artistFound.label}" (${artistFound.artistid})`);
-            return artistFound;
+            return fuzzySearchBestMatch(artists.result.artists, artistTitle);
         });
 };
 
@@ -220,21 +286,10 @@ const kodiFindAlbum = (albumTitle, Kodi) => {
     return Kodi.AudioLibrary.GetAlbums() // eslint-disable-line new-cap
         .then((albums) => {
             if (!(albums && albums.result && albums.result.albums && albums.result.albums.length > 0)) {
-                throw new Error('no results');
+                throw new Error('Your kodi library does not contain a single album!');
             }
 
-            // Create the fuzzy search object
-            let fuse = new Fuse(albums.result.albums, fuzzySearchOptions);
-            let searchResult = fuse.search(albumTitle);
-
-            if (searchResult.length === 0) {
-                throw new Error('no results');
-            }
-
-            let albumFound = searchResult[0];
-
-            console.log(`Found album "${albumFound.label}" (${albumFound.albumid})`);
-            return albumFound;
+            return fuzzySearchBestMatch(albums.result.albums, albumTitle);
         });
 };
 
@@ -632,6 +687,25 @@ exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unus
     return Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
 };
 
+exports.kodiPlayRandomMovie = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+
+    console.log(`Random movie request received`);
+
+    let paramWithEmptyFilter = {
+        filter: {
+            and: []
+        }
+    };
+
+    return addGenreFilterToParam(request, paramWithEmptyFilter)
+        .then((paramWithGenre) => addYearFilterToParam(request, paramWithGenre))
+        .then((paramWithYear) => removeFilterFromParamIfEmpty(paramWithYear))
+        .then((finalParam) => getFilteredMovies(request, finalParam))
+        .then((movies) => selectRandomItem(movies.result.movies))
+        .then((movie) => playMovie(request, movie));
+};
+
 exports.kodiPlayMovie = (request, response) => {
     tryActivateTv(request, response);
 
@@ -640,11 +714,18 @@ exports.kodiPlayMovie = (request, response) => {
 
     console.log(`Movie request received to play "${movieTitle}"`);
     return kodiFindMovie(movieTitle, Kodi)
-        .then((data) => Kodi.Player.Open({ // eslint-disable-line new-cap
-            item: {
-                movieid: data.movieid
-            }
-        }));
+        .then((movie) => playMovie(request, movie));
+};
+
+exports.kodiResumeMovie = (request, response) => {
+    tryActivateTv(request, response);
+
+    let movieTitle = request.query.q.trim();
+    let Kodi = request.kodi;
+
+    console.log(`Movie request received to resume "${movieTitle}"`);
+    return kodiFindMovie(movieTitle, Kodi)
+        .then((movie) => resumeMovie(request, movie));
 };
 
 exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
@@ -677,7 +758,6 @@ exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line
             return kodiPlaySpecificEpisode(request, response, data);
         });
 };
-
 
 exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);

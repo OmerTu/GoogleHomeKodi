@@ -19,9 +19,16 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
     console.log('error: ', error);
     console.log('body: ', request.body);
 
+    let publicError = error;
+
+    if (error instanceof Error) {
+        // native js-errors are not stringifyable
+        publicError = error.message;
+    }
+
     response
         .status(error.status || 500)
-        .send(JSON.stringify(error, null, 2));
+        .send(JSON.stringify(publicError, null, 2));
 };
 
 const exec = (action) => {
@@ -95,6 +102,10 @@ app.all('/activatetv', exec(Helper.kodiActivateTv));
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.all('/playmovie', exec(Helper.kodiPlayMovie));
+app.all('/resumemovie', exec(Helper.kodiResumeMovie));
+
+// Supports optional genre and year query parameters
+app.all('/playrandommovie', exec(Helper.kodiPlayRandomMovie));
 
 // Parse request to open a specific tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
