@@ -139,6 +139,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 4. Change Glitch project settings to private (under *share* > *Make private*)
 5. Edit the *.env* file in your Glitch project with the following settings:
 ```
+KODI_PROTOCOL: "http"
 KODI_IP="YOUR_EXTERNAL_IP_ADDRESS"
 KODI_PORT="YOUR_KODI_PORT"
 KODI_USER="YOUR_KODI_USER_NAME"
@@ -199,6 +200,8 @@ For this you will need to extend the list. Like in this example:
 ```
 exports.kodiConfig = [{
     id: 'kodi', // For now leave the first set to kodi.
+    // YOUR_EXTERNAL_PROTOCOL (http or https)
+    kodiProtocol: 'http',
     // YOUR_KODI_IP_ADDRESS
     kodiIp: '192.168.178.10',
     // YOUR_KODI_PORT
@@ -212,6 +215,8 @@ exports.kodiConfig = [{
     // For example alternate kodi destination 1:   
 {
     id: 'bedroom',
+    // YOUR_EXTERNAL_PROTOCOL (http or https)
+    kodiProtocol: 'http',
     // YOUR_KODI_IP_ADDRESS
     kodiIp: '192.168.1.11',
     // YOUR_KODI_PORT
@@ -225,6 +230,8 @@ exports.kodiConfig = [{
     // For example alternate kodi destination 2:   
 {
     id: 'kitchen',
+    // YOUR_EXTERNAL_PROTOCOL (http or https)
+    kodiProtocol: 'http',
     // YOUR_KODI_IP_ADDRESS
     kodiIp: '192.168.1.12',
     // YOUR_KODI_PORT
