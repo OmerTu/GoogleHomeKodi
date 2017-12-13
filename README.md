@@ -139,7 +139,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 4. Change Glitch project settings to private (under *share* > *Make private*)
 5. Edit the *.env* file in your Glitch project with the following settings:
 ```
-KODI_PROTOCOL: "http"
+KODI_PROTOCOL="http"
 KODI_IP="YOUR_EXTERNAL_IP_ADDRESS"
 KODI_PORT="YOUR_KODI_PORT"
 KODI_USER="YOUR_KODI_USER_NAME"
