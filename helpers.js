@@ -21,7 +21,7 @@ const fuzzySearchOptions = {
 const tryActivateTv = (request, response) => {
     if (process.env.ACTIVATE_TV != null && process.env.ACTIVATE_TV === 'true') {
         console.log('Activating TV first..');
-        return kodiActivateTv(request, response);
+        return this.kodiActivateTv(request, response);
     }
 
     return Promise.resolve('tv already active');
