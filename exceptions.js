@@ -8,11 +8,11 @@ module.exports.ResponseException = class ResponseException {
     constructor(message, status, statusText) {
         this.message = message;
         this.name = 'ResponseException';
-        this.status = status || 400;
+        this.status = status || 500;
         this.statusText = statusText || this.message;
     }
 
-    display() {
+    toString() {
         console.log(`${this.message} (${this.status})`);
     }
 };

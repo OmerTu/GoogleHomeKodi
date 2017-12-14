@@ -1,13 +1,11 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "my-glitch-app",
+  "name": "googlehomekodi",
   "version": "0.0.1",
-  "description": "What am I about?",
+  "description": "A node express server for relaying google home commands from IFTTT to your kodi installation.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "dependencies": {
     "dotenv": "^4.0.0",
