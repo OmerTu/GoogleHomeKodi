@@ -207,6 +207,37 @@ const kodiPlayNextUnwatchedEpisode = (request, response, RequestParams) => {
         });
 };
 
+const kodiPlayMostRecentlyAddedEpisode = (request, response) => {
+    // Build filter to get only the most recently added episode
+    let param = {
+        properties: ['playcount', 'showtitle', 'season', 'episode'],
+        limits: {
+            start: 0,
+            end: 1
+        }
+    };
+    let Kodi = request.kodi;
+
+    return Kodi.VideoLibrary.GetRecentlyAddedEpisodes(param) // eslint-disable-line new-cap
+        .then((episodeResult) => {
+            console.log(episodeResult);
+            if (!(episodeResult && episodeResult.result && episodeResult.result.episodes && episodeResult.result.episodes.length > 0)) {
+                throw new Error('no recently added episodes');
+            }
+
+            let episodeToPlay = episodeResult.result.episodes[0];
+
+            console.log(`Playing season ${episodeToPlay.season} episode ${episodeToPlay.episode} (ID: ${episodeToPlay.episodeid})`);
+            let paramPlayerOpen = {
+                item: {
+                    episodeid: episodeToPlay.episodeid
+                }
+            };
+
+            return Kodi.Player.Open(paramPlayerOpen); // eslint-disable-line new-cap
+        });
+};
+
 const kodiPlaySpecificEpisode = (request, response, requestParams) => {
     console.log(`Searching Season ${requestParams.seasonNum}, episode ${requestParams.episodeNum} of Show ID ${requestParams.tvshowid}...`);
 
@@ -757,6 +788,13 @@ exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line
             data.episodeNum = param.episodeNum;
             return kodiPlaySpecificEpisode(request, response, data);
         });
+};
+
+exports.kodiPlayRecentEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+
+    console.log(`Play most recently added episode request received`);
+    return kodiPlayMostRecentlyAddedEpisode(request, response);
 };
 
 exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
