@@ -303,7 +303,7 @@ To **Mute** kodi, follow the same instructions as *pause* but use this URL:
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
   
-  To **Seek forward** the play by x seconds use "Say a phrase with a number" and the URL:
+  To **Seek forward** by x minutes use "Say a phrase with a number" and the URL:
   >YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
