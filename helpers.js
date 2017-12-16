@@ -413,6 +413,14 @@ const kodiSeek = (Kodi, seekValue) => {
     ]);
 };
 
+const getRequestedNumberOrDefaulValue = (request, defaulValue) => {
+    let requestedNumber = defaulValue;
+    if (request.query && request.query.q && !isNaN(request.query.q.trim())) {
+        requestedNumber = parseInt(request.query.q.trim());
+    }
+    return requestedNumber;
+};
+
 const kodiExecuteMultipleTimes = (action, times) => {
 
     let executions = [...Array(times)].map(() => action());
@@ -441,28 +449,27 @@ exports.kodiPlayPause = (request, response) => { // eslint-disable-line no-unuse
 exports.kodiNavDown = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Navigate down request received');
     let Kodi = request.kodi;
-    const times = request.query.q.trim();
+    const times = getRequestedNumberOrDefaulValue(request, 1);
 
-    return kodiExecuteMultipleTimes(Kodi.Input.Down, parseInt(times));
+    return kodiExecuteMultipleTimes(Kodi.Input.Down, times);
 };
 
 // Navigation Up
 exports.kodiNavUp = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Navigate up request received');
     let Kodi = request.kodi;
-    const times = request.query.q.trim();
+    const times = getRequestedNumberOrDefaulValue(request, 1);
 
-    return kodiExecuteMultipleTimes(Kodi.Input.Up, parseInt(times));
+    return kodiExecuteMultipleTimes(Kodi.Input.Up, times);
 };
 
 // Navigation Left
 exports.kodiNavLeft = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Navigate left request received');
     let Kodi = request.kodi;
+    const times = getRequestedNumberOrDefaulValue(request, 1);
 
-    const times = request.query.q.trim();
-
-    return kodiExecuteMultipleTimes(Kodi.Input.Left, parseInt(times));
+    return kodiExecuteMultipleTimes(Kodi.Input.Left, times);
 
 };
 
@@ -470,18 +477,18 @@ exports.kodiNavLeft = (request, response) => { // eslint-disable-line no-unused-
 exports.kodiNavRight = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Navigate right request received');
     let Kodi = request.kodi;
-    const times = request.query.q.trim();
+    const times = getRequestedNumberOrDefaulValue(request, 1);
 
-    return kodiExecuteMultipleTimes(Kodi.Input.Right, parseInt(times));
+    return kodiExecuteMultipleTimes(Kodi.Input.Right, times);
 };
 
 // Navigation Back
 exports.kodiNavBack = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Navigate back request received');
     let Kodi = request.kodi;
-    const times = request.query.q.trim();
+    const times = getRequestedNumberOrDefaulValue(request, 1);
 
-    return kodiExecuteMultipleTimes(Kodi.Input.Back, parseInt(times));
+    return kodiExecuteMultipleTimes(Kodi.Input.Back, times);
 };
 
 // Navigation Select
@@ -591,7 +598,7 @@ exports.kodiSeekForwardMinutes = (request, response) => { // eslint-disable-line
     console.log('Seek x minutes forwards request received');
     let Kodi = request.kodi;
 
-    const seekForwardminutes = request.query.q.trim();
+    const seekForwardminutes = getRequestedNumberOrDefaulValue(request, 1);
 
     return kodiSeek(Kodi, {
         seconds: parseInt(seekForwardminutes * 60)
@@ -603,7 +610,7 @@ exports.kodiSeekBackwardMinutes = (request, response) => { // eslint-disable-lin
     console.log('Seek x minutes backward request received');
     let Kodi = request.kodi;
 
-    const seekbackwardMinutes = request.query.q.trim();
+    const seekbackwardMinutes = getRequestedNumberOrDefaulValue(request, 1);
 
     return kodiSeek(Kodi, {
         seconds: parseInt(-seekbackwardMinutes * 60)
@@ -695,12 +702,41 @@ exports.kodiMuteToggle = (request, response) => { // eslint-disable-line no-unus
 };
 
 exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unused-vars
-    const setVolume = request.query.q.trim();
+    const requestedVolume = request.query.q.trim();
     let Kodi = request.kodi;
+    console.log(`set volume to "${requestedVolume}" percent request received`);
+    return setVolume(Kodi, requestedVolume);
+};
 
-    console.log(`set volume to "${setVolume}" percent request received`);
+const setVolume = (Kodi, volume) => {
+    volume = Math.min(parseInt(volume), 100);
+    volume = Math.max(volume, 0);
     return Kodi.Application.SetVolume({ // eslint-disable-line new-cap
-        'volume': parseInt(setVolume)
+        'volume': volume
+    });
+};
+
+exports.kodiIncreaseVolume = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+    const delta = getRequestedNumberOrDefaulValue(request, 20);
+    console.log(`Increase volume by "${delta}" percent request received`);
+    return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
+        properties: ['volume']
+    }).then((result) => {
+        let oldVolume = parseInt(result.result.volume);
+        setVolume(Kodi, oldVolume + delta);
+    });
+};
+
+exports.kodiDecreaseVolume = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+    const delta = getRequestedNumberOrDefaulValue(request, 20);
+    console.log(`Decrease volume by "${delta}" percent request received`);
+    return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
+        properties: ['volume']
+    }).then((result) => {
+        let oldVolume = parseInt(result.result.volume);
+        setVolume(Kodi, oldVolume - delta);
     });
 };
 

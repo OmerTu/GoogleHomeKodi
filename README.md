@@ -37,11 +37,11 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Stop kodi:**
 "Hey Google, stop kodi"
 
-### **Mute kodi:**
-"Hey Google, mute/unmute kodi"
-
-### **Set volume:**
-"Hey Google, set kodi volume to 60"
+### **Change volume:**
+**Mute kodi:** "Hey Google, mute/unmute kodi"  
+**Set volume:** "Hey Google, set kodi volume to 60"  
+**Increase volume:** "Hey Google, Kodi volume up [by 10]"  --> increase the volume by the requested amount or by 20% if no amount was specified  
+**Decrease volume:** "Hey Google, Kodi volume down [by 10]"  --> similar to the above
 
 ### **Play PVR channel:**
 "Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
@@ -55,12 +55,13 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Scan library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
 
+
 ### **Navigate kodi:**
-**Navigate up:** "Hey Google, kodi navigate up 3" --> Will navigate up the requested amount  
-**Navigate Down:** "Hey Google, kodi navigate down 3" --> Will navigate down the requested amount  
-**Navigate Left:** "Hey Google, kodi navigate left 3" --> Will navigate left the requested amount  
-**Navigate Right:** "Hey Google, kodi navigate right 3" --> Will navigate right the requested amount  
-**Navigate Back:** "Hey Google, kodi go back 3" --> Will navigate back requested amount  
+**Navigate up:** "Hey Google, kodi navigate up [3]" --> Will navigate up the requested amount or just once if no number was specified  
+**Navigate Down:** "Hey Google, kodi navigate down [3]" --> same as above for navigating down  
+**Navigate Left:** "Hey Google, kodi navigate left [3]" --> same as above for navigating left  
+**Navigate Right:** "Hey Google, kodi navigate right [3]" --> same as above for navigating right  
+**Navigate Back:** "Hey Google, kodi go back [3]" --> Will navigate back the requested amount or just once if no number was specified  
 **Navigate Select:** Hey Google, kodi Select" --> Will select the hightlighted item  
 **Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item  
 **Navigate Go Home:** "Hey Google, kodi go home" --> Will open the main menu page  
@@ -81,10 +82,10 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, kodi change audiostream to track 3" --> Will change audiostream settings
 
 ### **Seek forward x minutes:**
-"Hey Google, kodi go forward 30 minutes"
+"Hey Google, kodi go forward 30 minutes" --> will seek forward [the requested number] of minutes or just 1 minute if no number was specified
 
 ### **Seek backwards x minutes:**
-"Hey Google, kodi go backward 30 minutes"
+"Hey Google, kodi go backward 30 minutes" --> same as above just seeking backward
 
 ### **Seek to x minutes:**
 "Hey Google, kodi jump to 30 minutes"
@@ -249,7 +250,7 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 3. For *This* choose: *Google Assistance*
     1. Choose *Say a phrase with a text ingredient*
     2. In *What do you want to say?* enter something like:
-      > Kodi play $
+      > Kodi play movie $
     3. In *What do you want the Assistant to say in response?* enter something like:
       > ok playing $ movie
 4. For *That* choose: *Maker Webhooks*
@@ -302,8 +303,8 @@ To **Mute** kodi, follow the same instructions as *pause* but use this URL:
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
   
-  To **Seek forward** the play by x seconds use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}
+  To **Seek forward** by x minutes use "Say a phrase with a number" and the URL:
+  >YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
@@ -328,17 +329,19 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
 | Say a phrase with a number                            | Kodi set volume #               | YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | YOUR_GLITCH_SERVER_ADDRESS/volumeup?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumeup                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | YOUR_GLITCH_SERVER_ADDRESS/volumedown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumedown                       |
 | Say a phrase with a text ingredient                   | Kodi switch to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
 | Say a phrase with a number                            | Kodi switch to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                       |
-| Say a phrase with a number                            | Kodi Navigate up #              | YOUR_GLITCH_SERVER_ADDRESS/navup?q={{NumberField}}                 |
-| Say a phrase with a number                            | Kodi Navigate down #            | YOUR_GLITCH_SERVER_ADDRESS/navdown?q={{NumberField}}                 |
-| Say a phrase with a number                            | Kodi Navigate left #            | YOUR_GLITCH_SERVER_ADDRESS/navleft?q={{NumberField}}                 |
-| Say a phrase with a number                            | Kodi Navigate right #           | YOUR_GLITCH_SERVER_ADDRESS/navright?q={{NumberField}}                 |
-| Say a phrase with a number                            | Kodi Navigate back #            | YOUR_GLITCH_SERVER_ADDRESS/navback?q={{NumberField}}                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate up # <br> Kodi Navigate up | YOUR_GLITCH_SERVER_ADDRESS/navup?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navup                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate down # <br> Kodi Navigate down | YOUR_GLITCH_SERVER_ADDRESS/navdown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navdown                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate left # <br> Kodi Navigate left | YOUR_GLITCH_SERVER_ADDRESS/navleft?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navleft                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate right # <br> Kodi Navigate right | YOUR_GLITCH_SERVER_ADDRESS/navright?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navright                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate back # <br> Kodi Navigate back | YOUR_GLITCH_SERVER_ADDRESS/navback?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navback                 |                 |
 | Say a simple phrase                                   | Kodi select                     | YOUR_GLITCH_SERVER_ADDRESS/navselect                                         |
 | Say a simple phrase                                   | Kodi show context menu          | YOUR_GLITCH_SERVER_ADDRESS/navcontextmenu                                   |
 | Say a simple phrase                                   | Kodi go home                    | YOUR_GLITCH_SERVER_ADDRESS/navhome                                           |
@@ -347,9 +350,9 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number                            | Kodi subtitles direct select #  | YOUR_GLITCH_SERVER_ADDRESS/setsubtitlesdirect?q={{NumberField}}                 |
 | Say a phrase with a text ingredient                   | Kodi audio stream $             | YOUR_GLITCH_SERVER_ADDRESS/setaudio?q={{TextField}}                   |
 | Say a phrase with a number                            | Kodi audio stream direct select #| YOUR_GLITCH_SERVER_ADDRESS/setaudiodirect?q={{NumberField}}  
-| Say a phrase with a number                            | Kodi seek forward x minutes #   | YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}                       |
-| Say a phrase with a number                            | Kodi seek backward x minutes #  | YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes?q={{NumberField}}                       |
-| Say a phrase with a number                            | Kodi seek to x minutes #        | YOUR_GLITCH_SERVER_ADDRESS/seektominutes?q={{NumberField}}                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek forward # minutes <br> Kodi seek forward | YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek backward # minutes <br> Kodi seek backward | YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes                       |
+| Say a phrase with a number                            | Kodi seek to # minutes        | YOUR_GLITCH_SERVER_ADDRESS/seektominutes?q={{NumberField}}                       |
 | Say a phrase with a text ingredient                   | Kodi play the song $            | YOUR_GLITCH_SERVER_ADDRESS/playsong?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the album $           | YOUR_GLITCH_SERVER_ADDRESS/playalbum?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | YOUR_GLITCH_SERVER_ADDRESS/playartist?q={{TextField}}                   |
