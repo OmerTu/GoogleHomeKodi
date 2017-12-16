@@ -124,6 +124,9 @@ app.all('/playtvshow', exec(Helper.kodiPlayTvshow));
 // http://1.1.1.1/playepisode?q=bla+season+2&e=3
 app.all('/playepisode', exec(Helper.kodiPlayEpisodeHandler));
 
+// Parse request to watch the most recently added tv show episode
+app.all('/playrecentepisode', exec(Helper.kodiPlayRecentEpisodeHandler));
+
 // Parse request to Shutdown the kodi system
 // Request format:  http://[THIS_SERVER_IP_ADDRESS]/shutdown
 app.all('/shutdown', exec(Helper.kodiShutdown));

@@ -22,17 +22,14 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, kodi play a random movie of the year 2010" --> will play a random movie of the year 2010.  
 "Hey Google, kodi play a random horror movie of the year 2010" --> will play a random movie of the genre "Horror" and of the year 2010.  
 
+### **Play a tv show:**
+**Play the next unwatched episode:** "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.  
+**Play a specific episode:** "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.  
+**Play a random episode from a tv show:** "Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.  
+**Play the most recently added episode:** "Hey Google, kodi play new episode" --> will play the most recently added episode to the kodi library.  
+
 ### **Search and play a youtube video:**
 "Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
-
-### **Play the next unwatched episode:**
-"Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
-
-### **Play a specific episode:**
-"Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.
-
-### **Play a random episode for a tv show:**
-"Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.
 
 ### **Pause / Resume kodi:**
 "Hey Google, pause kodi"
@@ -58,29 +55,15 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Scan library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
 
-### **Navigate Up:**
-"Hey Google, kodi navigate up 3" --> Will navigate up the requested amount
-
-### **Navigate Down:**
-"Hey Google, kodi navigate down 3" --> Will navigate down the requested amount
-
-### **Navigate Left:**
-"Hey Google, kodi navigate left 3" --> Will navigate left the requested amount
-
-### **Navigate Right:**
-"Hey Google, kodi navigate right 3" --> Will navigate right the requested amount
-
-### **Navigate Back:**
-"Hey Google, kodi go back 3" --> Will navigate back requested amount
-
-### **Navigate Select:**
-"Hey Google, kodi Select" --> Will select the hightlighted item
-
-### **Navigate Context Menu:**
-"Hey Google, kodi open context menu" --> Will open the context menu for the selected item
-
-### **Navigate Go Home:**
-"Hey Google, kodi go home" --> Will open the main menu page
+### **Navigate kodi:**
+**Navigate up:** "Hey Google, kodi navigate up 3" --> Will navigate up the requested amount  
+**Navigate Down:** "Hey Google, kodi navigate down 3" --> Will navigate down the requested amount  
+**Navigate Left:** "Hey Google, kodi navigate left 3" --> Will navigate left the requested amount  
+**Navigate Right:** "Hey Google, kodi navigate right 3" --> Will navigate right the requested amount  
+**Navigate Back:** "Hey Google, kodi go back 3" --> Will navigate back requested amount  
+**Navigate Select:** Hey Google, kodi Select" --> Will select the hightlighted item  
+**Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item  
+**Navigate Go Home:** "Hey Google, kodi go home" --> Will open the main menu page  
 
 ### **Whats Playing:**
 "Hey Google, kodi Whats Playing" --> Will show whats playing information
@@ -340,6 +323,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| YOUR_GLITCH_SERVER_ADDRESS/playrandommovie?genre={{TextField}}&year={{NumberField}} |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q={{TextField}}                     |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | YOUR_GLITCH_SERVER_ADDRESS/playepisode?q={{TextField}}&e= {{NumberField}} |
+| Say a simple phrase                                   | Kodi play new episode           | YOUR_GLITCH_SERVER_ADDRESS/playrecentepisode                              |
 | Say a simple phrase                                   | Kodi pause                      | YOUR_GLITCH_SERVER_ADDRESS/playpause                                      |
 | Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
