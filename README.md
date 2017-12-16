@@ -34,6 +34,9 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Play a random episode for a tv show:**
 "Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.
 
+### **Play the most recently added tv show:**
+"Hey Google, kodi play new episode" --> will play the most recently added episode to the kodi library.
+
 ### **Pause / Resume kodi:**
 "Hey Google, pause kodi"
 
@@ -340,6 +343,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| YOUR_GLITCH_SERVER_ADDRESS/playrandommovie?genre={{TextField}}&year={{NumberField}} |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q={{TextField}}                     |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | YOUR_GLITCH_SERVER_ADDRESS/playepisode?q={{TextField}}&e= {{NumberField}} |
+| Say a simple phrase                                   | Kodi play new episode           | YOUR_GLITCH_SERVER_ADDRESS/playrecentepisode                              |
 | Say a simple phrase                                   | Kodi pause                      | YOUR_GLITCH_SERVER_ADDRESS/playpause                                      |
 | Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
