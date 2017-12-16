@@ -250,7 +250,7 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 3. For *This* choose: *Google Assistance*
     1. Choose *Say a phrase with a text ingredient*
     2. In *What do you want to say?* enter something like:
-      > Kodi play $
+      > Kodi play movie $
     3. In *What do you want the Assistant to say in response?* enter something like:
       > ok playing $ movie
 4. For *That* choose: *Maker Webhooks*
@@ -304,7 +304,7 @@ To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
   
   To **Seek forward** the play by x seconds use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/seekforward?q={{NumberField}}
+  >YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
