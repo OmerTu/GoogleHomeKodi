@@ -96,6 +96,12 @@ app.all('/mute', exec(Helper.kodiMuteToggle));
 // set kodi volume
 app.all('/volume', exec(Helper.kodiSetVolume));
 
+// Increase kodi volume
+app.all('/volumeup', exec(Helper.kodiIncreaseVolume));
+
+// Decrease kodi volume
+app.all('/volumedown', exec(Helper.kodiDecreaseVolume));
+
 // Turn on TV and Switch to Kodi's HDMI input
 app.all('/activatetv', exec(Helper.kodiActivateTv));
 
