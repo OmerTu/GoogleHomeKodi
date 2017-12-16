@@ -37,11 +37,11 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Stop kodi:**
 "Hey Google, stop kodi"
 
-### **Mute kodi:**
-"Hey Google, mute/unmute kodi"
-
-### **Set volume:**
-"Hey Google, set kodi volume to 60"
+### **Change volume:**
+**Mute kodi:** "Hey Google, mute/unmute kodi"  
+**Set volume:** "Hey Google, set kodi volume to 60"  
+**Increase volume:** "Hey Google, Kodi volume up [by 10]"  --> increase the volume by the requested amount or by 20% if no amount was specified  
+**Decrease volume:** "Hey Google, Kodi volume down [by 10]"  --> similar to the above
 
 ### **Play PVR channel:**
 "Hey Google, switch kodi to BBC channel" or "Hey Google, switch kodi to channel 10"
@@ -329,6 +329,8 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
 | Say a phrase with a number                            | Kodi set volume #               | YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | YOUR_GLITCH_SERVER_ADDRESS/volumeup?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumeup                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | YOUR_GLITCH_SERVER_ADDRESS/volumedown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumedown                       |
 | Say a phrase with a text ingredient                   | Kodi switch to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
 | Say a phrase with a number                            | Kodi switch to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
