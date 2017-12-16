@@ -709,35 +709,35 @@ exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unuse
 };
 
 const setVolume = (Kodi, volume) => {
-  volume = Math.min(parseInt(volume), 100);
-  volume = Math.max(volume, 0);
+    volume = Math.min(parseInt(volume), 100);
+    volume = Math.max(volume, 0);
     return Kodi.Application.SetVolume({ // eslint-disable-line new-cap
         'volume': volume
     });
 };
 
 exports.kodiIncreaseVolume = (request, response) => { // eslint-disable-line no-unused-vars
-  let Kodi = request.kodi;
-  const delta = getRequestedNumberOrDefaulValue(request, 20);
-  console.log(`Increase volume by "${delta}" percent request received`);
-  return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
+    let Kodi = request.kodi;
+    const delta = getRequestedNumberOrDefaulValue(request, 20);
+    console.log(`Increase volume by "${delta}" percent request received`);
+    return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
         properties: ['volume']
     }).then((result) => {
-      let oldVolume = parseInt(result.result.volume);
-      setVolume(Kodi, oldVolume + delta);
-  });
+        let oldVolume = parseInt(result.result.volume);
+        setVolume(Kodi, oldVolume + delta);
+    });
 };
 
 exports.kodiDecreaseVolume = (request, response) => { // eslint-disable-line no-unused-vars
-  let Kodi = request.kodi;
-  const delta = getRequestedNumberOrDefaulValue(request, 20);
-  console.log(`Decrease volume by "${delta}" percent request received`);
-  return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
+    let Kodi = request.kodi;
+    const delta = getRequestedNumberOrDefaulValue(request, 20);
+    console.log(`Decrease volume by "${delta}" percent request received`);
+    return Kodi.Application.GetProperties({ // eslint-disable-line new-cap
         properties: ['volume']
     }).then((result) => {
-      let oldVolume = parseInt(result.result.volume);
-      setVolume(Kodi, oldVolume - delta);
-  });
+        let oldVolume = parseInt(result.result.volume);
+        setVolume(Kodi, oldVolume - delta);
+    });
 };
 
 exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unused-vars
