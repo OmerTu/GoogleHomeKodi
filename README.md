@@ -397,7 +397,7 @@ If that doesn't work you probably have a problem with your router configuration.
 
 ------------
 ## Credits ##
-Thanks for everyone who contributed to this projects: [p0psicles](https://github.com/p0psicles), [Keljian](https://github.com/Keljian) and [Lunatixz](https://github.com/Lunatixz)
+Thanks for everyone who contributed to this projects: [p0psicles](https://github.com/p0psicles), [keydon](https://github.com/keydon), [Keljian](https://github.com/Keljian) and [Lunatixz](https://github.com/Lunatixz)
 
 I also used some code from these 3 projects:
 [MarvinSchenkel/HomeyKodi](https://github.com/MarvinSchenkel/HomeyKodi)
