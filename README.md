@@ -121,7 +121,9 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
 4. Change Glitch project settings to private (under *share* > *Make private*)
-5. Edit the *.env* file in your Glitch project with the following settings:
+5. Edit the *.env* file in your Glitch project with the following settings:  (**see [this example](https://cdn.rawgit.com/OmerTu/GoogleHomeKodi/develop/examples/env_file_example.png)**)
+
+
 ```
 KODI_PROTOCOL="http"
 KODI_IP="YOUR_EXTERNAL_IP_ADDRESS"
@@ -266,10 +268,10 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
     10. Body:
       >{"token":"*YOUR_CONNECTION_PASSWORD*"}
 
+**Check out [this example](https://cdn.rawgit.com/OmerTu/GoogleHomeKodi/develop/examples/IFTTT_settings_example.png) to make sure your settings are correct**
 
 
-Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.
-
+Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.<br>
 **Note:** If your external IP changes, this will stop working (consider getting a static IP address)
 
 
