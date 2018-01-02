@@ -11,5 +11,5 @@ RUN npm install --production && npm cache clean --force
 COPY . .
 
 EXPOSE 8099
-USER NODE
+USER node
 CMD ["node", "server.js"]
