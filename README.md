@@ -246,7 +246,7 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 
 
 ### **B.4) [OPTIONAL] Set up a local instance using Docker**
-As an alternative to (B.2), it's possible to use a pre-build [Docker image](https://hub.docker.com/r/sinedied/googlehomekodi/) to run a local instance.
+As an alternative to (B.2), it's possible to use a pre-built [Docker image](https://hub.docker.com/r/sinedied/googlehomekodi/) to run a local instance.
 
 You can use either *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the `/config` volume to configure your instance.
 <details>
