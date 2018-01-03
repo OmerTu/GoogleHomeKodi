@@ -335,6 +335,8 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | YOUR_GLITCH_SERVER_ADDRESS/volumedown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumedown                       |
 | Say a phrase with a text ingredient                   | Kodi switch to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
 | Say a phrase with a number                            | Kodi switch to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
+| Say a simple phrase                                   | Kodi activate                   | YOUR_GLITCH_SERVER_ADDRESS/activatetv                                       |
+| Say a simple phrase                                   | Kodi standby                    | YOUR_GLITCH_SERVER_ADDRESS/standbytv                                       |
 | Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                   |
