@@ -431,6 +431,14 @@ If that doesn't work you probably have a problem with your router configuration.
 
 3. If it does work, there might be something wrong in your glich or IFTTT settings.
 
+
+------------
+## Disabling authorization token
+If your server instance is already behind a secure gateway with its own authorization system, you can disable the authorization token by setting the value `AUTH_DISABLED`:
+```
+AUTH_TOKEN="AUTH_DISABLED"
+```
+
 ------------
 ## Credits ##
 Thanks for everyone who contributed to this projects: [p0psicles](https://github.com/p0psicles), [keydon](https://github.com/keydon), [Keljian](https://github.com/Keljian) and [Lunatixz](https://github.com/Lunatixz)
