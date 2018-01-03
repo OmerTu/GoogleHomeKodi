@@ -754,6 +754,20 @@ exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unus
     return Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
 };
 
+exports.kodiStandbyTv = (request, response) => { // eslint-disable-line no-unused-vars
+    console.log('Standby TV request received');
+
+    let Kodi = request.kodi;
+    const params = {
+        addonid: 'script.json-cec',
+        params: {
+            command: 'standby'
+        }
+    };
+
+    return Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
+};
+
 exports.kodiPlayRandomMovie = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
 
