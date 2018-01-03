@@ -4,10 +4,11 @@ ENV NODE_ENV=production
 ENV PORT=8099
 
 VOLUME /config
-WORKDIR /app
+WORKDIR /home/node
+USER NODE
 
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --production && npm cache clean --force
 COPY . .
 
 EXPOSE 8099
