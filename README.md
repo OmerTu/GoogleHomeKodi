@@ -245,6 +245,37 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 </details>
 
 
+### **B.4) [OPTIONAL] Set up a local instance using Docker**
+As an alternative to (B.2), it's possible to use a pre-built [Docker image](https://hub.docker.com/r/sinedied/googlehomekodi/) to run a local instance.
+
+You can use either *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the `/config` volume to configure your instance.
+<details>
+  <summary>Click to expand (B.4) instructions</summary>
+
+The following steps assume that you already have a working Docker setup on your machine.
+
+1. `docker pull sinedied/googlehomekodi`
+2. To use with environment variables:
+   ```sh
+   docker run -d -p 8099:8099 \
+              -e KODI_PROTOCOL="http" \
+              -e KODI_IP="YOUR_EXTERNAL_IP_ADDRESS" \
+              -e KODI_PORT="YOUR_KODI_PORT" \
+              -e KODI_USER="YOUR_KODI_USER_NAME" \
+              -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
+              -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
+              --name googlehomekodi sinedied/googlehomekodi
+   ```
+   Alternatively, you can create a copy of the `kodi-hosts.config.js.dist` file, rename it to `kodi-hosts.config.js` and place it in a folder, then:
+   ```sh
+   docker run -d -p 8099:8099 \
+              -v YOUR_CONFIG_DIR:/config \
+              --name googlehomekodi sinedied/googlehomekodi
+   ```
+
+That's all!
+</details>
+
 ### C) Set up IFTTT with your Google Home
 
 1. Go to [IFTTT](https://ifttt.com)
