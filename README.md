@@ -62,9 +62,29 @@ Follow these steps to easily control your kodi using simple voice commands with 
 **Navigate Left:** "Hey Google, kodi navigate left [3]" --> same as above for navigating left  
 **Navigate Right:** "Hey Google, kodi navigate right [3]" --> same as above for navigating right  
 **Navigate Back:** "Hey Google, kodi go back [3]" --> Will navigate back the requested amount or just once if no number was specified  
-**Navigate Select:** Hey Google, kodi Select" --> Will select the hightlighted item  
+**Navigate Select:** "Hey Google, kodi Select" --> Will select the hightlighted item  
 **Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item  
 **Navigate Go Home:** "Hey Google, kodi go home" --> Will open the main menu page  
+
+### **Show kodi windows:**
+"Hey Google, kodi show favourites"  
+"Hey Google, kodi show movies"  
+"Hey Google, kodi show movies by title"  
+"Hey Google, kodi show movies by genre"  
+"Hey Google, kodi show recently added movies"  
+"Hey Google, kodi show tv shows"  
+"Hey Google, kodi show tv shows by title"  
+"Hey Google, kodi show tv shows by genre"  
+"Hey Google, kodi show recently added episodes"  
+"Hey Google, kodi show video addons"  
+"Hey Google, kodi show music addons"  
+"Hey Google, kodi show video files"  
+"Hey Google, kodi show music files"  
+"Hey Google, kodi show the top 100 albums"  
+"Hey Google, kodi show system settings"  
+"Hey Google, kodi show file manager"  
+
+There are many more windows to choose from, a full list can be found [here](http://kodi.wiki/view/Opening_Windows_and_Dialogs).
 
 ### **Whats Playing:**
 "Hey Google, kodi Whats Playing" --> Will show whats playing information
@@ -448,6 +468,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi show context menu          | _YOUR_NODE_SERVER_/navcontextmenu                                   |
 | Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                           |
 | Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                       |
+| Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                   |
 | Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}                 |
 | Say a phrase with a text ingredient                   | Kodi audio stream $             | _YOUR_NODE_SERVER_/setaudio?q={{TextField}}                   |
