@@ -169,9 +169,9 @@ npm install
 9. Set up your router to forward the port you just configured.  
    _Default:_ globalConfig.listenerPort: '8099'
 8. You should now be able to start the node server by running: `node server.js`.
-9. Find your external IP address (i.e. Google 'what's my ip?')
+9. Find your external IP address (i.e. Google 'what's my ip?')  
    _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
-10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 9.  
+10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 10.  
     We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
 
 _For Linux-Users only:_ Here is a systemd init config. To run it as a daemon.
