@@ -395,12 +395,12 @@ Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla
 
 ### Setting up other actions: ###
 
-For **Tv show support - Next unwatched episode**, follow all the steps in **C**, except these changes: 
+For **Tv show support - Next unwatched episode**, follow all the steps in **D**, except these changes: 
   * Choose a different phrase (e.g. "Kodi play an episode of $")
   * Use this URL:
     >_YOUR_NODE_SERVER_/playtvshow?q={{TextField}}
 
-For **Tv show support - Specific episode**, follow all the steps in **C**, except these changes:
+For **Tv show support - Specific episode**, follow all the steps in **D**, except these changes:
   * Choose "*Say a phrase with both a number and a text ingredient*" in step 3
   * Choose a different phrase (e.g. "Kodi play $ episode #"). 
   
@@ -409,7 +409,7 @@ For **Tv show support - Specific episode**, follow all the steps in **C**, excep
   * Use this URL:
     >_YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e={{NumberField}}
 
-To **pause or resume** kodi follow the instructions in **C**, except these changes:
+To **pause or resume** kodi follow the instructions in **D**, except these changes:
   * Choose "*Say a simple phrase*" in step 3
   * Use this URL:
     >_YOUR_NODE_SERVER_/playpause
@@ -426,7 +426,7 @@ To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   To **Seek forward** by x minutes use "Say a phrase with a number" and the URL:
   >_YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}}
   
-For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
+For **PVR TV support - Set channel by name**, follow all the steps in **D**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
     >_YOUR_NODE_SERVER_/playpvrchannelbyname?q={{TextField}}
@@ -489,7 +489,7 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
     * Turn on: Add another command: follow the same instructions as *pause* but use this URL:
     >_YOUR_NODE_SERVER_/activatetv
     
-    *  Add the following line to your .env file (see step B-5 above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
+    *  Add the following line to your .env file (see step B.1 - (5) above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
     >ACTIVATE_TV="true"
 
     * Turn off: Add another command: follow the same instructions as pause but use this URL:
