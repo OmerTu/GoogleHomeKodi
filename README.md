@@ -62,9 +62,29 @@ Follow these steps to easily control your kodi using simple voice commands with 
 **Navigate Left:** "Hey Google, kodi navigate left [3]" --> same as above for navigating left  
 **Navigate Right:** "Hey Google, kodi navigate right [3]" --> same as above for navigating right  
 **Navigate Back:** "Hey Google, kodi go back [3]" --> Will navigate back the requested amount or just once if no number was specified  
-**Navigate Select:** Hey Google, kodi Select" --> Will select the hightlighted item  
+**Navigate Select:** "Hey Google, kodi Select" --> Will select the hightlighted item  
 **Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item  
 **Navigate Go Home:** "Hey Google, kodi go home" --> Will open the main menu page  
+
+### **Show kodi windows:**
+"Hey Google, kodi show favourites"  
+"Hey Google, kodi show movies"  
+"Hey Google, kodi show movies by title"  
+"Hey Google, kodi show movies by genre"  
+"Hey Google, kodi show recently added movies"  
+"Hey Google, kodi show tv shows"  
+"Hey Google, kodi show tv shows by title"  
+"Hey Google, kodi show tv shows by genre"  
+"Hey Google, kodi show recently added episodes"  
+"Hey Google, kodi show video addons"  
+"Hey Google, kodi show music addons"  
+"Hey Google, kodi show video files"  
+"Hey Google, kodi show music files"  
+"Hey Google, kodi show the top 100 albums"  
+"Hey Google, kodi show system settings"  
+"Hey Google, kodi show file manager"  
+
+There are many more windows to choose from, a full list can be found [here](http://kodi.wiki/view/Opening_Windows_and_Dialogs).
 
 ### **Whats Playing:**
 "Hey Google, kodi Whats Playing" --> Will show whats playing information
@@ -110,21 +130,34 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 ### **A) Enable webserver access in kodi**
 1. In Kodi, go to *Settings* >> *Web server*
 2. Set *Allow remote contorl via HTTP* to On
-3. Choose a port number (e.g. 8080)
+3. Choose a port number (e.g. 8080).
 4. Choose a username and password (Important!)
-5. Configure your router to forward the port your selected to your kodi device
+5. Configure your router to forward the port you selected to your kodi device  
+   _Note:_ Not needed if you decide to go with a local node webserver (B.2)
 6. Find your external IP address (i.e. Google 'what's my ip?')
 
+### **B) Set up a nodejs-webserver to control your kodi**
+We currently support three methods of how this app can be hosted.
+1. Hosting it in Glitch, a 3rd-party web-hosting service
+2. Hosting it yourself
+3. Hosting it yourself with Docker
 
-### **B) Set up a webserver in Glitch to control your kodi**
+The first method is very easy to set up and to maintain and also free of charge.
+The second method is for advanced users. You have to setup and maintain the nodejs environment yourself. But it supports multiple Kodi instances, greatly reduces latency and does not expose your kodi-webservice to the internet directly.
+The third method is also for advanced users. After installing docker, you can simply run our prebuilt docker images.
+
+<details>
+  <summary><b>B.1 Set up a webserver in Glitch</b> (Click to expand instructions)</summary><p />
+
+
 1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
 2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
 3. Enter this project *OmerTu/GoogleHomeKodi*
 4. Change Glitch project settings to private (under *share* > *Make private*)
-5. Edit the *.env* file in your Glitch project with the following settings:  (**see [this example](https://cdn.rawgit.com/OmerTu/GoogleHomeKodi/develop/examples/env_file_example.png)**)
+5. Edit the *.env* file in your Glitch project with the following settings:  (**see [this example](examples/env_file_example.png)**)
 
 
-```
+```ini
 KODI_PROTOCOL="http"
 KODI_IP="YOUR_EXTERNAL_IP_ADDRESS"
 KODI_PORT="YOUR_KODI_PORT"
@@ -134,24 +167,38 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 ```
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
 
-6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar.
+6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar, you will need that later. We will refer to this address as _YOUR_NODE_SERVER_. (i.e. https://green-icecream.glitch.me)
+</details>
 
-### **B.2) [OPTIONAL] Set up a local webserver to control your kodi**
-As an alternative to (B), it's possible to run a local node.js server in stead of running it on Glitch.com. The benifit of this is that you don't need to expose your kodi Api.
-Additional using the hodi-hosts.config.js file, you can set up and control multiple kodi installations.
 <details>
-  <summary>Click to expand (B.2) instructions</summary>
+  <summary><b>B.2 Set up local webserver</b> (Click to expand instructions)</summary><p />
 
-1. After cloning the repo, create a copy of the `kodi-hosts.config.js.dist` file and rename it to `kodi-hosts.config.js`.
-2. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
-3. You should now be able to start the node server by running: `node server.js`.
 
-Here is a systemd init config. To run it as a daemon.
+1. Install the [Node.js](https://nodejs.org/en/download/) application server on your target computer  
+   _Note:_ Required Version is **6.10 or above** (8 preferred)
+2. Choose a location, where your app will live (i.e `C:\node\`)
+3. Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
+4. You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
+5. Install this app
+```batch
+cd C:\node\GoogleHomeKodi
+npm install
+```
+6. Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
+7. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
+9. Set up your router to forward the port you just configured.  
+   _Default:_ globalConfig.listenerPort: '8099'
+8. You should now be able to start the node server by running: `node server.js`.
+9. Find your external IP address (i.e. Google 'what's my ip?')  
+   _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
+10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 10.  
+    We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
+
+_For Linux-Users only:_ Here is a systemd init config. To run it as a daemon.
 On a debian dist save it as `/etc/systemd/system/kodiassistant.service`.
-
 Don't forget to run: sudo systemctl enable `sudo systemctl enable kodiassistant.service` to start the deamon on startup.
 
-```
+```ini
 [Unit]
 Description=Node.js Google Home Kodi Interface
 
@@ -170,70 +217,142 @@ SyslogIdentifier=nodejs-example
 [Install]
 WantedBy=multi-user.target
 ```
-Note: you server should run Node.js 6.10 or above (8 preferred)
 
 </details>
 
-### **B.3) [OPTIONAL] controlling multiple kodi instances**
-Setting up the local node server, will allow you to utilize the kodi-hosts.config.js configuration.
-This configuration will allow you to address multiple kodi installations (e.g. "Hey Google, kodi play [movie name] in the bedroom")
+<details>
+  <summary><b>B.3 Set up local webserver using Docker</b> (Click to expand instructions)</summary><p />
+
+As an alternative to (B.2), it's possible to use a pre-built [Docker image](https://hub.docker.com/r/sinedied/googlehomekodi/) to run a local instance.
+
+You can use either *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the `/config` volume to configure your instance.
+
+1. Install the Docker engine
+   - If you want to run it on a LibreELEC system  
+     You can simply install the offical service addon `Docker`
+   - For all other systems please consult the offical documentation  
+     [Docker Installation](https://docs.docker.com/engine/installation/)
+1. Download or build the docker image
+   - For 64bit-Systems you can download out prebuilt docker-image
+     ```
+     docker pull sinedied/googlehomekodi
+     ```
+   - For all other systems you currently have to build the image yourself.
+     - Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
+     - You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
+     - Build the image
+     ```
+     cd C:\node\GoogleHomeKodi
+     docker build -t sinedied/googlehomekodi .
+     ```
+2. Run the docker image
+   - with the use of environment variables:
+     ```sh
+     docker run -d -p 8099:8099 \
+                --restart always \
+                -e KODI_PROTOCOL="http" \
+                -e KODI_IP="YOUR_EXTERNAL_IP_ADDRESS" \
+                -e KODI_PORT="YOUR_KODI_PORT" \
+                -e KODI_USER="YOUR_KODI_USER_NAME" \
+                -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
+                -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
+                --name googlehomekodi \
+                sinedied/googlehomekodi
+     ```
+   - or with the use of the config file:
+     - Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
+     - Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
+     - Run it  
+       ```sh
+       docker run -d -p 8099:8099 \
+                  --restart always \
+                  -v YOUR_CONFIG_DIR:/config \
+                  --name googlehomekodi \
+                  sinedied/googlehomekodi
+       ```
+
+3. In case you need to update to a newer version later, just repeat steps 2 and 3 after executing:
+   ```
+   docker stop googlehomekodi
+   docker rm sinedied/googlehomekodi
+   ```
+</details>
+
+### **C) [OPTIONAL] controlling multiple kodi instances**
+There are two ways of implementing the scenario of multiple kodi instances (i.e one in the living room and another in the bedroom).
+For both methods you will need two IFTTT-Applets with different phrases, due to the text-parameter limitation of IFTTT.
+1. Having two node servers. Each targeting one instance. _(Recommended when hosting with glitch)_    
+   i.e. the phrase `living room kodi play...` could target `https://mylivingroom.glitch.com/playpause`  
+   and the phrase `bedroom kodi play...` could target `https://bedroom.glitch.com/playpause`. 
+   - _Note:_ Behind a single external IP the kodi instances need still to be distinguishable. 
+     This can be achieved in two ways:
+     - Configuring both kodi instances with different ports  
+       (i.e. _8080_ and _8090_)  
+       _or_
+     - Mapping with your routers port forwarding two different ports to the same port on different hosts  
+       (i.e. _8080 -> 192.168.100.1:8080_ and 8090 -> 192.168.100.2:8080)
+2. Having one node server targeting both kodi instances. _(Recommended when hosting yourself)_  
+   The utilization of the _kodi-hosts.config.js_ allows you to name your instances and target them individually.  
+   i.e. the phrase `living room kodi play...` could target `http://192.168.100.1:8080/playpause`  
+   and the phrase `bedroom kodi play...` could target `http://192.168.100.2:8080/playpause`).
 
 <details>
-  <summary>Click to expand (B.3) instructions</summary>
+  <summary><b>C.2 utilize the kodi-hosts.config.js</b> (Click to expand instructions)</summary>
 
-For this you will need to extend the list. Like in this example:
+For this you will need to extend the list of configured kodi instances. Like in this example:
 
-```
-exports.kodiConfig = [{
-    id: 'kodi', // For now leave the first set to kodi.
-    // YOUR_EXTERNAL_PROTOCOL (http or https)
-    kodiProtocol: 'http',
-    // YOUR_KODI_IP_ADDRESS
-    kodiIp: '192.168.178.10',
-    // YOUR_KODI_PORT
-    kodiPort: '8080',
-    // YOUR_KODI_USER_NAME
-    kodiUser: 'kodi',
-    // YOUR_KODI_PASSWORD
-    kodiPassword: 'myKodiPass'
-},
-    // You can use this to specify additonal kodi installation, that you'd like to control.
-    // For example alternate kodi destination 1:   
-{
-    id: 'bedroom',
-    // YOUR_EXTERNAL_PROTOCOL (http or https)
-    kodiProtocol: 'http',
-    // YOUR_KODI_IP_ADDRESS
-    kodiIp: '192.168.1.11',
-    // YOUR_KODI_PORT
-    kodiPort: '8080',
-    // YOUR_KODI_USER_NAME
-    kodiUser: 'kodi',
-    // YOUR_KODI_PASSWORD
-    kodiPassword: 'myKodiPass'
-},
-    // You can use this to specify additonal kodi installation, that you'd like to control.
-    // For example alternate kodi destination 2:   
-{
-    id: 'kitchen',
-    // YOUR_EXTERNAL_PROTOCOL (http or https)
-    kodiProtocol: 'http',
-    // YOUR_KODI_IP_ADDRESS
-    kodiIp: '192.168.1.12',
-    // YOUR_KODI_PORT
-    kodiPort: '8080',
-    // YOUR_KODI_USER_NAME
-    kodiUser: 'kodi',
-    // YOUR_KODI_PASSWORD
-    kodiPassword: 'myKodiPass'
-}
+```javascript
+exports.kodiConfig = [
+  {
+      id: 'kodi', // Give your main instance here any name you want
+      // YOUR_KODI_PROTOCOL (http or https)
+      kodiProtocol: 'http',
+      // YOUR_KODI_IP_ADDRESS
+      kodiIp: '192.168.178.10',
+      // YOUR_KODI_PORT
+      kodiPort: '8080',
+      // YOUR_KODI_USER_NAME
+      kodiUser: 'kodi',
+      // YOUR_KODI_PASSWORD
+      kodiPassword: 'myKodiPass'
+  },
+      // You can use this to specify additonal kodi installation, that you'd like to control.
+      // For example alternate kodi destination 1:
+  {
+      id: 'bedroom',
+      // YOUR_2ND_KODI_PROTOCOL (http or https)
+      kodiProtocol: 'http',
+      // YOUR_2ND_KODI_IP_ADDRESS
+      kodiIp: '192.168.1.11',
+      // YOUR_2ND_KODI_PORT
+      kodiPort: '8080',
+      // YOUR_2ND_KODI_USER_NAME
+      kodiUser: 'kodi',
+      // YOUR_2ND_KODI_PASSWORD
+      kodiPassword: 'myKodiPass'
+  },
+      // You can use this to specify additonal kodi installation, that you'd like to control.
+      // For example alternate kodi destination 2:
+  {
+      id: 'kitchen',
+      // YOUR_3RD_KODI_PROTOCOL (http or https)
+      kodiProtocol: 'http',
+      // YOUR_3RD_KODI_IP_ADDRESS
+      kodiIp: '192.168.1.12',
+      // YOUR_3RD_KODI_PORT
+      kodiPort: '8080',
+      // YOUR_3RD_KODI_USER_NAME
+      kodiUser: 'kodi',
+      // YOUR_3RD_KODI_PASSWORD
+      kodiPassword: 'myKodiPass'
+  }
 ];
 ```
 
-The `id` will match your kodi instance with a spoken keyword.
+The `id` (a name you can choose freely) will match your kodi instance with a spoken keyword.
 For every command / kodi destination you will need to add a new IFTTT applet.
-You'll only real change here, is the `body`. As up until now you have been using a body like: `{"token":"*YOUR_CONNECTION_PASSWORD*"}`.
-Now you will need to add the `kodiid` attribute to it, matching the id of your configuration.
+The only difference is found in the `body`. As up until now you have been using a body only with a token attribute like: `{"token":"*YOUR_CONNECTION_PASSWORD*"}`.
+Now you will need to add the `kodiid` attribute to it, matching the `id` of your configuration.
 
 **Example scan library**
 If you normally would use a sentence like: `"Hey Google, kodi scan library" --> Will start a full library scan`.
@@ -244,8 +363,7 @@ In this new applet, you will need to make sure it will recognize this new senten
 For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 </details>
 
-
-### C) Set up IFTTT with your Google Home
+### D) Set up IFTTT with your Google Home
 
 1. Go to [IFTTT](https://ifttt.com)
 2. Create a new applet: if *This* then *That*
@@ -258,17 +376,17 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 4. For *That* choose: *Maker Webhooks*
     1. Choose *Make a web request*
     2. In *URL* enter:
-      >YOUR_GLITCH_SERVER_ADDRESS/playmovie?q= {{TextField}}
+      >_YOUR_NODE_SERVER_/playmovie?q={{TextField}}
     
-    For example, if your glitch server address is 'green-icecream.glitch.me', your should enter:
-      >https://green-icecream.glitch.me/playmovie?q= {{TextField}}
+    For example, if your node server address is 'green-icecream.glitch.me', your should enter:
+      >https\://green-icecream.glitch.me/playmovie?q={{TextField}}
     
     8. Method: *POST*
     9. Content Type: *application/json*
     10. Body:
       >{"token":"*YOUR_CONNECTION_PASSWORD*"}
 
-**Check out [this example](https://cdn.rawgit.com/OmerTu/GoogleHomeKodi/develop/examples/IFTTT_settings_example.png) to make sure your settings are correct**
+**Check out [this example](examples/IFTTT_settings_example.png) to make sure your settings are correct**
 
 
 Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.<br>
@@ -280,7 +398,7 @@ Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla
 For **Tv show support - Next unwatched episode**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "Kodi play an episode of $")
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q= {{TextField}}
+    >_YOUR_NODE_SERVER_/playtvshow?q={{TextField}}
 
 For **Tv show support - Specific episode**, follow all the steps in **C**, except these changes:
   * Choose "*Say a phrase with both a number and a text ingredient*" in step 3
@@ -289,87 +407,93 @@ For **Tv show support - Specific episode**, follow all the steps in **C**, excep
   
   For this to work, when you talk to your GoogleHome, the $ part must be in the format of *"[TV_SHOW_NAME] season [SEASON_NUMBER]"*. Meaning the word "Season" has to be said, the tv show name must be said before it and the season number must be said after it (i.e. "okay google kodi play bla season 4 episode 1")
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playepisode?q= {{TextField}}&e= {{NumberField}}
+    >_YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e={{NumberField}}
 
 To **pause or resume** kodi follow the instructions in **C**, except these changes:
   * Choose "*Say a simple phrase*" in step 3
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playpause
+    >_YOUR_NODE_SERVER_/playpause
 
 To **Stop** kodi, follow the same instructions as *pause* but use this URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/stop
+  >_YOUR_NODE_SERVER_/stop
 
 To **Mute** kodi, follow the same instructions as *pause* but use this URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/mute
+  >_YOUR_NODE_SERVER_/mute
   
 To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}
+  >_YOUR_NODE_SERVER_/volume?q={{NumberField}}
   
   To **Seek forward** by x minutes use "Say a phrase with a number" and the URL:
-  >YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}}
+  >_YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}}
   
 For **PVR TV support - Set channel by name**, follow all the steps in **C**, except these changes: 
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}
+    >_YOUR_NODE_SERVER_/playpvrchannelbyname?q={{TextField}}
 
 For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
 
-  >YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}
+  >_YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}
 
 
 ## Full table with available actions
 | Type of phrase                                        | phrase                          | url                                                                       |
 |-------------------------------------------------------|---------------------------------|---------------------------------------------------------------------------|
-| Say a phrase with a text ingredient                   | Kodi play $                     | YOUR_GLITCH_SERVER_ADDRESS/playmovie?q={{TextField}}                      |
-| Say a phrase with a text ingredient                   | Kodi resume $                   | YOUR_GLITCH_SERVER_ADDRESS/resumemovie?q={{TextField}}                    |
-| Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| YOUR_GLITCH_SERVER_ADDRESS/playrandommovie?genre={{TextField}}&year={{NumberField}} |
-| Say a phrase with a text ingredient                   | Kodi play an episode of $       | YOUR_GLITCH_SERVER_ADDRESS/playtvshow?q={{TextField}}                     |
-| Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | YOUR_GLITCH_SERVER_ADDRESS/playepisode?q={{TextField}}&e= {{NumberField}} |
-| Say a simple phrase                                   | Kodi play new episode           | YOUR_GLITCH_SERVER_ADDRESS/playrecentepisode                              |
-| Say a simple phrase                                   | Kodi pause                      | YOUR_GLITCH_SERVER_ADDRESS/playpause                                      |
-| Say a simple phrase                                   | Kodi stop                       | YOUR_GLITCH_SERVER_ADDRESS/stop                                           |
-| Say a simple phrase                                   | Kodi mute                       | YOUR_GLITCH_SERVER_ADDRESS/mute                                           |
-| Say a phrase with a number                            | Kodi set volume #               | YOUR_GLITCH_SERVER_ADDRESS/volume?q={{NumberField}}                       |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | YOUR_GLITCH_SERVER_ADDRESS/volumeup?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumeup                       |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | YOUR_GLITCH_SERVER_ADDRESS/volumedown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/volumedown                       |
-| Say a phrase with a text ingredient                   | Kodi switch to $ channel        | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbyname?q={{TextField}}           |
-| Say a phrase with a number                            | Kodi switch to channel number # | YOUR_GLITCH_SERVER_ADDRESS/playpvrchannelbynumber?q={{NumberField}}       |
-| Say a simple phrase                                   | Kodi shutdown                   | YOUR_GLITCH_SERVER_ADDRESS/shutdown                                       |
-| Say a phrase with a text ingredient                   | Kodi shuffle $                  | YOUR_GLITCH_SERVER_ADDRESS/shuffleepisode?q={{TextField}}                 |
-| Say a phrase with a text ingredient                   | Kodi youtube play $             | YOUR_GLITCH_SERVER_ADDRESS/playyoutube?q={{TextField}}                   |
-| Say a simple phrase                                   | Kodi scan library               | YOUR_GLITCH_SERVER_ADDRESS/scanlibrary                                       |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate up # <br> Kodi Navigate up | YOUR_GLITCH_SERVER_ADDRESS/navup?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navup                 |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate down # <br> Kodi Navigate down | YOUR_GLITCH_SERVER_ADDRESS/navdown?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navdown                 |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate left # <br> Kodi Navigate left | YOUR_GLITCH_SERVER_ADDRESS/navleft?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navleft                 |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate right # <br> Kodi Navigate right | YOUR_GLITCH_SERVER_ADDRESS/navright?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navright                 |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate back # <br> Kodi Navigate back | YOUR_GLITCH_SERVER_ADDRESS/navback?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/navback                 |                 |
-| Say a simple phrase                                   | Kodi select                     | YOUR_GLITCH_SERVER_ADDRESS/navselect                                         |
-| Say a simple phrase                                   | Kodi show context menu          | YOUR_GLITCH_SERVER_ADDRESS/navcontextmenu                                   |
-| Say a simple phrase                                   | Kodi go home                    | YOUR_GLITCH_SERVER_ADDRESS/navhome                                           |
-| Say a simple phrase                                   | Kodi whats playing              | YOUR_GLITCH_SERVER_ADDRESS/displayinfo                                       |
-| Say a phrase with a text ingredient                   | Kodi subtitles $                | YOUR_GLITCH_SERVER_ADDRESS/setsubtitles?q={{TextField}}                   |
-| Say a phrase with a number                            | Kodi subtitles direct select #  | YOUR_GLITCH_SERVER_ADDRESS/setsubtitlesdirect?q={{NumberField}}                 |
-| Say a phrase with a text ingredient                   | Kodi audio stream $             | YOUR_GLITCH_SERVER_ADDRESS/setaudio?q={{TextField}}                   |
-| Say a phrase with a number                            | Kodi audio stream direct select #| YOUR_GLITCH_SERVER_ADDRESS/setaudiodirect?q={{NumberField}}  
-| Say a phrase with a number <br> Say a simple phrase   | Kodi seek forward # minutes <br> Kodi seek forward | YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/seekforwardminutes                       |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi seek backward # minutes <br> Kodi seek backward | YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes?q={{NumberField}} <br> YOUR_GLITCH_SERVER_ADDRESS/seekbackwardminutes                       |
-| Say a phrase with a number                            | Kodi seek to # minutes        | YOUR_GLITCH_SERVER_ADDRESS/seektominutes?q={{NumberField}}                       |
-| Say a phrase with a text ingredient                   | Kodi play the song $            | YOUR_GLITCH_SERVER_ADDRESS/playsong?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi play the album $           | YOUR_GLITCH_SERVER_ADDRESS/playalbum?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi play the artist $          | YOUR_GLITCH_SERVER_ADDRESS/playartist?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi playlist $                 | YOUR_GLITCH_SERVER_ADDRESS/playercontrol?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play $                     | _YOUR_NODE_SERVER_/playmovie?q={{TextField}}                      |
+| Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}                    |
+| Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}} |
+| Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}                     |
+| Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | _YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e= {{NumberField}} |
+| Say a simple phrase                                   | Kodi play new episode           | _YOUR_NODE_SERVER_/playrecentepisode                              |
+| Say a simple phrase                                   | Kodi pause                      | _YOUR_NODE_SERVER_/playpause                                      |
+| Say a simple phrase                                   | Kodi stop                       | _YOUR_NODE_SERVER_/stop                                           |
+| Say a simple phrase                                   | Kodi mute                       | _YOUR_NODE_SERVER_/mute                                           |
+| Say a phrase with a number                            | Kodi set volume #               | _YOUR_NODE_SERVER_/volume?q={{NumberField}}                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | _YOUR_NODE_SERVER_/volumeup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumeup                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | _YOUR_NODE_SERVER_/volumedown?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumedown                       |
+| Say a phrase with a text ingredient                   | Kodi switch to $ channel        | _YOUR_NODE_SERVER_/playpvrchannelbyname?q={{TextField}}           |
+| Say a phrase with a number                            | Kodi switch to channel number # | _YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}       |
+| Say a simple phrase                                   | Kodi activate                   | _YOUR_NODE_SERVER_/activatetv                                       |
+| Say a simple phrase                                   | Kodi standby                    | _YOUR_NODE_SERVER_/standbytv                                       |
+| Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                       |
+| Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                 |
+| Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                   |
+| Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate up # <br> Kodi Navigate up | _YOUR_NODE_SERVER_/navup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navup                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate down # <br> Kodi Navigate down | _YOUR_NODE_SERVER_/navdown?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navdown                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate left # <br> Kodi Navigate left | _YOUR_NODE_SERVER_/navleft?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navleft                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate right # <br> Kodi Navigate right | _YOUR_NODE_SERVER_/navright?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navright                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate back # <br> Kodi Navigate back | _YOUR_NODE_SERVER_/navback?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navback                 |                 |
+| Say a simple phrase                                   | Kodi select                     | _YOUR_NODE_SERVER_/navselect                                         |
+| Say a simple phrase                                   | Kodi show context menu          | _YOUR_NODE_SERVER_/navcontextmenu                                   |
+| Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                           |
+| Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                       |
+| Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                   |
+| Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}                 |
+| Say a phrase with a text ingredient                   | Kodi audio stream $             | _YOUR_NODE_SERVER_/setaudio?q={{TextField}}                   |
+| Say a phrase with a number                            | Kodi audio stream direct select #| _YOUR_NODE_SERVER_/setaudiodirect?q={{NumberField}}                 |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek forward # minutes <br> Kodi seek forward | _YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekforwardminutes                       |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek backward # minutes <br> Kodi seek backward | _YOUR_NODE_SERVER_/seekbackwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekbackwardminutes                       |
+| Say a phrase with a number                            | Kodi seek to # minutes        | _YOUR_NODE_SERVER_/seektominutes?q={{NumberField}}                       |
+| Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 
-To **Turn on the TV and switch to Kodi's HDMI input** 
+To **Turn on/off the TV and switch Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above
   * This also requires that both your kodi device and TV support CEC commands
   * You need to install [this script.json-cec](https://github.com/joshjowen/script.json-cec/raw/master/script.json-cec.zip) add-on: Download and move it to your kodi device and then in Kodi choose Settings>Add-ons>Install from zip file > choose the zip your just downloaded.
   * Finally you can use this in 2 ways:
-    * Add another command: follow the same instructions as *pause* but use this URL:
-    >YOUR_GLITCH_SERVER_ADDRESS/activatetv
+    * Turn on: Add another command: follow the same instructions as *pause* but use this URL:
+    >_YOUR_NODE_SERVER_/activatetv
     
     *  Add the following line to your .env file (see step B-5 above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
     >ACTIVATE_TV="true"
+
+    * Turn off: Add another command: follow the same instructions as pause but use this URL:
+    >_YOUR_NODE_SERVER_/standbytv
 
     
 ------------

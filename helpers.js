@@ -2,6 +2,7 @@
 
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
+const KodiWindows = require('./kodi-connection/windows.js')();
 
 const AUDIO_PLAYER = 0;
 const VIDEO_PLAYER = 1;
@@ -14,6 +15,7 @@ const fuzzySearchOptions = {
     threshold: 0.4, // 0 = perfect match, 1 = match all..
     location: 0,
     distance: 100,
+    tokenize: true,
     maxPatternLength: 64,
     keys: ['label']
 };
@@ -523,6 +525,22 @@ exports.kodiNavHome = (request, response) => { // eslint-disable-line no-unused-
     return Kodi.Input.Home(); // eslint-disable-line new-cap
 };
 
+const showWindow = (kodi, window) => {
+    return kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
+        'window': window.section.toLowerCase(),
+        'parameters': [window.path]
+    });
+};
+
+exports.kodiShowWindow = (request, response) => { // eslint-disable-line no-unused-vars
+    console.log('Show window request received');
+
+    const query = request.query.q.trim();
+
+    return fuzzySearchBestMatch(KodiWindows, query)
+        .then((window) => showWindow(request.kodi, window));
+};
+
 // Set subtitles
 exports.kodiSetSubs = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
@@ -748,6 +766,20 @@ exports.kodiActivateTv = (request, response) => { // eslint-disable-line no-unus
         addonid: 'script.json-cec',
         params: {
             command: 'activate'
+        }
+    };
+
+    return Kodi.Addons.ExecuteAddon(params); // eslint-disable-line new-cap
+};
+
+exports.kodiStandbyTv = (request, response) => { // eslint-disable-line no-unused-vars
+    console.log('Standby TV request received');
+
+    let Kodi = request.kodi;
+    const params = {
+        addonid: 'script.json-cec',
+        params: {
+            command: 'standby'
         }
     };
 

@@ -105,6 +105,9 @@ app.all('/volumedown', exec(Helper.kodiDecreaseVolume));
 // Turn on TV and Switch to Kodi's HDMI input
 app.all('/activatetv', exec(Helper.kodiActivateTv));
 
+// Send HDMI-CEC 'StandBy' command to power off TV
+app.all('/standbytv', exec(Helper.kodiStandbyTv));
+
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.all('/playmovie', exec(Helper.kodiPlayMovie));
@@ -189,6 +192,9 @@ app.all('/displayinfo', exec(Helper.kodiDisplayInfo));
 
 // Navigation Home
 app.all('/navhome', exec(Helper.kodiNavHome));
+
+// Show window
+app.all('/showWindow', exec(Helper.kodiShowWindow));
 
 // **************************End of navigation controls
 

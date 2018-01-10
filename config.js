@@ -4,7 +4,7 @@ let globalConfig = {};
 
 try {
     // Try to import the kodi hosts. If not found, we'll asume that env varialbes are available.
-    let config = require('./kodi-hosts.config.js'); // eslint-disable-line global-require
+    let config = require(process.env.GOOGLE_HOME_KODI_CONFIG || './kodi-hosts.config.js'); // eslint-disable-line global-require
 
     kodiConfig = config.kodiConfig;
     globalConfig = config.globalConfig;
