@@ -193,6 +193,9 @@ app.all('/displayinfo', exec(Helper.kodiDisplayInfo));
 // Navigation Home
 app.all('/navhome', exec(Helper.kodiNavHome));
 
+// Show window
+app.all('/showWindow', exec(Helper.kodiShowWindow));
+
 // **************************End of navigation controls
 
 // Set subtitles
