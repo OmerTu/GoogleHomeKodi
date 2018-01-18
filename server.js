@@ -126,6 +126,7 @@ app.all('/scanlibrary', exec(Helper.kodiScanLibrary));
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
 app.all('/playtvshow', exec(Helper.kodiPlayTvshow));
+app.all('/resumetvshow', exec(Helper.kodiResumeTvshow));
 
 // Parse request to watch a specific episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q=[TV_SHOW_NAME]season=[SEASON_NUMBER]episode&e=[EPISODE_NUMBER]

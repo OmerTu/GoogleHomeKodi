@@ -56,6 +56,17 @@ const playTvShowEpisode = (request, episode) => {
     });
 };
 
+const resumeTvShowEpisode = (request, episode) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            episodeid: episode.episodeid
+        },
+        options: {
+            resume: true
+        }
+    });
+};
+
 const playMusicGenre = (request, genre) => {
     return request.kodi.Player.Open({ // eslint-disable-line new-cap
         item: {
@@ -858,6 +869,18 @@ exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unus
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectFirstUnwatchedEpisode(episodes))
         .then((episode) => playTvShowEpisode(request, episode));
+};
+
+exports.kodiResumeTvshow = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+    let tvshowTitle = request.query.q;
+
+    console.log(`TV Show request received to resume "${tvshowTitle}"`);
+
+    return kodiFindTvShow(request, tvshowTitle)
+        .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
+        .then((episodes) => selectFirstUnwatchedEpisode(episodes))
+        .then((episode) => resumeTvShowEpisode(request, episode));
 };
 
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars

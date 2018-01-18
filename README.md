@@ -441,6 +441,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}                    |
 | Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}} |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}                     |
+| Say a phrase with a text ingredient                   | Kodi resume an episode of $     | _YOUR_NODE_SERVER_/resumetvshow?q={{TextField}}                     |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | _YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e= {{NumberField}} |
 | Say a simple phrase                                   | Kodi play new episode           | _YOUR_NODE_SERVER_/playrecentepisode                              |
 | Say a simple phrase                                   | Kodi pause                      | _YOUR_NODE_SERVER_/playpause                                      |
