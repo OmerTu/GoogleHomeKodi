@@ -992,6 +992,9 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
 };
 
 exports.kodiShutdown = (request) => request.kodi.System.Shutdown(); // eslint-disable-line new-cap
+exports.kodiHibernate = (request) => request.kodi.System.Hibernate(); // eslint-disable-line new-cap
+exports.kodiReboot = (request) => request.kodi.System.Reboot(); // eslint-disable-line new-cap
+exports.kodiSuspend = (request) => request.kodi.System.Suspend(); // eslint-disable-line new-cap
 
 
 exports.kodiPlayMusicByGenre = (request) => {

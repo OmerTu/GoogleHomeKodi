@@ -140,6 +140,9 @@ app.all('/playrecentepisode', exec(Helper.kodiPlayRecentEpisodeHandler));
 // Parse request to Shutdown the kodi system
 // Request format:  http://[THIS_SERVER_IP_ADDRESS]/shutdown
 app.all('/shutdown', exec(Helper.kodiShutdown));
+app.all('/hibernate', exec(Helper.kodiHibernate));
+app.all('/reboot', exec(Helper.kodiReboot));
+app.all('/suspend', exec(Helper.kodiSuspend));
 
 // Parse request to watch a random episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q[TV_SHOW_NAME]season[SEASON_NUMBER]episode&e[EPISODE_NUMBER]

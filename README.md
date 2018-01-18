@@ -49,8 +49,11 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Turn on TV:**
 "Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
 
-### **Shutdown Kodi:**
+### **Control Kodi-System:**
 "Hey Google, kodi shutdown"
+"Hey Google, kodi hibernate"
+"Hey Google, kodi reboot"
+"Hey Google, kodi suspend"
 
 ### **Scan library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
@@ -454,7 +457,10 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number                            | Kodi switch to channel number # | _YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi activate                   | _YOUR_NODE_SERVER_/activatetv                                       |
 | Say a simple phrase                                   | Kodi standby                    | _YOUR_NODE_SERVER_/standbytv                                       |
-| Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                       |
+| Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                        |
+| Say a simple phrase                                   | Kodi hibernate                  | _YOUR_NODE_SERVER_/hibernate                                       |
+| Say a simple phrase                                   | Kodi reboot                     | _YOUR_NODE_SERVER_/reboot                                          |
+| Say a simple phrase                                   | Kodi suspend                    | _YOUR_NODE_SERVER_/suspend                                         |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                       |
