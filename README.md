@@ -110,14 +110,12 @@ There are many more windows to choose from, a full list can be found [here](http
 ### **Seek to x minutes:**
 "Hey Google, kodi jump to 30 minutes"
 
-### **Play a song:**
-"Hey Google, kodi play the song [song name]" --> will search for the given song name and play it.
+### **Play music:**
+"Hey Google, kodi play the **song** [song name]" --> will search for the given song name and play it.  
+"Hey Google, kodi play the **album** [album name]" --> will search for the given album name and play it.  
+"Hey Google, kodi play songs by the **artist** [music artist name]" --> will search for the given music artist name and play it.  
+"Hey Google, kodi play some [genre name] music" --> will play shuffled songs of that genre  
 
-### **Play an album:**
-"Hey Google, kodi play the album [album name]" --> will search for the given album name and play it.
-
-### **Play an artist:**
-"Hey Google, kodi play songs by the artist [music artist name]" --> will search for the given music artist name and play it.
 
 ### **Playlist Control:**
 "Hey Google, kodi playlist previous/next/list item number" --> This will go forward/backward or select an item on the playlist #.
@@ -479,6 +477,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 
 To **Turn on/off the TV and switch Kodi's HDMI input** 

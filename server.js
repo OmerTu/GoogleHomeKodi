@@ -240,6 +240,8 @@ app.all('/playalbum', exec(Helper.kodiPlayAlbum));
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]
 app.all('/playartist', exec(Helper.kodiPlayArtist));
 
+app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
+
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));
 

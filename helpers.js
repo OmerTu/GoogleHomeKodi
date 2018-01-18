@@ -56,6 +56,17 @@ const playTvShowEpisode = (request, episode) => {
     });
 };
 
+const playMusicGenre = (request, genre) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            genreid: genre.genreid
+        },
+        options: {
+            shuffled: true
+        }
+    });
+};
+
 const selectRandomItem = (items) => {
     if (!(items && items.length)) {
         throw new Error('no matching items found in kodi library');
@@ -312,6 +323,17 @@ const kodiFindAlbum = (albumTitle, Kodi) => {
             }
 
             return fuzzySearchBestMatch(albums.result.albums, albumTitle);
+        });
+};
+
+const kodiGetMusicGenres = (Kodi) => {
+    return Kodi.AudioLibrary.GetGenres() // eslint-disable-line new-cap
+        .then((genres) => {
+            if (!(genres && genres.result && genres.result.genres && genres.result.genres.length > 0)) {
+                throw new Error('Your kodi library does not contain a single genre!');
+            }
+
+            return genres.result.genres;
         });
 };
 
@@ -947,3 +969,17 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
 };
 
 exports.kodiShutdown = (request) => request.kodi.System.Shutdown(); // eslint-disable-line new-cap
+
+
+exports.kodiPlayMusicByGenre = (request) => {
+
+    let Kodi = request.kodi;
+    let requestedGenre = request.query.q;
+
+    console.log('playback of a music genre requested', requestedGenre);
+
+    return kodiGetMusicGenres(Kodi)
+        .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
+        .then((genre) => playMusicGenre(request, genre));
+
+};
