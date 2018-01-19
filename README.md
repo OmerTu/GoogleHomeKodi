@@ -117,8 +117,8 @@ There are many more windows to choose from, a full list can be found [here](http
 "Hey Google, kodi play the **song** [song name]" --> will search for the given song name and play it.  
 "Hey Google, kodi play the **album** [album name]" --> will search for the given album name and play it.  
 "Hey Google, kodi play songs by the **artist** [music artist name]" --> will search for the given music artist name and play it.  
-"Hey Google, kodi play some [genre name] music" --> will play shuffled songs of that genre  
-
+"Hey Google, kodi play some [**genre** name] music" --> will play shuffled songs of that genre.  
+"Hey Google, kodi toggle **party mode**" --> starts the kodi party mode.
 
 ### **Playlist Control:**
 "Hey Google, kodi playlist previous/next/list item number" --> This will go forward/backward or select an item on the playlist #.
@@ -487,6 +487,8 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
+| Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
+
 
 To **Turn on/off the TV and switch Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above

@@ -248,6 +248,8 @@ app.all('/playartist', exec(Helper.kodiPlayArtist));
 
 app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
 
+app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
+
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));
 

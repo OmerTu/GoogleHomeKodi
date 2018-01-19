@@ -1052,3 +1052,21 @@ exports.kodiExecuteAddon = (request) => {
         .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, 'name'))
         .then((addon) => executeAddon(kodi, addon));
 };
+
+const togglePartyMode = (kodi, playerid) => {
+    return kodi.Player.SetPartymode({ // eslint-disable-line new-cap
+        playerid: playerid,
+        partymode: 'toggle'
+    });
+};
+
+exports.kodiTogglePartymode = (request) => {
+    let kodi = request.kodi;
+
+    console.log('requested partymode toggle');
+
+    return kodi.Player.GetActivePlayers() // eslint-disable-line new-cap
+        .then((kodiResponse) => kodiResponse.result[0].playerid)
+        .catch(() => AUDIO_PLAYER)
+        .then((playerid) => togglePartyMode(kodi, playerid));
+};
