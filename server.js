@@ -200,6 +200,8 @@ app.all('/navhome', exec(Helper.kodiNavHome));
 // Show window
 app.all('/showWindow', exec(Helper.kodiShowWindow));
 
+app.all('/executeAddon', exec(Helper.kodiExecuteAddon));
+
 // **************************End of navigation controls
 
 // Set subtitles

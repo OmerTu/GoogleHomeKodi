@@ -90,11 +90,19 @@ const selectRandomItem = (items) => {
     return Promise.resolve(randomItem);
 };
 
-const fuzzySearchBestMatch = (items, needle) => {
+const fuzzySearchBestMatch = (items, needle, optionalTargetProperty) => {
+
+    let options = fuzzySearchOptions;
+
+    if (optionalTargetProperty) {
+        options = Object.assign({}, options);
+        options.keys = [optionalTargetProperty];
+    }
+
     let cleanNeedle = needle
         .trim()
         .replace(/of /gi, '');
-    let fuse = new Fuse(items, fuzzySearchOptions);
+    let fuse = new Fuse(items, options);
     let searchResult = fuse.search(cleanNeedle);
 
     if (searchResult.length === 0) {
@@ -1002,10 +1010,45 @@ exports.kodiPlayMusicByGenre = (request) => {
     let Kodi = request.kodi;
     let requestedGenre = request.query.q;
 
-    console.log('playback of a music genre requested', requestedGenre);
+    console.log('playback of a music genre requested:', requestedGenre);
 
     return kodiGetMusicGenres(Kodi)
         .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
         .then((genre) => playMusicGenre(request, genre));
 
+};
+
+const kodiGetAddons = (kodi) => {
+    return kodi.Addons.GetAddons({ // eslint-disable-line new-cap
+        properties: ['enabled', 'name']
+    })
+    .then((kodiResponse) => kodiResponse.result.addons);
+};
+
+const removeNotExecuteableAddons = (addons) => {
+    return addons
+        .filter((addon) => addon.enabled)
+        .filter((addon) => !addon.type.startsWith('kodi.resource'))
+        .filter((addon) => !addon.type.startsWith('xbmc.addon.repository'))
+        .filter((addon) => !addon.type.startsWith('xbmc.metadata'))
+        .filter((addon) => !addon.type.startsWith('xbmc.gui.skin'))
+        .filter((addon) => !addon.type.startsWith('xbmc.service'));
+};
+
+const executeAddon = (kodi, addon) => {
+    return kodi.Addons.ExecuteAddon({ // eslint-disable-line new-cap
+        addonid: addon.addonid
+    });
+};
+
+exports.kodiExecuteAddon = (request) => {
+
+    let kodi = request.kodi;
+    let requestedAddon = request.query.q;
+
+    console.log('requested execution of an addon:', requestedAddon);
+    return kodiGetAddons(kodi)
+        .then((allAddons) => removeNotExecuteableAddons(allAddons))
+        .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, 'name'))
+        .then((addon) => executeAddon(kodi, addon));
 };
