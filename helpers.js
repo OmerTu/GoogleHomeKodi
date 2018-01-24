@@ -971,8 +971,15 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
             if (!results || results.length === 0) {
                 reject('no results found');
             }
-
-            resolve(results[0]);
+        
+            results.forEach((result, index) => {
+              if(result.kind == 'youtube#video'){
+                resolve(result);
+                return;
+              }
+            });
+            
+            reject('no playable video found');
 
         })).then((foundVideo) => {
 
