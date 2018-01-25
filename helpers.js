@@ -973,7 +973,8 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
     console.log(`Searching youtube for ${searchString}`);
     const opts = {
         maxResults: 10,
-        key: request.config.youtubeKey
+        key: request.config.youtubeKey,
+        type: 'video'
     };
 
     return new Promise((resolve, reject) =>
