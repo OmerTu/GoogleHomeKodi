@@ -57,7 +57,7 @@ const authenticate = function(request, response, next) {
 
     let requestToken = request.body.token;
 
-    if (!requestToken) {
+    if (!requestToken && config.globalConf.authToken !== 'AUTH_DISABLED') {
         console.log('401 - Missing request body');
         throw new ResponseException('401 - Missing access token', 401);
     }
