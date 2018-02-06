@@ -126,6 +126,7 @@ app.all('/scanlibrary', exec(Helper.kodiScanLibrary));
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
 app.all('/playtvshow', exec(Helper.kodiPlayTvshow));
+app.all('/resumetvshow', exec(Helper.kodiResumeTvshow));
 
 // Parse request to watch a specific episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q=[TV_SHOW_NAME]season=[SEASON_NUMBER]episode&e=[EPISODE_NUMBER]
@@ -139,6 +140,9 @@ app.all('/playrecentepisode', exec(Helper.kodiPlayRecentEpisodeHandler));
 // Parse request to Shutdown the kodi system
 // Request format:  http://[THIS_SERVER_IP_ADDRESS]/shutdown
 app.all('/shutdown', exec(Helper.kodiShutdown));
+app.all('/hibernate', exec(Helper.kodiHibernate));
+app.all('/reboot', exec(Helper.kodiReboot));
+app.all('/suspend', exec(Helper.kodiSuspend));
 
 // Parse request to watch a random episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playepisode?q[TV_SHOW_NAME]season[SEASON_NUMBER]episode&e[EPISODE_NUMBER]
@@ -196,6 +200,8 @@ app.all('/navhome', exec(Helper.kodiNavHome));
 // Show window
 app.all('/showWindow', exec(Helper.kodiShowWindow));
 
+app.all('/executeAddon', exec(Helper.kodiExecuteAddon));
+
 // **************************End of navigation controls
 
 // Set subtitles
@@ -239,6 +245,10 @@ app.all('/playalbum', exec(Helper.kodiPlayAlbum));
 // Parse request to play an artist
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]
 app.all('/playartist', exec(Helper.kodiPlayArtist));
+
+app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
+
+app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
 
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));

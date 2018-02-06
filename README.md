@@ -49,8 +49,11 @@ Follow these steps to easily control your kodi using simple voice commands with 
 ### **Turn on TV:**
 "Hey Google, switch to kodi" --> will turn on the TV and switch to Kodi's HDMI input
 
-### **Shutdown Kodi:**
+### **Control Kodi-System:**
 "Hey Google, kodi shutdown"
+"Hey Google, kodi hibernate"
+"Hey Google, kodi reboot"
+"Hey Google, kodi suspend"
 
 ### **Scan library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
@@ -110,14 +113,12 @@ There are many more windows to choose from, a full list can be found [here](http
 ### **Seek to x minutes:**
 "Hey Google, kodi jump to 30 minutes"
 
-### **Play a song:**
-"Hey Google, kodi play the song [song name]" --> will search for the given song name and play it.
-
-### **Play an album:**
-"Hey Google, kodi play the album [album name]" --> will search for the given album name and play it.
-
-### **Play an artist:**
-"Hey Google, kodi play songs by the artist [music artist name]" --> will search for the given music artist name and play it.
+### **Play music:**
+"Hey Google, kodi play the **song** [song name]" --> will search for the given song name and play it.  
+"Hey Google, kodi play the **album** [album name]" --> will search for the given album name and play it.  
+"Hey Google, kodi play songs by the **artist** [music artist name]" --> will search for the given music artist name and play it.  
+"Hey Google, kodi play some [**genre** name] music" --> will play shuffled songs of that genre.  
+"Hey Google, kodi toggle **party mode**" --> starts the kodi party mode.
 
 ### **Playlist Control:**
 "Hey Google, kodi playlist previous/next/list item number" --> This will go forward/backward or select an item on the playlist #.
@@ -443,6 +444,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}                    |
 | Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}} |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}                     |
+| Say a phrase with a text ingredient                   | Kodi resume an episode of $     | _YOUR_NODE_SERVER_/resumetvshow?q={{TextField}}                     |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | _YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e= {{NumberField}} |
 | Say a simple phrase                                   | Kodi play new episode           | _YOUR_NODE_SERVER_/playrecentepisode                              |
 | Say a simple phrase                                   | Kodi pause                      | _YOUR_NODE_SERVER_/playpause                                      |
@@ -455,7 +457,10 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number                            | Kodi switch to channel number # | _YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}       |
 | Say a simple phrase                                   | Kodi activate                   | _YOUR_NODE_SERVER_/activatetv                                       |
 | Say a simple phrase                                   | Kodi standby                    | _YOUR_NODE_SERVER_/standbytv                                       |
-| Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                       |
+| Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                        |
+| Say a simple phrase                                   | Kodi hibernate                  | _YOUR_NODE_SERVER_/hibernate                                       |
+| Say a simple phrase                                   | Kodi reboot                     | _YOUR_NODE_SERVER_/reboot                                          |
+| Say a simple phrase                                   | Kodi suspend                    | _YOUR_NODE_SERVER_/suspend                                         |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                       |
@@ -469,6 +474,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                           |
 | Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                       |
 | Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi execute addon $            | _YOUR_NODE_SERVER_/executeAddon?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                   |
 | Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}                 |
 | Say a phrase with a text ingredient                   | Kodi audio stream $             | _YOUR_NODE_SERVER_/setaudio?q={{TextField}}                   |
@@ -479,7 +485,10 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
+| Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
+
 
 To **Turn on/off the TV and switch Kodi's HDMI input** 
   * This requires Kodi 17 (Krypton) and above
