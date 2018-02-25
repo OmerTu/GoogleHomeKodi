@@ -1,10 +1,15 @@
 'use strict'; // eslint-disable-line strict
+
+require('dotenv').load();
+const Kodi = require('./kodi-connection/node.js');
+
 let kodiConfig = [];
 let globalConfig = {};
 
 try {
     // Try to import the kodi hosts. If not found, we'll asume that env varialbes are available.
-    let config = require(process.env.GOOGLE_HOME_KODI_CONFIG || './kodi-hosts.config.js'); // eslint-disable-line global-require
+    let configFile = process.env.GOOGLE_HOME_KODI_CONFIG || './kodi-hosts.config.js';
+    let config = require(configFile); // eslint-disable-line global-require
 
     kodiConfig = config.kodiConfig;
     globalConfig = config.globalConfig;
@@ -14,13 +19,25 @@ try {
     }
 }
 
-const Kodi = require('./kodi-connection/node.js');
+const checkMandatoryEnv = (variables) => {
+
+    let missing = variables.filter((v) => !process.env[v]);
+
+    if (missing.length > 0) {
+        console.log('Missing mandatory configuration:', missing.join(', '));
+        console.log(
+            `Check your .env-File (when hosting with Glitch)`,
+            `or your environment variables (when hosting with Docker)`,
+            `or the kodi-hosts.config.js file.`
+        );
+        process.exit(1);
+    }
+};
 
 const Init = function() {
     this.kodiHosts = [];
     this.globalConf = {};
 
-    require('dotenv').load(); // eslint-disable-line global-require
     if (kodiConfig.length !== 0) {
         // We've found one or more kodi configurations.
         this.kodiHosts = kodiConfig.map((config) => {
@@ -34,14 +51,11 @@ const Init = function() {
                     config.kodiPassword)
             };
         });
-        console.log(`Loaded ${this.kodiHosts.length} hosts from the config.js`);
+        console.log(`Loaded ${this.kodiHosts.length} Kodi hosts.`);
     } else {
-        if (!process.env.AUTH_TOKEN || !process.env.KODI_IP || !process.env.KODI_PORT || !process.env.KODI_USER || !process.env.KODI_PASSWORD) {
-            console.log('Missing kodi host config. Please configure one using the .env (when using Glitch) or the config.js file.');
-            process.exit();
-        }
+        checkMandatoryEnv(['KODI_IP', 'KODI_PORT']);
 
-        this.kodiHosts[0] = {
+        this.kodiHosts.push({
             id: 'kodi',
             host: new Kodi(
                 process.env.KODI_PROTOCOL || 'http',
@@ -49,36 +63,29 @@ const Init = function() {
                 process.env.KODI_PORT,
                 process.env.KODI_USER,
                 process.env.KODI_PASSWORD)
-        };
+        });
     }
 
     if (Object.keys(globalConfig).length > 0) {
-        console.log(`Starting using kodi-hosts.config.js, ${JSON.stringify(globalConfig, null, 2)}`);
+        console.log(`Loaded config from kodi-hosts.config.js, ${JSON.stringify(globalConfig, null, 2)}`);
         this.globalConf = globalConfig;
     } else {
-        if (!process.env.AUTH_TOKEN || !process.env.PORT) {
-            console.log('Missing AuthToken. Please configure one using the .env (when using Glitch) or the config.js file.');
-            process.exit();
-        }
+        checkMandatoryEnv(['AUTH_TOKEN', 'PORT']);
         this.globalConf.authToken = process.env.AUTH_TOKEN;
         this.globalConf.listenerPort = process.env.PORT;
         this.globalConf.youtubeKey = process.env.YOUTUBE_KEY || 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w';
-        console.log('Loaded config from .env');
+        console.log('Loaded config from .env (environment)');
     }
 
     this.getHost = (kodiId) => {
-        let returnHost;
 
         if (kodiId) {
-            returnHost = this.kodiHosts.filter((kodiHost) => {
-                if (kodiHost.id === kodiId) {
-                    return kodiHost.host;
-                }
-            })[0].host;
-        } else {
-            returnHost = this.kodiHosts[0].host;
+            return this.kodiHosts
+                .find((kodiHost) => kodiHost.id === kodiId)
+                .host;
         }
-        return returnHost;
+
+        return this.kodiHosts[0].host;
     };
 
     /*
