@@ -893,9 +893,10 @@ exports.kodiResumeTvshow = (request, response) => { // eslint-disable-line no-un
 
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
-    let requestPartOne = request.query.q.split('season');
-    let tvshowTitle = requestPartOne[0];
-    let seasonNum = requestPartOne[1].trim().toLowerCase();
+    let fullQuery = request.query.q.toLowerCase();
+    let splittedQuery = fullQuery.split('season');
+    let tvshowTitle = splittedQuery[0];
+    let seasonNum = splittedQuery[1].trim();
     let episodeNum = request.query.e.trim();
 
     console.log(`Specific Episode request received to play ${tvshowTitle} Season ${seasonNum} Episode ${episodeNum}`);
