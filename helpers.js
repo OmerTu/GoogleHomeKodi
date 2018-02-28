@@ -67,6 +67,27 @@ const resumeTvShowEpisode = (request, episode) => {
     });
 };
 
+const playTvShowEpisodes = (request, episodes) => {
+
+    let kodi = request.kodi;
+    let items = episodes.map((episode) => ({
+        episodeid: episode.episodeid
+    }));
+
+    return kodi.Playlist.Clear({ // eslint-disable-line new-cap
+        playlistid: VIDEO_PLAYER
+    })
+    .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
+        item: items,
+        playlistid: VIDEO_PLAYER
+    }))
+    .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            playlistid: VIDEO_PLAYER
+        }
+    }));
+};
+
 const playMusicGenre = (request, genre) => {
     return request.kodi.Player.Open({ // eslint-disable-line new-cap
         item: {
@@ -226,8 +247,8 @@ const kodiGetTvShowsEpisodes = (request, tvShow) => {
     });
 };
 
-const selectFirstUnwatchedEpisode = (tvShowEpisodes) => {
-    console.log('selecting first unwatched episode');
+const selectUnwatchedEpisodes = (tvShowEpisodes) => {
+    console.log('selecting unwatched episodes');
 
     let unwatchedEpisodes = tvShowEpisodes
         .filter((item) => item.playcount === 0);
@@ -236,9 +257,14 @@ const selectFirstUnwatchedEpisode = (tvShowEpisodes) => {
         throw new Error('no unwatched episodes');
     }
 
-    let firstUnwatchedEpisode = unwatchedEpisodes[0];
+    return Promise.resolve(unwatchedEpisodes);
+};
 
-    return firstUnwatchedEpisode;
+const selectFirstUnwatchedEpisode = (tvShowEpisodes) => {
+    console.log('selecting first unwatched episode');
+
+    return selectUnwatchedEpisodes(tvShowEpisodes)
+        .then((unwatchedEpisodes) => unwatchedEpisodes[0]);
 };
 
 const kodiFindMostRecentlyAddedEpisode = (request) => {
@@ -696,6 +722,9 @@ exports.kodiPlayArtist = (request, response) => { // eslint-disable-line no-unus
         .then((data) => Kodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 artistid: data.artistid
+            },
+            options: {
+                shuffled: true
             }
         }));
 };
@@ -891,11 +920,24 @@ exports.kodiResumeTvshow = (request, response) => { // eslint-disable-line no-un
         .then((episode) => resumeTvShowEpisode(request, episode));
 };
 
+exports.kodiBingeWatchTvshow = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+    let tvshowTitle = request.query.q;
+
+    console.log(`TV Show request received to binge watch "${tvshowTitle}"`);
+
+    return kodiFindTvShow(request, tvshowTitle)
+        .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
+        .then((episodes) => selectUnwatchedEpisodes(episodes))
+        .then((unwatchedEpisodes) => playTvShowEpisodes(request, unwatchedEpisodes));
+};
+
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
-    let requestPartOne = request.query.q.split('season');
-    let tvshowTitle = requestPartOne[0];
-    let seasonNum = requestPartOne[1].trim().toLowerCase();
+    let fullQuery = request.query.q.toLowerCase();
+    let splittedQuery = fullQuery.split('season');
+    let tvshowTitle = splittedQuery[0];
+    let seasonNum = splittedQuery[1].trim();
     let episodeNum = request.query.e.trim();
 
     console.log(`Specific Episode request received to play ${tvshowTitle} Season ${seasonNum} Episode ${episodeNum}`);
