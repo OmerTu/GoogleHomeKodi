@@ -696,6 +696,9 @@ exports.kodiPlayArtist = (request, response) => { // eslint-disable-line no-unus
         .then((data) => Kodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 artistid: data.artistid
+            },
+            options: {
+                shuffled: true
             }
         }));
 };
