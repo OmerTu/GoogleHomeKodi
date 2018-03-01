@@ -33,7 +33,11 @@ module.exports = [
     },
     {
         name: 'Player',
-        methods: ['GetActivePlayers', 'GetItem', 'GetProperties', 'GoTo', 'Move', 'Open', 'PlayPause', 'Rotate', 'Seek', 'SetAudioStream', 'SetPartymode', 'SetRepeat', 'SetShuffle', 'SetSpeed', 'SetSubtitle', 'Stop', 'Zoom', 't', 't.Add', 't.Clear', 't.GetItems', 't.GetPlaylists', 't.GetProperties', 't.Insert', 't.Remove', 't.Swap']
+        methods: ['GetActivePlayers', 'GetItem', 'GetProperties', 'GoTo', 'Move', 'Open', 'PlayPause', 'Rotate', 'Seek', 'SetAudioStream', 'SetPartymode', 'SetRepeat', 'SetShuffle', 'SetSpeed', 'SetSubtitle', 'Stop', 'Zoom']
+    },
+    {
+        name: 'Playlist',
+        methods: ['Add', 'Clear', 'GetItems', 'GetPlaylists', 'GetProperties', 'Insert', 'Remove', 'Swap']
     },
     {
         name: 'System',
