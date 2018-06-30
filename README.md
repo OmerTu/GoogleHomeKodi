@@ -490,6 +490,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
+| Say a phrase with a text ingredient                   | Kodi open $ from my favourites  | _YOUR_NODE_SERVER_/playfavourite?q={{TextField}}                   |
 
 
 To **Turn on/off the TV and switch Kodi's HDMI input** 

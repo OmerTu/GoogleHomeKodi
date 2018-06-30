@@ -1113,3 +1113,50 @@ exports.kodiTogglePartymode = (request) => {
         .catch(() => AUDIO_PLAYER)
         .then((playerid) => togglePartyMode(kodi, playerid));
 };
+
+const kodiFindFavourite = (request, favouriteName) => {
+    let Kodi = request.kodi;
+
+    return Kodi.Favourites.GetFavourites({ // eslint-disable-line new-cap
+        properties: ['window','path','windowparameter']
+    }).then((query) => {
+        if (!(query && query.result && query.result.favourites && query.result.favourites.length > 1)) {
+            throw new Error('Your kodi library does not contain a single favourite!');
+        }
+
+        let favouriteList = query.result.favourites.map(function(x) {return x.title})
+
+        return fuzzySearchBestMatch(favouriteList, favouriteName)
+            .then((matchingFavourite) => {
+            return query.result.favourites[matchingFavourite];
+        })
+    });
+};
+
+exports.kodiOpenFavourite = (request, response) => { // eslint-disable-line no-unused-vars
+    let favouriteName = request.query.q;
+
+    console.log("requested favourite:", favouriteName);
+
+    return kodiFindFavourite(request, favouriteName)
+        .then((favourite) => playFavourite(request, favourite))
+};
+
+const playFavourite = (request, favourite) => {
+    console.log(`opening media type favourite "${favourite.title}"`);
+    if ('media' == favourite.type) {
+        return request.kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                file: favourite.path
+            }
+        });
+    } else if ('window' == favourite.type) {
+        console.log(`opening window type favourite "${favourite.title}"`);
+        return request.kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
+            window: favourite.window,
+            parameters: [favourite.windowparameter]
+        });
+    } else {
+        console.log(`do not know how to open "${favourite.type}" type favourites`);
+    }
+};

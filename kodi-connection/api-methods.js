@@ -50,5 +50,9 @@ module.exports = [
     {
         name: 'XBMC',
         methods: ['GetInfoBooleans', 'GetInfoLabels']
+    },
+    {
+        name: 'Favourites',
+        methods: ['GetFavourites']
     }
 ];
