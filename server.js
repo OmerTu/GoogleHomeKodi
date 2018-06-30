@@ -254,6 +254,9 @@ app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));
 
+
+app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
+
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
 });
