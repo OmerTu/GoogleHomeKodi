@@ -67,7 +67,7 @@ const resumeTvShowEpisode = (request, episode) => {
     });
 };
 
-const playTvShowEpisodes = (request, episodes) => {
+const playTvShowEpisodes = (request, episodes, isShuffled = false) => {
 
     let kodi = request.kodi;
     let items = episodes.map((episode) => ({
@@ -84,7 +84,12 @@ const playTvShowEpisodes = (request, episodes) => {
     .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
         item: {
             playlistid: VIDEO_PLAYER
+        },
+        options: {
+            shuffled: isShuffled
         }
+    })).then(() => kodi.GUI.SetFullscreen({
+        fullscreen: true
     }));
 };
 
@@ -965,6 +970,17 @@ exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-l
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectRandomItem(episodes))
         .then((episode) => playTvShowEpisode(request, episode));
+};
+
+exports.kodiShuffleShowHandler = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+    let tvShowTitle = request.query.q;
+
+    console.log(`A shuffle show request received to play for show ${tvShowTitle}`);
+
+    return kodiFindTvShow(request, tvShowTitle)
+        .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
+        .then((episodes) => playTvShowEpisodes(request, episodes, true));
 };
 
 exports.kodiOpenTvshow = (request) => {
