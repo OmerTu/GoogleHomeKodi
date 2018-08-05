@@ -1135,6 +1135,14 @@ exports.kodiTogglePartymode = (request) => {
         .then((playerid) => togglePartyMode(kodi, playerid));
 };
 
+exports.kodiToggleFullscreen = (request) => { // eslint-disable-line no-unused-vars
+    console.log('Toggle Fullscreen request received');
+    let Kodi = request.kodi;
+    return Kodi.Input.ExecuteAction({
+        'action': 'togglefullscreen'
+    });
+};
+
 const kodiFindFavourite = (request, favouriteName) => {
     let Kodi = request.kodi;
 
