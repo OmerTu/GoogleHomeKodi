@@ -500,8 +500,11 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
     * Turn on: Add another command: follow the same instructions as *pause* but use this URL:
     >_YOUR_NODE_SERVER_/activatetv
     
-    *  Add the following line to your .env file (see step B.1 - (5) above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
+    *  If host your server on Glitch, add the following line to your .env file (see step B.1 - (5) above) and kodi will automaticly turn on the tv and switch the HDMI input everytime your trigger the main playing actions (play a move / tv show / episode / pvr channel)
     >ACTIVATE_TV="true"
+    
+    *  If you host your server yourself (see step B.2 - (7) above), then add the following line at the end of your kodi-hosts.config.js file instead
+    >process.env['ACTIVATE_TV'] = 'true';
 
     * Turn off: Add another command: follow the same instructions as pause but use this URL:
     >_YOUR_NODE_SERVER_/standbytv
