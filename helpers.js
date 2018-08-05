@@ -665,8 +665,13 @@ exports.kodiSeektominutes = (request, response) => { // eslint-disable-line no-u
 
     const seektominutes = request.query.q.trim();
 
+   	let hours = parseInt(seektominutes / 60);
+   	let minutes = parseInt(seektominutes % 60);
+
     return kodiSeek(Kodi, {
-        minutes: parseInt(seektominutes)
+       	hours: hours,
+       	minutes: minutes,
+       	seconds: 0
     });
 };
 
