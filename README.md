@@ -476,6 +476,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                           |
 | Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                       |
 | Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi show movie genre $         | _YOUR_NODE_SERVER_/showMovieGenre?q={{TextField}}               |
 | Say a phrase with a text ingredient                   | Kodi execute addon $            | _YOUR_NODE_SERVER_/executeAddon?q={{TextField}}                 |
 | Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                   |
 | Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}                 |
@@ -490,6 +491,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
+| Say a simple phrase                                   | Kodi toggle fullscreen          | _YOUR_NODE_SERVER_/togglefullscreen                                |
 
 
 To **Turn on/off the TV and switch Kodi's HDMI input** 
