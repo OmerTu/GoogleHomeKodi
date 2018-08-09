@@ -67,7 +67,7 @@ const resumeTvShowEpisode = (request, episode) => {
     });
 };
 
-const playTvShowEpisodes = (request, episodes) => {
+const playTvShowEpisodes = (request, episodes, isShuffled = false) => {
 
     let kodi = request.kodi;
     let items = episodes.map((episode) => ({
@@ -84,7 +84,12 @@ const playTvShowEpisodes = (request, episodes) => {
     .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
         item: {
             playlistid: VIDEO_PLAYER
+        },
+        options: {
+            shuffled: isShuffled
         }
+    })).then(() => kodi.GUI.SetFullscreen({
+        fullscreen: true
     }));
 };
 
@@ -382,6 +387,18 @@ const kodiGetMusicGenres = (Kodi) => {
         });
 };
 
+const kodiGetMovieGenres = (Kodi) => {
+    return Kodi.VideoLibrary.GetGenres({
+        type: 'movie'
+    })
+    .then((genres) => {
+        if (!(genres && genres.result && genres.result.genres && genres.result.genres.length > 0)) {
+            throw new Error('Your kodi library does not contain a single genre!');
+        }
+        return genres.result.genres;
+    });
+};
+
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI >= chGroups.length) {
         return Promise.resolve('group out of range');
@@ -665,8 +682,13 @@ exports.kodiSeektominutes = (request, response) => { // eslint-disable-line no-u
 
     const seektominutes = request.query.q.trim();
 
+   	let hours = parseInt(seektominutes / 60);
+   	let minutes = parseInt(seektominutes % 60);
+
     return kodiSeek(Kodi, {
-        minutes: parseInt(seektominutes)
+       	hours: hours,
+       	minutes: minutes,
+       	seconds: 0
     });
 };
 
@@ -967,6 +989,17 @@ exports.kodiShuffleEpisodeHandler = (request, response) => { // eslint-disable-l
         .then((episode) => playTvShowEpisode(request, episode));
 };
 
+exports.kodiShuffleShowHandler = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+    let tvShowTitle = request.query.q;
+
+    console.log(`A shuffle show request received to play for show ${tvShowTitle}`);
+
+    return kodiFindTvShow(request, tvShowTitle)
+        .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
+        .then((episodes) => playTvShowEpisodes(request, episodes, true));
+};
+
 exports.kodiOpenTvshow = (request) => {
     let tvshowTitle = request.query.q;
 
@@ -1061,6 +1094,21 @@ exports.kodiPlayMusicByGenre = (request) => {
 
 };
 
+exports.kodiShowMovieGenre = (request) => { // eslint-disable-line no-unused-vars
+
+    let Kodi = request.kodi;
+    let requestedGenre = request.query.q;
+
+    console.log('Show a movie genre requested:', requestedGenre);
+
+    return kodiGetMovieGenres(Kodi)
+        .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
+        .then((genre) => Kodi.GUI.ActivateWindow({
+            window: 'videos',
+            parameters: ['videodb://1/1/' + genre.genreid]
+        }));
+};
+
 const kodiGetAddons = (kodi) => {
     return kodi.Addons.GetAddons({ // eslint-disable-line new-cap
         properties: ['enabled', 'name']
@@ -1112,4 +1160,59 @@ exports.kodiTogglePartymode = (request) => {
         .then((kodiResponse) => kodiResponse.result[0].playerid)
         .catch(() => AUDIO_PLAYER)
         .then((playerid) => togglePartyMode(kodi, playerid));
+};
+
+exports.kodiToggleFullscreen = (request) => { // eslint-disable-line no-unused-vars
+    console.log('Toggle Fullscreen request received');
+    let Kodi = request.kodi;
+    return Kodi.Input.ExecuteAction({
+        'action': 'togglefullscreen'
+    });
+};
+
+const kodiFindFavourite = (request, favouriteName) => {
+    let Kodi = request.kodi;
+
+    return Kodi.Favourites.GetFavourites({ // eslint-disable-line new-cap
+        properties: ['window','path','windowparameter']
+    }).then((query) => {
+        if (!(query && query.result && query.result.favourites && query.result.favourites.length > 1)) {
+            throw new Error('Your kodi library does not contain a single favourite!');
+        }
+
+        let favouriteList = query.result.favourites.map(function(x) {return x.title})
+
+        return fuzzySearchBestMatch(favouriteList, favouriteName)
+            .then((matchingFavourite) => {
+            return query.result.favourites[matchingFavourite];
+        })
+    });
+};
+
+exports.kodiOpenFavourite = (request, response) => { // eslint-disable-line no-unused-vars
+    let favouriteName = request.query.q;
+
+    console.log("requested favourite:", favouriteName);
+
+    return kodiFindFavourite(request, favouriteName)
+        .then((favourite) => playFavourite(request, favourite))
+};
+
+const playFavourite = (request, favourite) => {
+    console.log(`opening media type favourite "${favourite.title}"`);
+    if ('media' == favourite.type) {
+        return request.kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                file: favourite.path
+            }
+        });
+    } else if ('window' == favourite.type) {
+        console.log(`opening window type favourite "${favourite.title}"`);
+        return request.kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
+            window: favourite.window,
+            parameters: [favourite.windowparameter]
+        });
+    } else {
+        console.log(`do not know how to open "${favourite.type}" type favourites`);
+    }
 };

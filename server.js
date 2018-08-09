@@ -151,6 +151,9 @@ app.all('/suspend', exec(Helper.kodiSuspend));
 // http://1.1.1.1/playepisode?q=bla+season+2+episode&e=3
 app.all('/shuffleepisode', exec(Helper.kodiShuffleEpisodeHandler));
 
+// Parse request to watch all episodes of a show on shuffle
+app.all('/shuffleshow', exec(Helper.kodiShuffleShowHandler));
+
 // Parse request to watch a PVR channel by name
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
 app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
@@ -249,10 +252,17 @@ app.all('/playartist', exec(Helper.kodiPlayArtist));
 
 app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
 
+app.all('/showMovieGenre', exec(Helper.kodiShowMovieGenre));
+
 app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
+
+app.all('/toggleFullscreen', exec(Helper.kodiToggleFullscreen));
 
 // Playlist Control
 app.all('/playercontrol', exec(Helper.playercontrol));
+
+
+app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
 
 app.get('/', (request, response) => {
     response.sendFile(`${__dirname}/views/index.html`);
