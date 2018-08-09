@@ -387,6 +387,18 @@ const kodiGetMusicGenres = (Kodi) => {
         });
 };
 
+const kodiGetMovieGenres = (Kodi) => {
+    return Kodi.VideoLibrary.GetGenres({
+		type: 'movie'
+	})
+        .then((genres) => {
+            if (!(genres && genres.result && genres.result.genres && genres.result.genres.length > 0)) {
+                throw new Error('Your kodi library does not contain a single genre!');
+            }
+            return genres.result.genres;
+        });
+};
+
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI >= chGroups.length) {
         return Promise.resolve('group out of range');
@@ -1079,6 +1091,22 @@ exports.kodiPlayMusicByGenre = (request) => {
     return kodiGetMusicGenres(Kodi)
         .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
         .then((genre) => playMusicGenre(request, genre));
+
+};
+
+exports.kodiShowMovieGenre = (request) => { // eslint-disable-line no-unused-vars
+
+    let Kodi = request.kodi;
+    let requestedGenre = request.query.q;
+
+    console.log('Show a movie genre requested:', requestedGenre);
+
+    return kodiGetMovieGenres(Kodi)
+        .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
+        .then((genre) => Kodi.GUI.ActivateWindow({
+			window: 'videos',
+			parameters: ['videodb://1/1/' + genre.genreid]
+		}));
 
 };
 
