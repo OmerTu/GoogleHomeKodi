@@ -116,13 +116,13 @@ const selectRandomItem = (items) => {
     return Promise.resolve(randomItem);
 };
 
-const fuzzySearchBestMatch = (items, needle, optionalTargetProperty) => {
+const fuzzySearchBestMatch = (items, needle, optionalTargetProperties) => {
 
     let options = fuzzySearchOptions;
 
-    if (optionalTargetProperty) {
+    if (optionalTargetProperties) {
         options = Object.assign({}, options);
-        options.keys = [optionalTargetProperty];
+        options.keys = optionalTargetProperties;
     }
 
     let cleanNeedle = needle
@@ -208,14 +208,16 @@ const getFilteredMovies = (request, param) => {
 };
 
 const kodiFindMovie = (movieTitle, Kodi) => {
-    return Kodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
-        .then((movies) => {
-            if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
-                throw new Error('Your kodi library does not contain a single movie!');
-            }
+    return Kodi.VideoLibrary.GetMovies({ // eslint-disable-line new-cap
+        properties: ['originaltitle']
+    })
+    .then((movies) => {
+        if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
+            throw new Error('Your kodi library does not contain a single movie!');
+        }
 
-            return fuzzySearchBestMatch(movies.result.movies, movieTitle);
-        });
+        return fuzzySearchBestMatch(movies.result.movies, movieTitle, ['label', 'originaltitle']);
+    });
 };
 
 const kodiFindTvShow = (request, tvshowTitle) => {
@@ -1140,7 +1142,7 @@ exports.kodiExecuteAddon = (request) => {
     console.log('requested execution of an addon:', requestedAddon);
     return kodiGetAddons(kodi)
         .then((allAddons) => removeNotExecuteableAddons(allAddons))
-        .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, 'name'))
+        .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, ['name']))
         .then((addon) => executeAddon(kodi, addon));
 };
 
