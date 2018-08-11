@@ -1218,3 +1218,24 @@ const playFavourite = (request, favourite) => {
         console.log(`do not know how to open "${favourite.type}" type favourites`);
     }
 };
+
+
+exports.listRoutes = function(request, response, next) {
+    let routes = request
+        .app._router.stack
+        .filter((x) => x.route && x.route.path)
+        .map((x) => x.route);
+
+    if (request.query.q) {
+        let fuseOptions = Object.assign({}, fuzzySearchOptions);
+        fuseOptions.keys = ['path']
+
+        let fuse = new Fuse(routes, fuseOptions);
+        routes = fuse
+            .search(request.query.q)
+            .map((route) => route.path);
+    }
+
+    response.set('Content-Type', 'text/json');
+    response.send(routes);
+};
