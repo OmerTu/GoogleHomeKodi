@@ -493,7 +493,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
 | Say a phrase with a text ingredient                   | Kodi open $ from my favourites  | _YOUR_NODE_SERVER_/playfavourite?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle fullscreen          | _YOUR_NODE_SERVER_/togglefullscreen                                |
-
+| Say a phrase with a text ingredient			| Kodi load profile $		  | _YOUR_NODE_SERVER_/loadProfile                                     |
 
 To **Turn on/off the TV and switch Kodi's HDMI input**
   * This requires Kodi 17 (Krypton) and above
