@@ -402,6 +402,16 @@ const kodiGetMovieGenres = (Kodi) => {
     });
 };
 
+const kodiGetProfiles = (Kodi) => {
+    return Kodi.Profiles.GetProfiles()
+	.then((profiles) => {
+	if (!(profiles && profiles.result && profiles.result.profiles && profiles.result.profiles.length > 0)) {
+	    throw new Error('Your kodi installation contains no profiles.')
+	}
+	return profiles.result.profiles;
+    });	    
+};
+
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI >= chGroups.length) {
         return Promise.resolve('group out of range');
@@ -1111,6 +1121,19 @@ exports.kodiShowMovieGenre = (request) => { // eslint-disable-line no-unused-var
             parameters: [`videodb://1/1/${genre.genreid}`]
         }));
 };
+
+exports.kodiLoadProfile = (request) => {
+    let Kodi = request.kodi;
+    let requestedProfile = request.query.q;
+
+    console.log('Load profile requested:', requestedProfile);
+
+    return kodiGetProfiles(Kodi)
+	.then((profiles) => fuzzySearchBestMatch(profiles, requestedProfile))
+	.then((prof) => Kodi.Profiles.LoadProfile({
+	    profile: prof.label
+	}));
+}
 
 const kodiGetAddons = (kodi) => {
     return kodi.Addons.GetAddons({ // eslint-disable-line new-cap
