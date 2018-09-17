@@ -759,7 +759,7 @@ exports.kodiPlayAlbum = (request, response) => { // eslint-disable-line no-unuse
     let Kodi = request.kodi;
 
     console.log(`Album request received to play "${albumTitle}"`);
-    kodiFindAlbum(albumTitle, Kodi)
+    return kodiFindAlbum(albumTitle, Kodi)
         .then((data) => Kodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 albumid: data.albumid
@@ -1019,7 +1019,7 @@ exports.kodiTestConnection = (request, response) => {
     return request.kodi.GUI.ShowNotification(param) // eslint-disable-line new-cap
     .then((result) => {
         console.log(param.message, result);
-        response.send(param.message);
+        return response.send(param.message);
     });
 };
 
@@ -1176,7 +1176,7 @@ const kodiFindFavourite = (request, favouriteName) => {
     return Kodi.Favourites.GetFavourites({ // eslint-disable-line new-cap
         properties: ['window','path','windowparameter']
     }).then((query) => {
-        if (!(query && query.result && query.result.favourites && query.result.favourites.length > 1)) {
+        if (!(query && query.result && query.result.favourites && query.result.favourites.length > 0)) {
             throw new Error('Your kodi library does not contain a single favourite!');
         }
 
