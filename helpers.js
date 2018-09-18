@@ -971,7 +971,7 @@ exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line
     tryActivateTv(request, response);
     let fullQuery = request.query.q.toLowerCase();
     let splittedQuery = fullQuery.split('season');
-    let tvshowTitle = splittedQuery[0];
+    let tvshowTitle = splittedQuery[0].trim();
     let seasonNum = splittedQuery[1].trim();
     let episodeNum = request.query.e.trim();
 
