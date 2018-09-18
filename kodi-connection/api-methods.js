@@ -40,8 +40,8 @@ module.exports = [
         methods: ['Add', 'Clear', 'GetItems', 'GetPlaylists', 'GetProperties', 'Insert', 'Remove', 'Swap']
     },
     {
-	name: 'Profiles',
-	methods: ['GetCurrentProfile', 'GetProfiles', 'LoadProfile']
+        name: 'Profiles',
+        methods: ['GetCurrentProfile', 'GetProfiles', 'LoadProfile']
     },
     {
         name: 'System',
