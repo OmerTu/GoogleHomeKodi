@@ -1019,7 +1019,7 @@ exports.kodiTestConnection = (request, response) => {
     return request.kodi.GUI.ShowNotification(param) // eslint-disable-line new-cap
     .then((result) => {
         console.log(param.message, result);
-        return response.send(param.message);
+        response.send(param.message);
     });
 };
 
