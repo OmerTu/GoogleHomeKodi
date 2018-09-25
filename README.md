@@ -13,21 +13,21 @@ Control Kodi through your Google Home / Google Assistant
 Follow these steps to easily control your kodi using simple voice commands with your Google Home or Google assistant:
 
 ### **Play a movie:**
-"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.
+"Hey Google, kodi play [movie name]" --> will search for the given movie name and play it.  
 "Hey Google, kodi resume [movie name]" --> will search for given movie name and pick up playback from where you left it.
 
 ### **Play a random movie:**
-"Hey Google, kodi play a random movie" --> will play a random movie.
-"Hey Google, kodi play a random horror movie" --> will play a random movie of the genre "Horror".
-"Hey Google, kodi play a random movie of the year 2010" --> will play a random movie of the year 2010.
-"Hey Google, kodi play a random horror movie of the year 2010" --> will play a random movie of the genre "Horror" and of the year 2010.
+"Hey Google, kodi play a random movie" --> will play a random movie.  
+"Hey Google, kodi play a random horror movie" --> will play a random movie of the genre "Horror".  
+"Hey Google, kodi play a random movie of the year 2010" --> will play a random movie of the year 2010.  
+"Hey Google, kodi play a random horror movie of the year 2010" --> will play a random movie of the genre "Horror" and of the year 2010.  
 
 ### **Play a tv show:**
-**Play the next unwatched episode:** "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.
-**Play a specific episode:** "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.
-**Play a random episode from a tv show:** "Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.
-**Play the most recently added episode:** "Hey Google, kodi play new episode" --> will play the most recently added episode to the kodi library.
-**Binge watch a tv shoe:** "Hey Google, kodi binge watch [tv show name]" --> will add all unwatched episodes to the playlist and play it.
+**Play the next unwatched episode:** "Hey Google, kodi play tv show [tv show name]" --> will search for the given tv show and play the next unwatched episode.  
+**Play a specific episode:** "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.  
+**Play a random episode from a tv show:** "Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.  
+**Play the most recently added episode:** "Hey Google, kodi play new episode" --> will play the most recently added episode to the kodi library.  
+**Binge watch a tv shoe:** "Hey Google, kodi binge watch [tv show name]" --> will add all unwatched episodes to the playlist and play it.  
 
 ### **Search and play a youtube video:**
 "Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
@@ -39,9 +39,9 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, stop kodi"
 
 ### **Change volume:**
-**Mute kodi:** "Hey Google, mute/unmute kodi"
-**Set volume:** "Hey Google, set kodi volume to 60"
-**Increase volume:** "Hey Google, Kodi volume up [by 10]"  --> increase the volume by the requested amount or by 20% if no amount was specified
+**Mute kodi:** "Hey Google, mute/unmute kodi"  
+**Set volume:** "Hey Google, set kodi volume to 60"  
+**Increase volume:** "Hey Google, Kodi volume up [by 10]"  --> increase the volume by the requested amount or by 20% if no amount was specified  
 **Decrease volume:** "Hey Google, Kodi volume down [by 10]"  --> similar to the above
 
 ### **Play PVR channel:**
@@ -61,32 +61,32 @@ Follow these steps to easily control your kodi using simple voice commands with 
 
 
 ### **Navigate kodi:**
-**Navigate up:** "Hey Google, kodi navigate up [3]" --> Will navigate up the requested amount or just once if no number was specified
-**Navigate Down:** "Hey Google, kodi navigate down [3]" --> same as above for navigating down
-**Navigate Left:** "Hey Google, kodi navigate left [3]" --> same as above for navigating left
-**Navigate Right:** "Hey Google, kodi navigate right [3]" --> same as above for navigating right
-**Navigate Back:** "Hey Google, kodi go back [3]" --> Will navigate back the requested amount or just once if no number was specified
-**Navigate Select:** "Hey Google, kodi Select" --> Will select the hightlighted item
-**Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item
+**Navigate up:** "Hey Google, kodi navigate up [3]" --> Will navigate up the requested amount or just once if no number was specified  
+**Navigate Down:** "Hey Google, kodi navigate down [3]" --> same as above for navigating down  
+**Navigate Left:** "Hey Google, kodi navigate left [3]" --> same as above for navigating left  
+**Navigate Right:** "Hey Google, kodi navigate right [3]" --> same as above for navigating right  
+**Navigate Back:** "Hey Google, kodi go back [3]" --> Will navigate back the requested amount or just once if no number was specified  
+**Navigate Select:** "Hey Google, kodi Select" --> Will select the hightlighted item  
+**Navigate Context Menu:** "Hey Google, kodi open context menu" --> Will open the context menu for the selected item  
 **Navigate Go Home:** "Hey Google, kodi go home" --> Will open the main menu page
 
 ### **Show kodi windows:**
-"Hey Google, kodi show favourites"
-"Hey Google, kodi show movies"
-"Hey Google, kodi show movies by title"
-"Hey Google, kodi show movies by genre"
-"Hey Google, kodi show recently added movies"
-"Hey Google, kodi show tv shows"
-"Hey Google, kodi show tv shows by title"
-"Hey Google, kodi show tv shows by genre"
-"Hey Google, kodi show recently added episodes"
-"Hey Google, kodi show video addons"
-"Hey Google, kodi show music addons"
-"Hey Google, kodi show video files"
-"Hey Google, kodi show music files"
-"Hey Google, kodi show the top 100 albums"
-"Hey Google, kodi show system settings"
-"Hey Google, kodi show file manager"
+"Hey Google, kodi show favourites"  
+"Hey Google, kodi show movies"  
+"Hey Google, kodi show movies by title"  
+"Hey Google, kodi show movies by genre"  
+"Hey Google, kodi show recently added movies"  
+"Hey Google, kodi show tv shows"  
+"Hey Google, kodi show tv shows by title"  
+"Hey Google, kodi show tv shows by genre"  
+"Hey Google, kodi show recently added episodes"  
+"Hey Google, kodi show video addons"  
+"Hey Google, kodi show music addons"  
+"Hey Google, kodi show video files"  
+"Hey Google, kodi show music files"  
+"Hey Google, kodi show the top 100 albums"  
+"Hey Google, kodi show system settings"  
+"Hey Google, kodi show file manager"  
 
 There are many more windows to choose from, a full list can be found [here](http://kodi.wiki/view/Opening_Windows_and_Dialogs).
 
@@ -115,10 +115,10 @@ There are many more windows to choose from, a full list can be found [here](http
 "Hey Google, kodi jump to 30 minutes"
 
 ### **Play music:**
-"Hey Google, kodi play the **song** [song name]" --> will search for the given song name and play it.
-"Hey Google, kodi play the **album** [album name]" --> will search for the given album name and play it.
-"Hey Google, kodi play songs by the **artist** [music artist name]" --> will search for the given music artist name and play it.
-"Hey Google, kodi play some [**genre** name] music" --> will play shuffled songs of that genre.
+"Hey Google, kodi play the **song** [song name]" --> will search for the given song name and play it.  
+"Hey Google, kodi play the **album** [album name]" --> will search for the given album name and play it.  
+"Hey Google, kodi play songs by the **artist** [music artist name]" --> will search for the given music artist name and play it.  
+"Hey Google, kodi play some [**genre** name] music" --> will play shuffled songs of that genre.  
 "Hey Google, kodi toggle **party mode**" --> starts the kodi party mode.
 
 ### **Playlist Control:**
@@ -134,7 +134,7 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 2. Set *Allow remote contorl via HTTP* to On
 3. Choose a port number (e.g. 8080).
 4. Choose a username and password (Important!)
-5. Configure your router to forward the port you selected to your kodi device
+5. Configure your router to forward the port you selected to your kodi device  
    _Note:_ Not needed if you decide to go with a local node webserver (B.2)
 6. Find your external IP address (i.e. Google 'what's my ip?')
 
@@ -176,7 +176,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
   <summary><b>B.2 Set up local webserver</b> (Click to expand instructions)</summary><p />
 
 
-1. Install the [Node.js](https://nodejs.org/en/download/) application server on your target computer
+1. Install the [Node.js](https://nodejs.org/en/download/) application server on your target computer  
    _Note:_ Required Version is **6.10 or above** (8 preferred)
 2. Choose a location, where your app will live (i.e `C:\node\`)
 3. Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
@@ -188,12 +188,12 @@ npm install
 ```
 6. Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
 7. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
-9. Set up your router to forward the port you just configured.
+9. Set up your router to forward the port you just configured.  
    _Default:_ globalConfig.listenerPort: '8099'
 8. You should now be able to start the node server by running: `node server.js`.
-9. Find your external IP address (i.e. Google 'what's my ip?')
+9. Find your external IP address (i.e. Google 'what's my ip?')  
    _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
-10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 10.
+10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 10.  
     We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
 
 _For Linux-Users only:_ Here is a systemd init config. To run it as a daemon.
@@ -230,9 +230,9 @@ As an alternative to (B.2), it's possible to use a pre-built [Docker image](http
 You can use either *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the `/config` volume to configure your instance.
 
 1. Install the Docker engine
-   - If you want to run it on a LibreELEC system
+   - If you want to run it on a LibreELEC system  
      You can simply install the offical service addon `Docker`
-   - For all other systems please consult the offical documentation
+   - For all other systems please consult the offical documentation  
      [Docker Installation](https://docs.docker.com/engine/installation/)
 1. Download or build the docker image
    - For 64bit-Systems you can download out prebuilt docker-image
@@ -264,7 +264,7 @@ You can use either *environment variables* or a `kodi-hosts.config.js` inside a 
    - or with the use of the config file:
      - Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
      - Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
-     - Run it
+     - Run it  
        ```sh
        docker run -d -p 8099:8099 \
                   --restart always \
@@ -283,19 +283,19 @@ You can use either *environment variables* or a `kodi-hosts.config.js` inside a 
 ### **C) [OPTIONAL] controlling multiple kodi instances**
 There are two ways of implementing the scenario of multiple kodi instances (i.e one in the living room and another in the bedroom).
 For both methods you will need two IFTTT-Applets with different phrases, due to the text-parameter limitation of IFTTT.
-1. Having two node servers. Each targeting one instance. _(Recommended when hosting with glitch)_
-   i.e. the phrase `living room kodi play...` could target `https://mylivingroom.glitch.com/playpause`
-   and the phrase `bedroom kodi play...` could target `https://bedroom.glitch.com/playpause`.
-   - _Note:_ Behind a single external IP the kodi instances need still to be distinguishable.
+1. Having two node servers. Each targeting one instance. _(Recommended when hosting with glitch)_  
+   i.e. the phrase `living room kodi play...` could target `https://mylivingroom.glitch.com/playpause`  
+   and the phrase `bedroom kodi play...` could target `https://bedroom.glitch.com/playpause`.  
+   - _Note:_ Behind a single external IP the kodi instances need still to be distinguishable.  
      This can be achieved in two ways:
-     - Configuring both kodi instances with different ports
-       (i.e. _8080_ and _8090_)
+     - Configuring both kodi instances with different ports  
+       (i.e. _8080_ and _8090_)  
        _or_
-     - Mapping with your routers port forwarding two different ports to the same port on different hosts
+     - Mapping with your routers port forwarding two different ports to the same port on different hosts  
        (i.e. _8080 -> 192.168.100.1:8080_ and 8090 -> 192.168.100.2:8080)
-2. Having one node server targeting both kodi instances. _(Recommended when hosting yourself)_
-   The utilization of the _kodi-hosts.config.js_ allows you to name your instances and target them individually.
-   i.e. the phrase `living room kodi play...` could target `http://192.168.100.1:8080/playpause`
+2. Having one node server targeting both kodi instances. _(Recommended when hosting yourself)_  
+   The utilization of the _kodi-hosts.config.js_ allows you to name your instances and target them individually.  
+   i.e. the phrase `living room kodi play...` could target `http://192.168.100.1:8080/playpause`  
    and the phrase `bedroom kodi play...` could target `http://192.168.100.2:8080/playpause`).
 
 <details>
@@ -553,6 +553,6 @@ And this wonderful website makes setting this up super easy -  [Glitch](https://
 Made by Omer Turgeman
 -----------------
 I hope you find this helpful!
-If you'd like, you can give me a cup of coffee :)
+If you'd like, you can give me a cup of coffee :)  
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=7KPWVMH4T5UTJ&lc=US&item_name=Kodi%20control%20project&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)

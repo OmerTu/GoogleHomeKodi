@@ -1,5 +1,6 @@
 'use strict'; // eslint-disable-line strict
 
+
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 const KodiWindows = require('./kodi-connection/windows.js')();
@@ -88,7 +89,7 @@ const playTvShowEpisodes = (request, episodes, isShuffled = false) => {
         options: {
             shuffled: isShuffled
         }
-    })).then(() => kodi.GUI.SetFullscreen({
+    })).then(() => kodi.GUI.SetFullscreen({ // eslint-disable-line new-cap
         fullscreen: true
     }));
 };
@@ -116,13 +117,13 @@ const selectRandomItem = (items) => {
     return Promise.resolve(randomItem);
 };
 
-const fuzzySearchBestMatch = (items, needle, optionalTargetProperty) => {
+const fuzzySearchBestMatch = (items, needle, optionalTargetProperties) => {
 
     let options = fuzzySearchOptions;
 
-    if (optionalTargetProperty) {
+    if (optionalTargetProperties) {
         options = Object.assign({}, options);
-        options.keys = [optionalTargetProperty];
+        options.keys = optionalTargetProperties;
     }
 
     let cleanNeedle = needle
@@ -208,14 +209,16 @@ const getFilteredMovies = (request, param) => {
 };
 
 const kodiFindMovie = (movieTitle, Kodi) => {
-    return Kodi.VideoLibrary.GetMovies() // eslint-disable-line new-cap
-        .then((movies) => {
-            if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
-                throw new Error('Your kodi library does not contain a single movie!');
-            }
+    return Kodi.VideoLibrary.GetMovies({ // eslint-disable-line new-cap
+        properties: ['originaltitle']
+    })
+    .then((movies) => {
+        if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
+            throw new Error('Your kodi library does not contain a single movie!');
+        }
 
-            return fuzzySearchBestMatch(movies.result.movies, movieTitle);
-        });
+        return fuzzySearchBestMatch(movies.result.movies, movieTitle, ['label', 'originaltitle']);
+    });
 };
 
 const kodiFindTvShow = (request, tvshowTitle) => {
@@ -388,7 +391,7 @@ const kodiGetMusicGenres = (Kodi) => {
 };
 
 const kodiGetMovieGenres = (Kodi) => {
-    return Kodi.VideoLibrary.GetGenres({
+    return Kodi.VideoLibrary.GetGenres({  // eslint-disable-line new-cap
         type: 'movie'
     })
     .then((genres) => {
@@ -682,13 +685,13 @@ exports.kodiSeektominutes = (request, response) => { // eslint-disable-line no-u
 
     const seektominutes = request.query.q.trim();
 
-   	let hours = parseInt(seektominutes / 60);
-   	let minutes = parseInt(seektominutes % 60);
+    let hours = parseInt(seektominutes / 60);
+    let minutes = parseInt(seektominutes % 60);
 
     return kodiSeek(Kodi, {
-       	hours: hours,
-       	minutes: minutes,
-       	seconds: 0
+        hours: hours,
+        minutes: minutes,
+        seconds: 0
     });
 };
 
@@ -1103,9 +1106,9 @@ exports.kodiShowMovieGenre = (request) => { // eslint-disable-line no-unused-var
 
     return kodiGetMovieGenres(Kodi)
         .then((genres) => fuzzySearchBestMatch(genres, requestedGenre))
-        .then((genre) => Kodi.GUI.ActivateWindow({
+        .then((genre) => Kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
             window: 'videos',
-            parameters: ['videodb://1/1/' + genre.genreid]
+            parameters: [`videodb://1/1/${genre.genreid}`]
         }));
 };
 
@@ -1140,7 +1143,7 @@ exports.kodiExecuteAddon = (request) => {
     console.log('requested execution of an addon:', requestedAddon);
     return kodiGetAddons(kodi)
         .then((allAddons) => removeNotExecuteableAddons(allAddons))
-        .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, 'name'))
+        .then((addons) => fuzzySearchBestMatch(addons, requestedAddon, ['name']))
         .then((addon) => executeAddon(kodi, addon));
 };
 
@@ -1165,7 +1168,8 @@ exports.kodiTogglePartymode = (request) => {
 exports.kodiToggleFullscreen = (request) => { // eslint-disable-line no-unused-vars
     console.log('Toggle Fullscreen request received');
     let Kodi = request.kodi;
-    return Kodi.Input.ExecuteAction({
+
+    return Kodi.Input.ExecuteAction({ // eslint-disable-line new-cap
         'action': 'togglefullscreen'
     });
 };
@@ -1174,45 +1178,70 @@ const kodiFindFavourite = (request, favouriteName) => {
     let Kodi = request.kodi;
 
     return Kodi.Favourites.GetFavourites({ // eslint-disable-line new-cap
-        properties: ['window','path','windowparameter']
+        properties: ['window', 'path', 'windowparameter']
     }).then((query) => {
         if (!(query && query.result && query.result.favourites && query.result.favourites.length > 1)) {
             throw new Error('Your kodi library does not contain a single favourite!');
         }
 
-        let favouriteList = query.result.favourites.map(function(x) {return x.title})
+        let favouriteList = query.result.favourites
+            .map((x) => x.title);
 
         return fuzzySearchBestMatch(favouriteList, favouriteName)
             .then((matchingFavourite) => {
-            return query.result.favourites[matchingFavourite];
-        })
+                return query.result.favourites[matchingFavourite];
+            });
     });
-};
-
-exports.kodiOpenFavourite = (request, response) => { // eslint-disable-line no-unused-vars
-    let favouriteName = request.query.q;
-
-    console.log("requested favourite:", favouriteName);
-
-    return kodiFindFavourite(request, favouriteName)
-        .then((favourite) => playFavourite(request, favourite))
 };
 
 const playFavourite = (request, favourite) => {
     console.log(`opening media type favourite "${favourite.title}"`);
-    if ('media' == favourite.type) {
+    if (favourite.type === 'media') {
         return request.kodi.Player.Open({ // eslint-disable-line new-cap
             item: {
                 file: favourite.path
             }
         });
-    } else if ('window' == favourite.type) {
+    } else if (favourite.type === 'window') {
         console.log(`opening window type favourite "${favourite.title}"`);
         return request.kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
             window: favourite.window,
             parameters: [favourite.windowparameter]
         });
-    } else {
-        console.log(`do not know how to open "${favourite.type}" type favourites`);
     }
+
+    console.log(`do not know how to open "${favourite.type}" type favourites`);
+};
+
+
+exports.kodiOpenFavourite = (request, response) => { // eslint-disable-line no-unused-vars
+    let favouriteName = request.query.q;
+
+    console.log('requested favourite:', favouriteName);
+
+    return kodiFindFavourite(request, favouriteName)
+        .then((favourite) => playFavourite(request, favourite));
+};
+
+
+exports.listRoutes = function(request, response) {
+    let routes = request
+        .app._router.stack
+        .filter((x) => x.route && x.route.path)
+        .map((x) => x.route);
+
+    if (request.query.q) {
+        let fuseOptions = Object.assign({}, fuzzySearchOptions);
+
+        fuseOptions.keys = ['path'];
+
+        let fuse = new Fuse(routes, fuseOptions);
+
+        routes = fuse
+            .search(request.query.q)
+            .map((route) => route.path);
+    }
+
+    response.set('Content-Type', 'text/json');
+    response.send(routes);
 };

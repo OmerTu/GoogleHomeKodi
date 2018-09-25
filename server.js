@@ -79,7 +79,9 @@ const selectKodiInstance = function(request, response, next) {
 const allRoutesExceptRoot = /\/.+/;
 
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/views`));
+
+app.use('/listRoutes', Helper.listRoutes);
 
 app.use(allRoutesExceptRoot, authenticate);
 app.use(allRoutesExceptRoot, selectKodiInstance);
@@ -263,10 +265,6 @@ app.all('/playercontrol', exec(Helper.playercontrol));
 
 
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
-
-app.get('/', (request, response) => {
-    response.sendFile(`${__dirname}/views/index.html`);
-});
 
 // error handlers need to be last
 app.use(handleError);
