@@ -31,6 +31,17 @@ const tryActivateTv = (request, response) => {
     return Promise.resolve('tv already active');
 };
 
+const playFile = (request, fileName) => {
+    return request.kodi.Player.Open({ // eslint-disable-line new-cap
+	item: {
+	    file: fileName
+	},
+        options: {
+            resume: false
+        }
+    });
+};
+
 const playMovie = (request, movie) => {
     return request.kodi.Player.Open({ // eslint-disable-line new-cap
         item: {
@@ -910,6 +921,17 @@ exports.kodiPlayRandomMovie = (request, response) => { // eslint-disable-line no
         .then((movie) => playMovie(request, movie));
 };
 
+exports.kodiPlayFile = (request, response) => {
+    tryActivateTv(request, response);
+
+    let file = request.query.q;
+    let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
+    let Kodi = request.kodi;
+
+    console.log(`Movie request received to play "${file}"`);
+    wait.for.time(seconds);
+    return playFile(request, file);
+};
 exports.kodiPlayMovie = (request, response) => {
     tryActivateTv(request, response);
 

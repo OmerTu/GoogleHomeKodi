@@ -443,6 +443,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 |-------------------------------------------------------|---------------------------------|---------------------------------------------------------------------------|
 | Say a phrase with a text ingredient                   | Kodi play $                     | _YOUR_NODE_SERVER_/playmovie?q={{TextField}}  *delay                                        |
 | Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}  *delay                                      |
+| Say a simple phrase                                   | Kodi play file                  | _YOUR_NODE_SERVER_/playfile?q=path/to/file  *delay                                          |
 | Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}}  *delay |
 | Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}  *delay                                       |
 | Say a phrase with a text ingredient                   | Kodi resume an episode of $     | _YOUR_NODE_SERVER_/resumetvshow?q={{TextField}}  *delay                                     |
