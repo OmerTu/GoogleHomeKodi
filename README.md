@@ -441,11 +441,11 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 ## Full table with available actions
 | Type of phrase                                        | phrase                          | url                                                                       |
 |-------------------------------------------------------|---------------------------------|---------------------------------------------------------------------------|
-| Say a phrase with a text ingredient                   | Kodi play $                     | _YOUR_NODE_SERVER_/playmovie?q={{TextField}}                      |
-| Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}                    |
-| Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}} |
-| Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}                     |
-| Say a phrase with a text ingredient                   | Kodi resume an episode of $     | _YOUR_NODE_SERVER_/resumetvshow?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play $                     | _YOUR_NODE_SERVER_/playmovie?q={{TextField}}  *delay                                        |
+| Say a phrase with a text ingredient                   | Kodi resume $                   | _YOUR_NODE_SERVER_/resumemovie?q={{TextField}}  *delay                                      |
+| Say a phrase with a text ingredient                   | Kodi play a random [$] movie [of year #]| _YOUR_NODE_SERVER_/playrandommovie?genre={{TextField}}&year={{NumberField}}  *delay |
+| Say a phrase with a text ingredient                   | Kodi play an episode of $       | _YOUR_NODE_SERVER_/playtvshow?q={{TextField}}  *delay                                       |
+| Say a phrase with a text ingredient                   | Kodi resume an episode of $     | _YOUR_NODE_SERVER_/resumetvshow?q={{TextField}}  *delay                                     |
 | Say a phrase with a text ingredient                   | Kodi binge watch $              | _YOUR_NODE_SERVER_/bingewatchtvshow?q={{TextField}}               |
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | _YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e= {{NumberField}} |
 | Say a simple phrase                                   | Kodi play new episode           | _YOUR_NODE_SERVER_/playrecentepisode                              |
@@ -494,6 +494,12 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi open $ from my favourites  | _YOUR_NODE_SERVER_/playfavourite?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle fullscreen          | _YOUR_NODE_SERVER_/togglefullscreen                                |
 | Say a phrase with a text ingredient			| Kodi load profile $		  | _YOUR_NODE_SERVER_/loadProfile                                     |
+
+To **Start/resume a movie/tv episode with a delay**
+  The commands marked with *delay (above) take an optional delay parameter to delay startup of the media by the specified number of seconds.
+
+  For example:  
+YOUR_NODE_SERVER_/playmovie?q=Deadpool&delay=10
 
 To **Turn on/off the TV and switch Kodi's HDMI input**
   * This requires Kodi 17 (Krypton) and above
