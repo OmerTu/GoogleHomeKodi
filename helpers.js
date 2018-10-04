@@ -4,6 +4,7 @@
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 const KodiWindows = require('./kodi-connection/windows.js')();
+const wait = require('wait-for-stuff');
 
 const AUDIO_PLAYER = 0;
 const VIDEO_PLAYER = 1;
@@ -910,7 +911,6 @@ exports.kodiPlayRandomMovie = (request, response) => { // eslint-disable-line no
 };
 
 exports.kodiPlayMovie = (request, response) => {
-    var sleep = require('sleep'); 
     tryActivateTv(request, response);
 
     let movieTitle = request.query.q;
@@ -918,13 +918,12 @@ exports.kodiPlayMovie = (request, response) => {
     let Kodi = request.kodi;
 
     console.log(`Movie request received to play "${movieTitle}"`);
-    sleep.sleep(seconds);
+    wait.for.time(seconds);
     return kodiFindMovie(movieTitle, Kodi)
         .then((movie) => playMovie(request, movie));
 };
 
 exports.kodiResumeMovie = (request, response) => {
-    var sleep = require('sleep'); 
     tryActivateTv(request, response);
 
     let movieTitle = request.query.q;
@@ -932,19 +931,18 @@ exports.kodiResumeMovie = (request, response) => {
     let Kodi = request.kodi;
 
     console.log(`Movie request received to resume "${movieTitle}"`);
-    sleep.sleep(seconds);
+    wait.for.time(seconds);
     return kodiFindMovie(movieTitle, Kodi)
         .then((movie) => resumeMovie(request, movie));
 };
 
 exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unused-vars
-    var sleep = require('sleep'); 
     tryActivateTv(request, response);
     let tvshowTitle = request.query.q;
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
 
     console.log(`TV Show request received to play "${tvshowTitle}"`);
-    sleep.sleep(seconds);
+    wait.for.time(seconds);
     return kodiFindTvShow(request, tvshowTitle)
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectFirstUnwatchedEpisode(episodes))
@@ -952,12 +950,11 @@ exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unus
 };
 
 exports.kodiResumeTvshow = (request, response) => { // eslint-disable-line no-unused-vars
-    var sleep = require('sleep'); 
     tryActivateTv(request, response);
     let tvshowTitle = request.query.q;
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
     console.log(`TV Show request received to resume "${tvshowTitle}"`);
-    sleep.sleep(seconds);
+    wait.for.time(seconds);
     return kodiFindTvShow(request, tvshowTitle)
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectFirstUnwatchedEpisode(episodes))
