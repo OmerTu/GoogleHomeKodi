@@ -13,7 +13,7 @@
     "express": "^4.15.2",
     "fuse.js": "^2.0.1",
     "node-fetch": "^1.3.2",
-    "sleep": "^5.2.3",
+    "wait-for-stuff": "^1.4.0",
     "youtube-search": "^1.0.10"
   },
   "devDependencies": {
