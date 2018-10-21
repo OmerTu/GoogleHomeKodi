@@ -27,7 +27,7 @@ Follow these steps to easily control your kodi using simple voice commands with 
 **Play a specific episode:** "Hey Google, kodi play [tv show name] season 3 episode 1" --> will search for the given tv show and play season 3 episode 1.  
 **Play a random episode from a tv show:** "Hey Google, kodi shuffle [tv show name]" --> will search for the given tv show and play a random episode.  
 **Play the most recently added episode:** "Hey Google, kodi play new episode" --> will play the most recently added episode to the kodi library.  
-**Binge watch a tv shoe:** "Hey Google, kodi binge watch [tv show name]" --> will add all unwatched episodes to the playlist and play it.  
+**Binge watch a tv show:** "Hey Google, kodi binge watch [tv show name]" --> will add all unwatched episodes to the playlist and play it.  
 
 ### **Search and play a youtube video:**
 "Hey Google youtube [youtube title]" --> will search a youtube video, and play the first video.
