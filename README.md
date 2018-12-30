@@ -130,13 +130,10 @@ There are many more windows to choose from, a full list can be found [here](http
 Disclaimer: Use on your own risk and choose complex username & password in the below steps.
 
 ### **A) Enable webserver access in kodi**
-1. In Kodi, go to *Settings* >> *Web server*
+1. In Kodi, go to *Settings* > *Services* > *Web server*
 2. Set *Allow remote contorl via HTTP* to On
-3. Choose a port number (e.g. 8080).
-4. Choose a username and password (Important!)
-5. Configure your router to forward the port you selected to your kodi device  
-   _Note:_ Not needed if you decide to go with a local node webserver (B.2)
-6. Find your external IP address (i.e. Google 'what's my ip?')
+3. Choose a port number (e.g. 8080). We will refer to that port as *YOUR_KODI_PORT*
+4. Choose a username and password (Important!). We will refer to those values as *YOUR_KODI_USER_NAME* and *YOUR_KODI_PASSWORD*
 
 ### **B) Set up a nodejs-webserver to control your kodi**
 We currently support three methods of how this app can be hosted.
@@ -146,17 +143,20 @@ We currently support three methods of how this app can be hosted.
 
 The first method is very easy to set up and to maintain and also free of charge.
 The second method is for advanced users. You have to setup and maintain the nodejs environment yourself. But it supports multiple Kodi instances, greatly reduces latency and does not expose your kodi-webservice to the internet directly.
-The third method is also for advanced users. After installing docker, you can simply run our prebuilt docker images.
+The third method is also for advanced users. After installing docker, you can simply run our app as a production ready _docker container_. This is the recommended method for LibreELEC users.
 
 <details>
   <summary><b>B.1 Set up a webserver in Glitch</b> (Click to expand instructions)</summary><p />
 
-
-1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
-2. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
-3. Enter this project *OmerTu/GoogleHomeKodi*
-4. Change Glitch project settings to private (under *share* > *Make private*)
-5. Edit the *.env* file in your Glitch project with the following settings:  (**see [this example](examples/env_file_example.png)**)
+1. Configure your router to forward *YOUR_KODI_PORT*.  
+   _Note:_ This is needed, so your kodi can be contacted from the internet. 
+2. Find your external IP address (i.e. google for 'what's my ip?'). We will refer to that as *YOUR_EXTERNAL_IP_ADDRESS* later.  
+   _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
+3. Go to [Glitch.com](https://glitch.com) and sign in with your github user
+4. Create a new Glitch project and under *advance settings* choose *Import from GitHub*
+5. Enter this project *OmerTu/GoogleHomeKodi*
+6. Change Glitch project settings to private (under *share* > *Make private*)
+7. Edit the *.env* file in your Glitch project with the following settings:  (**see [this example](examples/env_file_example.png)**)
 
 
 ```ini
@@ -169,7 +169,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 ```
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
 
-6. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar, you will need that later. We will refer to this address as _YOUR_NODE_SERVER_. (i.e. https://green-icecream.glitch.me)
+8. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar, you will need that later. We will refer to this address as _YOUR_NODE_SERVER_. (i.e. https://green-icecream.glitch.me)
 </details>
 
 <details>
@@ -181,19 +181,24 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 2. Choose a location, where your app will live (i.e `C:\node\`)
 3. Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
 4. You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
-5. Install this app
-```batch
-cd C:\node\GoogleHomeKodi
-npm install
-```
+5. Install this app  
+  ```batch
+  cd C:\node\GoogleHomeKodi
+  npm install
+  ```
 6. Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
 7. Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
-9. Set up your router to forward the port you just configured.  
+8. Set up your router to forward the port you just configured.  
    _Default:_ globalConfig.listenerPort: '8099'
-8. You should now be able to start the node server by running: `node server.js`.
-9. Find your external IP address (i.e. Google 'what's my ip?')  
+9. You should now be able to start the node server by running: `node server.js`.  
+10. Determine the *internal IP-Address* or the *hostname* of the machine running this node server.  
+    (i.e. by executing `ipconfig`/`ifconfig`)
+    We refer to that as *YOUR_INTERNAL_NODE_IP*.  
+11. Configure your router to forward the port from step 8 to *YOUR_INTERNAL_NODE_IP*.  
+   _Note:_ This is needed, so your kodi can be contacted from the internet.
+12. Find your external IP address (i.e. Google 'what's my ip?')  
    _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
-10. The address of your self hosted node server now consists of the port of step 9 and the ip/host of step 10.  
+13. The address of your self hosted node server now consists of the port of step 8 and the ip/host of step 12.  
     We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
 
 _For Linux-Users only:_ Here is a systemd init config. To run it as a daemon.
@@ -225,58 +230,59 @@ WantedBy=multi-user.target
 <details>
   <summary><b>B.3 Set up local webserver using Docker</b> (Click to expand instructions)</summary><p />
 
-As an alternative to (B.2), it's possible to use a pre-built [Docker image](https://hub.docker.com/r/sinedied/googlehomekodi/) to run a local instance.
+As an alternative to (B.2), it's possible to use a *Docker container* to run a local instance.
 
-You can use either *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the `/config` volume to configure your instance.
+You can configure your instance simply through *environment variables* or a `kodi-hosts.config.js` inside a folder mapped to the container-file-path `/config`.
 
 1. Install the Docker engine
    - If you want to run it on a LibreELEC system  
-     You can simply install the offical service addon `Docker`
-   - For all other systems please consult the offical documentation  
+     You can simply install the offical service addon `Docker`  
+     _Note:_ Enable the feature _Wait for network before starting kodi_ under *Settings* > *LibreELEC* > *Network*
+   - For all other systems please see the offical documentation  
      [Docker Installation](https://docs.docker.com/engine/installation/)
-1. Download or build the docker image
-   - For 64bit-Systems you can download out prebuilt docker-image
+2. Get the *GoogleHomeKodi* docker image
      ```
-     docker pull sinedied/googlehomekodi
+     docker build --tag omertu/googlehomekodi https://github.com/OmerTu/GoogleHomeKodi.git
      ```
-   - For all other systems you currently have to build the image yourself.
-     - Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
-     - You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
-     - Build the image
-     ```
-     cd C:\node\GoogleHomeKodi
-     docker build -t sinedied/googlehomekodi .
-     ```
-2. Run the docker image
+3. Run the docker image
    - with the use of environment variables:
      ```sh
-     docker run -d -p 8099:8099 \
+     docker run --detach \
+                --publish 8099:8099 \
                 --restart always \
                 -e KODI_PROTOCOL="http" \
-                -e KODI_IP="YOUR_EXTERNAL_IP_ADDRESS" \
+                -e KODI_IP="YOUR_INTERNAL_KODI_IP_ADDRESS" \
                 -e KODI_PORT="YOUR_KODI_PORT" \
                 -e KODI_USER="YOUR_KODI_USER_NAME" \
                 -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
                 -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
                 --name googlehomekodi \
-                sinedied/googlehomekodi
+                omertu/googlehomekodi
      ```
    - or with the use of the config file:
      - Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
      - Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
      - Run it  
        ```sh
-       docker run -d -p 8099:8099 \
+       docker run --detach \
+                  --publish 8099:8099 \
                   --restart always \
                   -v YOUR_CONFIG_DIR:/config \
                   --name googlehomekodi \
-                  sinedied/googlehomekodi
+                  omertu/googlehomekodi
        ```
-
-3. In case you need to update to a newer version later, just repeat steps 2 and 3 after executing:
+4. Determine the *internal IP-Address* or the *hostname* of the machine running the docker container.  
+   We refer to that as *YOUR_INTERNAL_NODE_IP*.  
+   _Hint:_ When running the docker container on the same LibreELEC-host just use the hostname `libreelec` as the IP-Address of your node server.
+5. Configure your router to forward the port from the step 3 (8099 is the default) to *YOUR_INTERNAL_NODE_IP*.  
+   _Note:_ This is needed, so your kodi can be contacted from the internet.
+6. Find your external IP address (i.e. Google 'what's my ip?')  
+   _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
+7. The address of your self hosted node server now consists of the port of step 5 and the ip/host of step 6.  
+   We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
+8. In case you need to update to a newer version of this app later, just repeat steps 2 and 3 after executing:
    ```
-   docker stop googlehomekodi
-   docker rm sinedied/googlehomekodi
+   docker rm --force omertu/googlehomekodi
    ```
 </details>
 
@@ -528,20 +534,52 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
 
 ------------
 ## Troubleshooting
-If your can't preform a simple action like pausing a video, try to narrow down to problem:
+If your can't preform a simple action like pausing a video, try to narrow down to problem.
+Execute the following tests in their listed order! Since early errors can make all following tests fail.
 
-1. While a video is being played in Kodi, try pausing it by entering this in your browser:
->http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+1. While a video is being played in Kodi, try pausing it by entering this in your browser:  
+   `http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}`  
+    - If you get prompt to enter username and password choose the ones you set in Kodi (also known as *YOUR_KODI_USER_NAME* and *YOUR_KODI_PASSWORD*).  
+    - If that doesn't work, repeat/check all steps in section A!
 
-If you get prompt to enter username and password choose the ones you set in Kodi (step A above).
-If that doesn't work, you probably have a problem with your kodi setup.
+2. **For hosting-scenario B.1 only** While a video is being played in Kodi, try pausing it using your external IP:
+   _Note:_ This test is only meaningful, if done from _outside_ of your home network! 
+   (i.e. Smartphone with disabled Wifi!)  
+   `http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}`  
+   - If that doesn't work you probably have a problem with your router port forwarding configuration.
+     Check the internet on how to properly forward a port from a local host to the internet for your router model.
 
-2. If that works, try pausing a video using your external IP:
->http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}
+3. **For hosting-scenarios B.2 & B.3 only** Open the following URL in your browser on your local home network:  
+   `http://YOUR_INTERNAL_NODE_IP:8099/`  
+   - Does a page load asking for your token? (aka *YOUR_CONNECTION_PASSWORD*)  
+   - If the page doesn't load your node server is currently not running.  
+     Repeat/check all the steps in section B!
+     
+4. Open the YOUR_NODE_SERVER Url in a browser.  
+   _Note:_ This test is only meaningful, if done from _outside_ of your home network! 
+   (i.e. Smartphone with disabled Wifi!)  
+   i.e. `http://omertu.selfhost.me:8099/`  
+   - Does a page load asking for your token? (aka *YOUR_CONNECTION_PASSWORD*)
+   - If that doesn't work you probably have a problem with your router port forwarding configuration.
+     Check the internet on how to properly forward a port from a local host to the internet for your router model.
 
-If that doesn't work you probably have a problem with your router configuration.
+5. Open the YOUR_NODE_SERVER Url in a browser **and** provide the token (aka *YOUR_CONNECTION_PASSWORD*).  
+   i.e. `http://omertu.selfhost.me:8099/`  
+   Ensure `/koditestconnection` is set as the route to test.  
+   Click *Execute*!
+   - If a popup appears on your kodi box, all went well.
+   - If not try make sense of the red error message. But its most likely a configuration error in the node app.  
+     So check if the kodi- username, password, ip and port are correctly configured.  
+     If you cannot find the error open an issue on _github_. Tell us there your choosen hosting scenario (B.1, B.2 or B.3) and attach the console output of the node app, after fully completing the execution the test-route.
+   
+6. If all tests were successful so far, the problem is probably the configuration of the *IFTTT-Applet* itself.  
+   - Ensure the body is `json`
+   - Ensure the method is `POST`
+   - Ensure the token is in regular quotes `"` (iphones tend to mess them up, use a PC then)  
+   - If you cannot find the error open an issue on _github_. Tell us there your choosen hosting scenario (B.1, B.2 or B.3) and attach the console output of the node app, after fully completing the execution the applet.
 
-3. If it does work, there might be something wrong in your glich or IFTTT settings.
+7. Whaat? How did you manage to pass all previous tests and yet still have trouble?  
+   Go to _github_, open an issue and explain yourself!
 
 ------------
 ## Credits ##
