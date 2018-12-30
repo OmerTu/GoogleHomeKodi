@@ -110,6 +110,8 @@ app.all('/activatetv', exec(Helper.kodiActivateTv));
 // Send HDMI-CEC 'StandBy' command to power off TV
 app.all('/standbytv', exec(Helper.kodiStandbyTv));
 
+app.all('/playfile', exec(Helper.kodiPlayFile));
+
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.all('/playmovie', exec(Helper.kodiPlayMovie));
@@ -253,6 +255,8 @@ app.all('/playalbum', exec(Helper.kodiPlayAlbum));
 app.all('/playartist', exec(Helper.kodiPlayArtist));
 
 app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
+
+app.all('/loadProfile', exec(Helper.kodiLoadProfile));
 
 app.all('/showMovieGenre', exec(Helper.kodiShowMovieGenre));
 
