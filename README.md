@@ -240,36 +240,47 @@ You can configure your instance simply through *environment variables* or a `kod
      _Note:_ Enable the feature _Wait for network before starting kodi_ under *Settings* > *LibreELEC* > *Network*
    - For all other systems please see the offical documentation  
      [Docker Installation](https://docs.docker.com/engine/installation/)
-2. Get the *GoogleHomeKodi* docker image
+2. Get the latest *GoogleHomeKodi* docker image  
+   First try it this way:
      ```
      docker build --tag omertu/googlehomekodi https://github.com/OmerTu/GoogleHomeKodi.git
+     ```  
+     If that fails with a `git` not found error (i.e. on LibreELEC systems), use this alternative method:
+
+     ```
+     curl -L -O https://github.com/OmerTu/GoogleHomeKodi/archive/master.tar.gz
+     tar xzf master.tar.gz
+     cd GoogleHomeKodi-master
+     docker build --tag omertu/googlehomekodi .
      ```
 3. Run the docker image
    - with the use of environment variables:
      ```sh
-     docker run --detach \
-                --publish 8099:8099 \
-                --restart always \
-                -e KODI_PROTOCOL="http" \
-                -e KODI_IP="YOUR_INTERNAL_KODI_IP_ADDRESS" \
-                -e KODI_PORT="YOUR_KODI_PORT" \
-                -e KODI_USER="YOUR_KODI_USER_NAME" \
-                -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
-                -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
-                --name googlehomekodi \
-                omertu/googlehomekodi
+     docker run \
+        --detach \
+        --publish 8099:8099 \
+        --restart always \
+        -e KODI_PROTOCOL="http" \
+        -e KODI_IP="YOUR_INTERNAL_KODI_IP_ADDRESS" \
+        -e KODI_PORT="YOUR_KODI_PORT" \
+        -e KODI_USER="YOUR_KODI_USER_NAME" \
+        -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
+        -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
+        --name googlehomekodi \
+        omertu/googlehomekodi
      ```
    - or with the use of the config file:
      - Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
      - Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
      - Run it  
        ```sh
-       docker run --detach \
-                  --publish 8099:8099 \
-                  --restart always \
-                  -v YOUR_CONFIG_DIR:/config \
-                  --name googlehomekodi \
-                  omertu/googlehomekodi
+       docker run \
+          --detach \
+          --publish 8099:8099 \
+          --restart always \
+          -v YOUR_CONFIG_DIR:/config \
+          --name googlehomekodi \
+          omertu/googlehomekodi
        ```
 4. Determine the *internal IP-Address* or the *hostname* of the machine running the docker container.  
    We refer to that as *YOUR_INTERNAL_NODE_IP*.  
