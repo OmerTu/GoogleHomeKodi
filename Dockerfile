@@ -3,8 +3,6 @@ FROM node:alpine as builder
 
 RUN apk add --no-cache python make g++
 
-WORKDIR /home/node/app
-
 COPY package*.json ./
 RUN npm install --production
 
@@ -18,9 +16,11 @@ ENV PORT=8099
 VOLUME /config
 WORKDIR /home/node/app
 
-COPY --from=builder /home/node/app/node_modules ./node_modules
+RUN apk add --no-cache tini
+COPY --from=builder node_modules ./node_modules
 COPY . .
 
 USER node
 EXPOSE 8099
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server.js"]
