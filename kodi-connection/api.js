@@ -15,7 +15,7 @@ module.exports = (fetch) => {
     };
 
     const Kodi = function(protocol, ip, port, username, password) {
-        this.kodiAuth = `Basic ${new Buffer(`${username}:${password}`).toString('base64')}`;
+        this.kodiAuth = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
         this.url = `${protocol}://${ip}:${port}/jsonrpc`;
         addMethods(this);
     };
