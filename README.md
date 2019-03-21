@@ -550,22 +550,22 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
 If your can't preform a simple action like pausing a video, try to narrow down to problem.
 Execute the following tests in their listed order! Since early errors can make all following tests fail.
 
-1. While a video is being played in Kodi, try pausing it by entering this in your browser:  
-   `http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}`  
+1. Try getting your current kodi volume by entering this in your browser:  
+   `http://YOUR_INTERNAL_KODI_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","method":"Application.GetProperties","params":{"properties":["volume"]},"id":1}`  
     - If you get prompt to enter username and password choose the ones you set in Kodi (also known as *YOUR_KODI_USER_NAME* and *YOUR_KODI_PASSWORD*).  
     - If that doesn't work, repeat/check all steps in section A!
 
-2. **For hosting-scenario B.1 only** While a video is being played in Kodi, try pausing it using your external IP:
+2. **For hosting-scenario B.1 only** Try getting your current kodi volume by entering this in your browser with your external IP:
    _Note:_ This test is only meaningful, if done from _outside_ of your home network! 
    (i.e. Smartphone with disabled Wifi!)  
-   `http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","id":1,"method":"Player.playpause","params":{"playerid":1}}`  
+   `http://YOUR_EXTERNAL_IP:PORT/jsonrpc?request={"jsonrpc":"2.0","method":"Application.GetProperties","params":{"properties":["volume"]},"id":1}`  
    - If that doesn't work you probably have a problem with your router port forwarding configuration.
      Check the internet on how to properly forward a port from a local host to the internet for your router model.
 
 3. **For hosting-scenarios B.2 & B.3 only** Open the following URL in your browser on your local home network:  
    `http://YOUR_INTERNAL_NODE_IP:8099/`  
    - Does a page load asking for your token? (aka *YOUR_CONNECTION_PASSWORD*)  
-   - If the page doesn't load your node server is currently not running.  
+   - If the page doesn't load, your node server is currently not running or is not reachable.  
      Repeat/check all the steps in section B!
      
 4. Open the YOUR_NODE_SERVER Url in a browser.  

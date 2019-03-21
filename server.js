@@ -64,7 +64,7 @@ const authenticate = function(request, response, next) {
 
     if (requestToken !== config.globalConf.authToken) {
         console.log(`wrong secret token = ${requestToken}`);
-        throw new ResponseException('403 - Forbidden', 403);
+        throw new ResponseException('403 - Wrong access token', 403);
     }
 
     console.log('Authentication succeeded');
