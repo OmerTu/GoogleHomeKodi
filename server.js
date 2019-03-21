@@ -26,6 +26,13 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
         publicError = error.message;
     }
 
+    try {
+        let userRequest = request.query ? request.query.q : '';
+        Helper.kodiShowError(request, response, userRequest + ': ' + publicError);
+    } catch {
+        // swallow early error handling error
+    }
+
     response
         .status(error.status || 500)
         .send(JSON.stringify(publicError, null, 2));

@@ -1056,18 +1056,27 @@ exports.kodiOpenTvshow = (request) => {
 exports.kodiScanLibrary = (request) => request.kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
 exports.kodiCleanLibrary = (request) => request.kodi.VideoLibrary.Clean(); // eslint-disable-line new-cap
 
-
-exports.kodiTestConnection = (request, response) => {
+const kodiShowNotification = (request, response, message, image) => {
     let param = {
-        title: 'Initiated by GoogleHomeKodi',
-        message: 'Test Successful!'
+        title: 'GoogleHomeKodi',
+        message: message,
+        image: image
     };
 
-    return request.kodi.GUI.ShowNotification(param) // eslint-disable-line new-cap
+    return request.kodi.GUI.ShowNotification(param); // eslint-disable-line new-cap
+};
+
+exports.kodiTestConnection = (request, response) => {
+    return kodiShowNotification(request, response, 'Test Successful!', 'info')
     .then((result) => {
-        console.log(param.message, result);
-        response.send(param.message);
+        console.log('Check your kodi screen for the notification!');
+        response.send('Check your kodi screen for the notification!');
+        return result;
     });
+};
+
+exports.kodiShowError = (request, response, message) => {
+    return kodiShowNotification(request, response, message, 'error');
 };
 
 exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
