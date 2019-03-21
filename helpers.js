@@ -1054,6 +1054,8 @@ exports.kodiOpenTvshow = (request) => {
 
 // Start a full library scan
 exports.kodiScanLibrary = (request) => request.kodi.VideoLibrary.Scan(); // eslint-disable-line new-cap
+exports.kodiCleanLibrary = (request) => request.kodi.VideoLibrary.Clean(); // eslint-disable-line new-cap
+
 
 exports.kodiTestConnection = (request, response) => {
     let param = {

@@ -56,8 +56,9 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, kodi reboot"
 "Hey Google, kodi suspend"
 
-### **Scan library:**
+### **Scan/Clean library:**
 "Hey Google, kodi scan library" --> Will start a full library scan
+"Hey Google, kodi clean library" --> Will cleanup your library
 
 
 ### **Navigate kodi:**
@@ -481,9 +482,10 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi hibernate                  | _YOUR_NODE_SERVER_/hibernate                                       |
 | Say a simple phrase                                   | Kodi reboot                     | _YOUR_NODE_SERVER_/reboot                                          |
 | Say a simple phrase                                   | Kodi suspend                    | _YOUR_NODE_SERVER_/suspend                                         |
-| Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                 |
-| Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                   |
-| Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                       |
+| Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                  |
+| Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                     |
+| Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                     |
+| Say a simple phrase                                   | Kodi clean library              | _YOUR_NODE_SERVER_/cleanlibrary                                    |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate up # <br> Kodi Navigate up | _YOUR_NODE_SERVER_/navup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navup                 |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate down # <br> Kodi Navigate down | _YOUR_NODE_SERVER_/navdown?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navdown                 |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate left # <br> Kodi Navigate left | _YOUR_NODE_SERVER_/navleft?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navleft                 |
