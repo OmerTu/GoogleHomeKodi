@@ -2,7 +2,7 @@ const namespaces = require('./api-methods.js');
 const ResponseException = require('../exceptions.js').ResponseException;
 
 module.exports = (fetch) => {
-    
+
     const addMethods = (obj) => {
         namespaces.forEach((namespace) => {
             obj[namespace.name] = namespace.methods.reduce((result, method) => {
@@ -21,7 +21,7 @@ module.exports = (fetch) => {
     };
 
     Kodi.prototype.sendHTTP = function(body, callback) {
-        console.log(`Command sent = ${body}`);
+        console.log(`Sending command to kodi ${this.url}:\r\n${body}`);
         const headers = {
             'Content-type': 'application/json',
             'Accept': 'application/json',
@@ -61,7 +61,7 @@ module.exports = (fetch) => {
         if (params) {
             body.params = params;
         }
-        body = JSON.stringify(body);
+        body = JSON.stringify(body, null, 2);
         return this.sendHTTP(body, callback);
     };
 
