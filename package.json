@@ -21,7 +21,7 @@
     "eslint": "^1.9.0"
   },
   "engines": {
-    "node": "6.10.x"
+    "node": "8.1.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/welcome-project"
