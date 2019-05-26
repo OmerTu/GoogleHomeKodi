@@ -1,8 +1,6 @@
 #### Step 1 ####
 FROM node:alpine as builder
 
-RUN apk add --no-cache python make g++
-
 COPY package*.json ./
 RUN npm install --production
 

@@ -4,7 +4,6 @@
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 const KodiWindows = require('./kodi-connection/windows.js')();
-const wait = require('wait-for-stuff');
 
 const AUDIO_PLAYER = 0;
 const VIDEO_PLAYER = 1;
@@ -20,6 +19,14 @@ const fuzzySearchOptions = {
     tokenize: true,
     maxPatternLength: 64,
     keys: ['label']
+};
+
+const sleep = (seconds) => {
+    if (seconds === 0) {
+        return Promise.resolve();
+    }
+    console.log(`delaying command for ${seconds} seconds...`);
+    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 };
 
 const tryActivateTv = (request, response) => {
@@ -514,7 +521,7 @@ const kodiSeek = (Kodi, seekValue) => {
 };
 
 const getRequestedNumberOrDefaulValue = (request, defaultValue) => {
-    
+
     if (request.query && request.query.q && !isNaN(request.query.q.trim())) {
         let requestedNumber = parseInt(request.query.q.trim());
 
@@ -932,8 +939,8 @@ exports.kodiPlayFile = (request, response) => {
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
 
     console.log(`Movie request received to play "${file}"`);
-    wait.for.time(seconds);
-    return playFile(request, file);
+    return sleep(seconds)
+        .then(() => playFile(request, file));
 };
 exports.kodiPlayMovie = (request, response) => {
     tryActivateTv(request, response);
@@ -943,8 +950,8 @@ exports.kodiPlayMovie = (request, response) => {
     let Kodi = request.kodi;
 
     console.log(`Movie request received to play "${movieTitle}"`);
-    wait.for.time(seconds);
-    return kodiFindMovie(movieTitle, Kodi)
+    return sleep(seconds)
+        .then(() => kodiFindMovie(movieTitle, Kodi))
         .then((movie) => playMovie(request, movie));
 };
 
@@ -956,8 +963,8 @@ exports.kodiResumeMovie = (request, response) => {
     let Kodi = request.kodi;
 
     console.log(`Movie request received to resume "${movieTitle}"`);
-    wait.for.time(seconds);
-    return kodiFindMovie(movieTitle, Kodi)
+    return sleep(seconds)
+        .then(() => kodiFindMovie(movieTitle, Kodi))
         .then((movie) => resumeMovie(request, movie));
 };
 
@@ -967,8 +974,8 @@ exports.kodiPlayTvshow = (request, response) => { // eslint-disable-line no-unus
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
 
     console.log(`TV Show request received to play "${tvshowTitle}"`);
-    wait.for.time(seconds);
-    return kodiFindTvShow(request, tvshowTitle)
+    return sleep(seconds)
+        .then(() => kodiFindTvShow(request, tvshowTitle))
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectFirstUnwatchedEpisode(episodes))
         .then((episode) => playTvShowEpisode(request, episode));
@@ -978,10 +985,11 @@ exports.kodiResumeTvshow = (request, response) => { // eslint-disable-line no-un
     tryActivateTv(request, response);
     let tvshowTitle = request.query.q;
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
-    
+
     console.log(`TV Show request received to resume "${tvshowTitle}"`);
-    wait.for.time(seconds);
-    return kodiFindTvShow(request, tvshowTitle)
+
+    return sleep(seconds)
+        .then(() => kodiFindTvShow(request, tvshowTitle))
         .then((tvShow) => kodiGetTvShowsEpisodes(request, tvShow))
         .then((episodes) => selectFirstUnwatchedEpisode(episodes))
         .then((episode) => resumeTvShowEpisode(request, episode));
