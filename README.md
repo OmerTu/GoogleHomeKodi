@@ -88,6 +88,14 @@ Follow these steps to easily control your kodi using simple voice commands with 
 "Hey Google, kodi show the top 100 albums"  
 "Hey Google, kodi show system settings"  
 "Hey Google, kodi show file manager"  
+"Hey Google, kodi show new YouTube videos"  
+"Hey Google, kodi show YouTube watch later"  
+"Hey Google, kodi show YouTube history"  
+"Hey Google, kodi show YouTube recommendations"  
+"Hey Google, kodi show YouTube subscriptions"  
+"Hey Google, kodi show YouTube settings"  
+"Hey Google, kodi show Spotify" (Spotify Kodi-Addon required)  
+"Hey Google, kodi show Spotify featured playlists" (Spotify Kodi-Addon required)  
 
 There are many more windows to choose from, a full list can be found [here](http://kodi.wiki/view/Opening_Windows_and_Dialogs).
 
@@ -483,7 +491,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a simple phrase                                   | Kodi reboot                     | _YOUR_NODE_SERVER_/reboot                                          |
 | Say a simple phrase                                   | Kodi suspend                    | _YOUR_NODE_SERVER_/suspend                                         |
 | Say a phrase with a text ingredient                   | Kodi shuffle $                  | _YOUR_NODE_SERVER_/shuffleepisode?q={{TextField}}                  |
-| Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}                     |
+| Say a phrase with a text ingredient                   | Kodi youtube play $             | _YOUR_NODE_SERVER_/playyoutube?q={{TextField}}&max=15              |
 | Say a simple phrase                                   | Kodi scan library               | _YOUR_NODE_SERVER_/scanlibrary                                     |
 | Say a simple phrase                                   | Kodi clean library              | _YOUR_NODE_SERVER_/cleanlibrary                                    |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate up # <br> Kodi Navigate up | _YOUR_NODE_SERVER_/navup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navup                 |

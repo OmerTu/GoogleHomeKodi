@@ -147,7 +147,7 @@ const fuzzySearchBestMatch = (items, needle, optionalTargetProperties) => {
 
     let cleanNeedle = needle
         .trim()
-        .replace(/of /gi, '');
+        .replace(/^of /gi, '');
     let fuse = new Fuse(items, options);
     let searchResult = fuse.search(cleanNeedle);
 
@@ -1102,7 +1102,8 @@ exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-lin
 
 exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unused-vars
     let searchString = request.query.q.trim();
-    let Kodi = request.kodi;
+    let maxItems = request.query.max !== undefined ? parseInt(request.query.max) : 15;
+    let kodi = request.kodi;
 
     if (!request.config.youtubeKey) {
         throw new Error('Youtube key missing. Configure using the env. variable YOUTUBE_KEY or the kodi-hosts.config.js.');
@@ -1111,7 +1112,7 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
     // Search youtube
     console.log(`Searching youtube for ${searchString}`);
     const opts = {
-        maxResults: 10,
+        maxResults: maxItems,
         key: request.config.youtubeKey,
         type: 'video'
     };
@@ -1126,16 +1127,35 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
                 reject('no results found');
             }
 
-            resolve(results[0]);
+            resolve(results);
 
-        })).then((foundVideo) => {
+        })).then((foundVideos) => {
 
-            console.log(`Playing youtube video: ${foundVideo.description}`);
-            return Kodi.Player.Open({ // eslint-disable-line new-cap
+            let items = foundVideos
+                .filter((video) => video.filetype === 'file')
+                .map((video) => ({
+                    file: `plugin://plugin.video.youtube/play/?video_id=${video.id}`
+                }));
+
+            console.log(`Playing ${items.length} youtube videos:`);
+
+            return kodi.Playlist.Clear({ // eslint-disable-line new-cap
+                playlistid: VIDEO_PLAYER
+            })
+            .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
+                item: items,
+                playlistid: VIDEO_PLAYER
+            }))
+            .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
                 item: {
-                    file: `plugin://plugin.video.youtube/?action=play_video&videoid=${foundVideo.id}`
+                    playlistid: VIDEO_PLAYER
+                },
+                options: {
+                    shuffled: false
                 }
-            });
+            })).then(() => kodi.GUI.SetFullscreen({ // eslint-disable-line new-cap
+                fullscreen: true
+            }));
         });
 };
 
