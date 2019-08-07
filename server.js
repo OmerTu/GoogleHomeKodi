@@ -7,6 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const Helper = require('./helpers.js');
+const Broker = require('./broker.js');
 const LoadConfig = require('./config.js');
 const config = new LoadConfig();
 const ResponseException = require('./exceptions.js').ResponseException;
@@ -277,6 +278,9 @@ app.all('/toggleFullscreen', exec(Helper.kodiToggleFullscreen));
 app.all('/playercontrol', exec(Helper.playercontrol));
 
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
+
+//broker for parsing all phrases
+app.all('/broker', exec(Broker.processRequest));
 
 app.use('/settings', SettingsApp.build(exec));
 
