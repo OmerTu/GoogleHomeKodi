@@ -418,7 +418,8 @@ For example: `{"token":"*YOUR_CONNECTION_PASSWORD*", "kodiid":"bedroom"}`
 
 
 Now every time you say "Hey Google, Kodi play movie bla bla", it should play bla bla on your kodi.<br>
-**Note:** If your external IP changes, this will stop working (consider getting a static IP address)
+**Note:** If your external IP changes, this will stop working (consider getting a static IP address)<br>
+**Tip:** If you don't want define action for every phrase separatelly, you can use [Phrase broker](#phrase-broker)
 
 
 ### Setting up other actions: ###
@@ -462,6 +463,27 @@ For **PVR TV support - Set channel by name**, follow all the steps in **D**, exc
 For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
 
   >_YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}
+
+### Phrase broker: ###
+ Instead of defining each phrase separately on IFTTT, you can use built-in phrase broker, which will parse phrase on node server.
+ It uses regural expression for matching phrases, so it is more powerful than IFTTT's $ and #.
+ For setup phrase broker you need to define on IFTTT one single action (for example "Kodi $") and direct that action to the broker URL:
+ >_YOUR_NODE_SERVER_/broker?phrase={{TextField}}
+
+ If you want to use other language than english, just lang parameter to that URL:
+ >_YOUR_NODE_SERVER_/broker?phrase={{TextField}}&lang=<lang_code>
+
+ where <lang_code> is name of json file in app's _broker_ folder without json extension (so for example "lang=en")
+
+ If there is not your language in _broker_ folder yet, it is easy to add a new language. Just copy en.json and name it with your language's code.
+ Then edit that new file and change language text in second column to your language.
+ You can also create your variant of default language, just copy required json file, name it with your name (f.e. "en.json" -> "en_my.json") and change texts on your own.
+ Don't forget to set new language code in your action (so for our example it would be "_YOUR_NODE_SERVER_/broker?phrase={{TextField}}&lang=en_my").
+ Format of one lanuage's json file record is simple:
+ >"&lt;HelperHandlerName&gt;": "&lt;regular expression to match and extract parameters&gt;"
+
+ For more variants of single handler just use suffix ":&lt;whatever_unique&gt;", so in case of second variant of kodiPlayMovie handler it would be "kodiPlayMovie:1", for third "kodiPlayMovie:2" and so on.
+ Don't forget, that records on the top of file have greater priority than on the bottom. If broker finds match on the top, it does not continue to the bottom.
 
 
 ## Full table with available actions
