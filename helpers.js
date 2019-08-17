@@ -1132,10 +1132,15 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
         })).then((foundVideos) => {
 
             let items = foundVideos
-                .filter((video) => video.filetype === 'file')
+                .filter((video) => video.filetype === 'file' || video.kind === 'youtube#video')
                 .map((video) => ({
                     file: `plugin://plugin.video.youtube/play/?video_id=${video.id}`
                 }));
+
+            if (items.length === 0) {
+                console.log(foundVideos);
+                return new Error(`No playable videos found!`);
+            }
 
             console.log(`Playing ${items.length} youtube videos:`);
 
@@ -1257,6 +1262,18 @@ exports.kodiTogglePartymode = (request) => {
         .then((kodiResponse) => kodiResponse.result[0].playerid)
         .catch(() => AUDIO_PLAYER)
         .then((playerid) => togglePartyMode(kodi, playerid));
+};
+
+const getDirecoryContents = (kodi, path) => {
+    return kodi.Files.GetDirectory({ // eslint-disable-line new-cap
+        directory: path
+    })
+    .then((kodiResponse) => {
+        if (!(kodiResponse && kodiResponse.result && kodiResponse.result.files && kodiResponse.result.files.length > 0)) {
+            throw new Error('directory was empty');
+        }
+        return kodiResponse.result.files;
+    });
 };
 
 exports.kodiToggleFullscreen = (request) => { // eslint-disable-line no-unused-vars
