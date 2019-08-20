@@ -1130,6 +1130,14 @@ exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-lin
     return kodiPlayChannel(request, response, pvrFuzzySearchOptions);
 };
 
+exports.kodiSearchYoutube = (request, response) => { // eslint-disable-line no-unused-vars
+    let searchString = request.query.q.trim();
+    let kodi = request.kodi;
+
+    return kodiOpenVideoWindow(
+        `plugin://plugin.video.youtube/kodion/search/query?q=${searchString}`, kodi);
+};
+
 exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unused-vars
     let searchString = request.query.q.trim();
     let maxItems = request.query.max !== undefined ? parseInt(request.query.max) : 15;

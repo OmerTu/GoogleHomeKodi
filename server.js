@@ -178,6 +178,8 @@ app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
 // http://1.1.1.1/playyoutube?q=bla
 app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
+app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
+
 // Parse request to watch a PVR channel by number
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
 app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
