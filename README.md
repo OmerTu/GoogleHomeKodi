@@ -253,19 +253,10 @@ You can configure your instance simply through *environment variables* or a `kod
    - For all other systems please see the offical documentation  
      [Docker Installation](https://docs.docker.com/engine/installation/)
 2. Get the latest *GoogleHomeKodi* docker image  
-   First try it this way:
      ```
-     docker build --tag omertu/googlehomekodi https://github.com/OmerTu/GoogleHomeKodi.git
-     ```  
-     If that fails with a `git` not found error (i.e. on LibreELEC systems), use this alternative method:
-
+     docker pull omertu/googlehomekodi
      ```
-     curl -L -O https://github.com/OmerTu/GoogleHomeKodi/archive/master.tar.gz
-     tar xzf master.tar.gz
-     cd GoogleHomeKodi-master
-     docker build --tag omertu/googlehomekodi .
-     ```
-3. Run the docker image
+3. Now just run the production-ready docker image
    - with the use of environment variables:
      ```sh
      docker run \
@@ -281,6 +272,28 @@ You can configure your instance simply through *environment variables* or a `kod
         --name googlehomekodi \
         omertu/googlehomekodi
      ```
+   - with the use of docker-compose:  
+     create a file named `docker-compose.yml` with the following contents:  
+     ```
+      version: '3'
+      services:
+        googlehomekodi:
+          image: omertu/googlehomekodi
+          ports:
+            - "8099:8099"
+          environment:
+            - KODI_PROTOCOL=http
+            - KODI_IP=YOUR_INTERNAL_KODI_IP_ADDRESS
+            - KODI_PORT=YOUR_KODI_PORT
+            - KODI_USER=YOUR_KODI_USER_NAME
+            - KODI_PASSWORD=YOUR_KODI_PASSWORD
+            - AUTH_TOKEN=YOUR_CONNECTION_PASSWORD
+          restart: always
+     ```  
+     and then just fire it up with  
+     ```sh
+     docker-compose up --detach
+     ``` 
    - or with the use of the config file:
      - Create a copy of the `kodi-hosts.config.js.dist` file and name it `kodi-hosts.config.js`.
      - Edit the file and make sure the kodiConfig and globalConfig sections match your environment.
@@ -305,7 +318,7 @@ You can configure your instance simply through *environment variables* or a `kod
    We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
 8. In case you need to update to a newer version of this app later, just repeat steps 2 and 3 after executing:
    ```
-   docker rm --force omertu/googlehomekodi
+   docker rmi --force omertu/googlehomekodi
    ```
 </details>
 

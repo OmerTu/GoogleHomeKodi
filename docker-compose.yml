@@ -1,0 +1,14 @@
+version: '3'
+services:
+  googlehomekodi:
+    image: omertu/googlehomekodi
+    ports:
+      - "8099:8099"
+    environment:
+      - KODI_PROTOCOL=http
+      - KODI_IP=YOUR_INTERNAL_KODI_IP_ADDRESS
+      - KODI_PORT=YOUR_KODI_PORT
+      - KODI_USER=YOUR_KODI_USER_NAME
+      - KODI_PASSWORD=YOUR_KODI_PASSWORD
+      - AUTH_TOKEN=YOUR_CONNECTION_PASSWORD
+    restart: always
