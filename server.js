@@ -275,6 +275,8 @@ app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
 app.all('/toggleFullscreen', exec(Helper.kodiToggleFullscreen));
 
 // Playlist Control
+app.all('/playplaylist', exec(Helper.kodiPlayPlaylist));
+
 app.all('/playercontrol', exec(Helper.playercontrol));
 
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));

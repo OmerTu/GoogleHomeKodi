@@ -421,6 +421,18 @@ const kodiGetMovieGenres = (Kodi) => {
     });
 };
 
+const getDirecoryContents = (kodi, path) => {
+    return kodi.Files.GetDirectory({ // eslint-disable-line new-cap
+        directory: path
+    })
+    .then((kodiResponse) => {
+        if (!(kodiResponse && kodiResponse.result && kodiResponse.result.files && kodiResponse.result.files.length > 0)) {
+            throw new Error('directory was empty');
+        }
+        return kodiResponse.result.files;
+    });
+};
+
 const kodiGetProfiles = (Kodi) => {
     return Kodi.Profiles.GetProfiles() // eslint-disable-line new-cap
         .then((profiles) => {
@@ -818,6 +830,24 @@ exports.playercontrol = (request, response) => { // eslint-disable-line no-unuse
     const playlistindex = parseInt(playercommand) - 1;
 
     return kodiGoTo(Kodi, playlistindex);
+};
+
+exports.kodiPlayPlaylist = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+    const playlistName = request.query.q.trim();
+
+    console.log(`Request for playing playlist "${playlistName}" received!`);
+
+    return getDirecoryContents(Kodi, `special://profile/playlists/music`)
+    .then((lists) => fuzzySearchBestMatch(lists, playlistName))
+    .catch(() =>
+        getDirecoryContents(Kodi, `special://profile/playlists/video`)
+            .then((lists) => fuzzySearchBestMatch(lists, playlistName)))
+    .then((playlist) => Kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            directory: playlist.file
+        }
+    }));
 };
 
 exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
@@ -1262,18 +1292,6 @@ exports.kodiTogglePartymode = (request) => {
         .then((kodiResponse) => kodiResponse.result[0].playerid)
         .catch(() => AUDIO_PLAYER)
         .then((playerid) => togglePartyMode(kodi, playerid));
-};
-
-const getDirecoryContents = (kodi, path) => {
-    return kodi.Files.GetDirectory({ // eslint-disable-line new-cap
-        directory: path
-    })
-    .then((kodiResponse) => {
-        if (!(kodiResponse && kodiResponse.result && kodiResponse.result.files && kodiResponse.result.files.length > 0)) {
-            throw new Error('directory was empty');
-        }
-        return kodiResponse.result.files;
-    });
 };
 
 exports.kodiToggleFullscreen = (request) => { // eslint-disable-line no-unused-vars

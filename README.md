@@ -131,7 +131,9 @@ There are many more windows to choose from, a full list can be found [here](http
 "Hey Google, kodi toggle **party mode**" --> starts the kodi party mode.
 
 ### **Playlist Control:**
-"Hey Google, kodi playlist previous/next/list item number" --> This will go forward/backward or select an item on the playlist #.
+
+"Hey Google, kodi play playlist [playlistname]" --> This will look for a playlist with that name and play it. Smart and regular playlist supported.  
+"Hey Google, kodi playlist previous/next/[list item number]" --> This will go forward/backward or select an item on the currently playing playlist #.  
 
 ------------
 ## How to setup
@@ -539,6 +541,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi play playlist $            | _YOUR_NODE_SERVER_/playplaylist?q={{TextField}}                    |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
 | Say a phrase with a text ingredient                   | Kodi open $ from my favourites  | _YOUR_NODE_SERVER_/playfavourite?q={{TextField}}                   |
