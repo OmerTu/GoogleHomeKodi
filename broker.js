@@ -1,52 +1,41 @@
-
 'use strict'; // eslint-disable-line strict
 
 const Helper = require('./helpers.js');
 
-let last_lang = "";
-let lang_dictionary = null;
+let lastUsedLanguage = ``;
+let localizedPhrases = null;
 
 exports.processRequest = (request, response) => {
 
-    let phrase = request.query.phrase;
-    let lang = request.query.lang;
+    let phrase = request.query.phrase.toLowerCase();
+    let language = request.query.lang || `en`;
 
-    if(!lang) {
-        lang = "en";
+    if (lastUsedLanguage !== language) {
+        // reload lang file if language has changed
+        localizedPhrases = require(`./broker/${language}.json`);
+        lastUsedLanguage = language;
     }
 
-    if(last_lang != lang) {
-        //reload lang file if language has changed
-        lang_dictionary = require('./broker/' + lang + '.json')
-        last_lang = lang;
-    }
+    console.log(`Broker processing phrase: '${phrase}' (${language})`);
 
-    console.log('Broker processing phrase ' + phrase);
+    for (let key in localizedPhrases) {
 
-    //find first match
-    for(var key in lang_dictionary) {
+        let match = phrase.match(`^${localizedPhrases[key]}`);
 
-        let result = phrase.match("^" + lang_dictionary[key]);
-        if(result) {
+        if (match) {
 
-            //copy named groups to request.query
-            for(var g in result.groups) {
-                if(result.groups[g]) {
-                    request.query[g] = result.groups[g];
+            // copy named groups to request.query
+            for (let g in match.groups) {
+                if (match.groups[g]) {
+                    request.query[g] = match.groups[g];
                 }
             }
 
-            //remove : suffix
-            var pos = key.indexOf(':');
-            key = key.substring(0, pos != -1 ? pos : key.length);
-    
-            //call original handler by key
-            return Helper[key](request, response);
+            let endpoint = key.split(`:`, 1)[0];
+
+            // call original handler
+            return Helper[endpoint](request, response);
         }
-        
     }
-    return new Promise(() => {
-        console.log('Broker unknown phrase');
-        response.send("Broker: unknown phrase");
-    });
+    throw new Error(`Broker unknown phrase: '${phrase}' (${language})`);
 };
