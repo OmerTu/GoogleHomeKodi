@@ -152,6 +152,7 @@ We currently support three methods of how this app can be hosted.
 1. Hosting it in Glitch, a 3rd-party web-hosting service
 2. Hosting it yourself
 3. Hosting it yourself with Docker
+4. Hosting it with Google Cloud Run
 
 The first method is very easy to set up and to maintain and also free of charge.
 The second method is for advanced users. You have to setup and maintain the nodejs environment yourself. But it supports multiple Kodi instances, greatly reduces latency and does not expose your kodi-webservice to the internet directly.
@@ -321,6 +322,15 @@ You can configure your instance simply through *environment variables* or a `kod
    docker rmi --force omertu/googlehomekodi
    ```
 </details>
+
+<details>
+  <summary><b>B.4 Google Cloud Run</b> (Click to expand instructions)</summary><p />
+  
+1. Just click here:  
+  [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/omertu/googlehomekodi.git)
+
+</details>
+
 
 ### **C) [OPTIONAL] controlling multiple kodi instances**
 There are two ways of implementing the scenario of multiple kodi instances (i.e one in the living room and another in the bedroom).

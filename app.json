@@ -1,0 +1,35 @@
+{
+  "name": "google-home-kodi",
+  "env": {
+      "KODI_PROTOCOL": {
+          "description": "Is your kodi at home reachable through http or https?",
+          "value": "http",
+          "required": true
+      },
+      "KODI_IP": {
+          "description": "The external IP of your home!",
+          "value": "",
+          "required": true
+      },
+      "KODI_PORT": {
+          "description": "The external Port you are forwarding from your router to your kodi host",
+          "value": "8080",
+          "required": true
+      },
+      "KODI_USER": {
+          "description": "Your login user for kodi",
+          "value": "kodi",
+          "required": true
+      },
+      "KODI_PASSWORD": {
+          "description": "Your login passwort for kodi",
+          "value": "",
+          "required": true
+      },
+      "AUTH_TOKEN": {
+          "description": "Some random characters you can freely choose. Its kinda lika a 'passwort' for IFTTT-Applets",
+          "value": "http",
+          "required": true
+      }
+  }
+}
