@@ -13,7 +13,8 @@
     "express": "^4.17.1",
     "fuse.js": "^2.7.4",
     "node-fetch": "^1.7.3",
-    "youtube-search": "^1.1.4"
+    "youtube-search": "^1.1.4",
+    "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta8",

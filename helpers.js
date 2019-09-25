@@ -1,6 +1,6 @@
 'use strict'; // eslint-disable-line strict
 
-
+const { wordsToNumbers } = require('words-to-numbers');
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 const KodiWindows = require('./kodi-connection/windows.js')();
@@ -534,14 +534,30 @@ const kodiSeek = (Kodi, seekValue) => {
 
 const getRequestedNumberOrDefaulValue = (request, defaultValue) => {
 
-    if (request.query && request.query.q && !isNaN(request.query.q.trim())) {
-        let requestedNumber = parseInt(request.query.q.trim());
-
-        console.log('parsed valid number:', requestedNumber);
-        return requestedNumber;
+    if (!request.query || !request.query.q) {
+        console.log('no number given, falling back:', defaultValue);
+        return defaultValue;
     }
 
-    console.log(`could not parse input '${request.query.q}' as number`);
+    let requestNumber = request.query.q.trim();
+
+    console.log('trying to parse: ', requestNumber);
+
+    if (!isNaN(requestNumber)) {
+        let plainNumber = parseInt(requestNumber);
+
+        console.log('parsed valid plain number:', plainNumber);
+        return plainNumber;
+    }
+
+    let wordNumber = wordsToNumbers(requestNumber);
+
+    if (!isNaN(wordNumber)) {
+        console.log('parsed valid word number:', wordNumber);
+        return wordNumber;
+    }
+
+    console.log('not able to parse as number, falling back:', defaultValue);
     return defaultValue;
 };
 
