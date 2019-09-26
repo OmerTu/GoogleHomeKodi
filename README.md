@@ -492,7 +492,7 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 
 ### Phrase broker: ###
  Instead of defining each phrase separately on IFTTT, you can use built-in phrase broker, which will parse phrase on node server.
- It uses regural expression for matching phrases, so it is more powerful than IFTTT's $ and #.
+ It uses regular expression for matching phrases, so it is more powerful than IFTTT's $ and #.
  For setup phrase broker you need to define on IFTTT one single action (for example "Kodi $") and direct that action to the broker URL:
  >_YOUR_NODE_SERVER_/broker?phrase={{TextField}}
 
