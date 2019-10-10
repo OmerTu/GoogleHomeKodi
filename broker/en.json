@@ -34,6 +34,7 @@
     "kodiNavDown": "navigate down( (?<q>\\d+))?",
     "kodiNavLeft": "navigate left( (?<q>\\d+))?",
     "kodiNavRight": "navigate right( (?<q>\\d+))?",
+    "kodiNavBack": "navigate back( (?<q>\\d+))?",
     "kodiNavSelect": "select",
     "kodiNavContextMenu": "show context menu",
     "kodiNavHome": "go home",
