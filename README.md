@@ -190,7 +190,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 
 
 1. Install the [Node.js](https://nodejs.org/en/download/) application server on your target computer  
-   _Note:_ Required Version is **6.10 or above** (8 preferred)
+   _Note:_ Minimum required Version is **6.10** (but 10 or higher for the broker feature)
 2. Choose a location, where your app will live (i.e `C:\node\`)
 3. Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
 4. You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
