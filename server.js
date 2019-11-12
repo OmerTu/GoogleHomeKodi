@@ -20,6 +20,7 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
     console.log('query: ', request.query);
     console.log('error: ', error);
     console.log('body: ', request.body);
+    console.log('versions: ', process.versions);
 
     let publicError = error;
 
