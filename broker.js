@@ -5,7 +5,26 @@ const Helper = require('./helpers.js');
 let lastUsedLanguage = ``;
 let localizedPhrases = null;
 
+const testRegexNamedGroupesFeature = () => {
+
+    let match = false;
+
+    try {
+        match = `named group test`.match(`(?<group>test)`);
+    } catch (error) {
+        match = false;
+    }
+
+    if (!match) {
+        throw new Error(
+            `regex named groups test failed. ` +
+            `You need nodejs version 10 or higher for the broker to work!`);
+    }
+};
+
 exports.processRequest = (request, response) => {
+
+    testRegexNamedGroupesFeature();
 
     let phrase = request.query.phrase.toLowerCase();
     let language = request.query.lang || `en`;
