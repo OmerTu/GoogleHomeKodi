@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line strict
+'use strict';
 
 const express = require('express');
 const Fuse = require('fuse.js');

@@ -6,7 +6,6 @@ kodi-hosts.config*.js
 .git/
 .gitignore
 examples/
-.eslintrc.json
 .glitch-assets
 .travis.yml
 README.md

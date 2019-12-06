@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 
 	This file is based on http://kodi.wiki/view/Opening_Windows_and_Dialogs

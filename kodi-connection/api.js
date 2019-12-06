@@ -1,3 +1,5 @@
+'use strict';
+
 const namespaces = require('./api-methods.js');
 const ResponseException = require('../exceptions.js').ResponseException;
 
@@ -33,22 +35,22 @@ module.exports = (fetch) => {
             body: body,
             headers: headers
         })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
 
-            throw new ResponseException(
-                `Error in response, ${response.statusText} with status code: ${response.status}`,
-                response.status,
-                response.statusText);
-        })
-        .then((data) => {
-            if (callback) {
-                callback(data);
-            }
-            return data;
-        });
+                throw new ResponseException(
+                    `Error in response, ${response.statusText} with status code: ${response.status}`,
+                    response.status,
+                    response.statusText);
+            })
+            .then((data) => {
+                if (callback) {
+                    callback(data);
+                }
+                return data;
+            });
     };
 
     Kodi.prototype.send = function(method, params, callback) {
