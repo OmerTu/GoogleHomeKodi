@@ -53,6 +53,7 @@ exports.processRequest = (request, response) => {
             let endpoint = key.split(`:`, 1)[0];
 
             // call original handler
+            console.log(`redirecting request to: '${endpoint}`);
             return Helper[endpoint](request, response);
         }
     }
