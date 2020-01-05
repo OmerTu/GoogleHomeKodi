@@ -1,6 +1,8 @@
 'use strict';
 
 const Helper = require('./helpers.js');
+const path = require('path');
+const fs = require('fs');
 
 let lastUsedLanguage = ``;
 let localizedPhrases = null;
@@ -20,17 +22,46 @@ const testRegexNamedGroupesFeature = () => {
     }
 };
 
+const loadLanguageFile = (language) => {
+
+    try {
+        let configDirectory = '/config';
+
+        try {
+            let configFile = process.env.GOOGLE_HOME_KODI_CONFIG || './kodi-hosts.config.js';
+
+            configDirectory = path.dirname(fs.realpathSync(configFile));
+            // eslint-disable-next-line global-require
+            let lang = require(`${configDirectory}/${language}.json`);
+            console.log(`Found customized language file for '${language}'.`);
+            return lang;
+        } catch (error) {
+            // NOOP
+        }
+
+        // eslint-disable-next-line global-require
+        let lang = require(`${configDirectory}/${language}.json`);
+        console.log(`Found customized language file for '${language}'`);
+        return lang;
+
+    } catch (error) {
+        console.log(`No customized language file found for '${language}', loading default file.`);
+
+        // eslint-disable-next-line global-require
+        return require(`./broker/${language}.json`);
+    }
+};
+
 exports.processRequest = (request, response) => {
 
     testRegexNamedGroupesFeature();
 
-    let phrase = request.query.phrase.toLowerCase();
+    let phrase = request.query.phrase.toLowerCase().trim();
     let language = request.query.lang || `en`;
 
     if (lastUsedLanguage !== language) {
         // reload lang file if language has changed
-        // eslint-disable-next-line global-require
-        localizedPhrases = require(`./broker/${language}.json`);
+        localizedPhrases = loadLanguageFile(language);
         lastUsedLanguage = language;
     }
 
