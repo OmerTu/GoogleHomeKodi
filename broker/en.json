@@ -46,6 +46,8 @@
     "kodiResumeMovie": "resume (?<q>.+)",
     "kodiResumeTvshow": "resume an episode of (?<q>.+)",
     "kodiScanLibrary": "scan library",
+    "kodiSearchYoutube": ".*youtube for (?<q>.+)",
+    "kodiSearchYoutube:1": ".*(for|find) (?<q>.+) on youtube",
     "kodiSeekBackwardMinutes": "seek backward( (?<q>\\d+) minutes)?",
     "kodiSeekForwardMinutes": "seek forward( (?<q>\\d+) minutes)?",
     "kodiSeektominutes": "seek to (?<q>\\d+) minutes",
