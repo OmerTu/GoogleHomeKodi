@@ -570,6 +570,8 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
 | Say a phrase with a text ingredient                   | Kodi open $ from my favourites  | _YOUR_NODE_SERVER_/playfavourite?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi open $ from my tvshows     | _YOUR_NODE_SERVER_/opentvshow?q={{TextField}}                   |
+| Say a phrase with a text ingredient                   | Kodi open $ from my movies      | _YOUR_NODE_SERVER_/openmovie?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle fullscreen          | _YOUR_NODE_SERVER_/togglefullscreen                                |
 | Say a phrase with a text ingredient			| Kodi load profile $		  | _YOUR_NODE_SERVER_/loadProfile                                     |
 

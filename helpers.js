@@ -227,17 +227,18 @@ const getFilteredMovies = (request, param) => {
         });
 };
 
-const kodiFindMovie = (movieTitle, Kodi) => {
-    return Kodi.VideoLibrary.GetMovies({ // eslint-disable-line new-cap
-        properties: ['originaltitle']
-    })
-    .then((movies) => {
-        if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
-            throw new Error('Your kodi library does not contain a single movie!');
-        }
+const kodiFindMovie = (request, movieTitle) => {
+    return request.kodi.VideoLibrary
+        .GetMovies({ // eslint-disable-line new-cap
+            properties: ['originaltitle', 'file']
+        })
+        .then((movies) => {
+            if (!(movies && movies.result && movies.result.movies && movies.result.movies.length > 0)) {
+                throw new Error('Your kodi library does not contain a single movie!');
+            }
 
-        return fuzzySearchBestMatch(movies.result.movies, movieTitle, ['label', 'originaltitle']);
-    });
+            return fuzzySearchBestMatch(movies.result.movies, movieTitle, ['label', 'originaltitle']);
+        });
 };
 
 const kodiFindTvShow = (request, tvshowTitle) => {
@@ -993,11 +994,10 @@ exports.kodiPlayMovie = (request, response) => {
 
     let movieTitle = request.query.q;
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
-    let Kodi = request.kodi;
 
     console.log(`Movie request received to play "${movieTitle}"`);
     return sleep(seconds)
-        .then(() => kodiFindMovie(movieTitle, Kodi))
+        .then(() => kodiFindMovie(request, movieTitle))
         .then((movie) => playMovie(request, movie));
 };
 
@@ -1006,11 +1006,10 @@ exports.kodiResumeMovie = (request, response) => {
 
     let movieTitle = request.query.q;
     let seconds = request.query.delay !== undefined ? parseInt(request.query.delay) : 0;
-    let Kodi = request.kodi;
 
     console.log(`Movie request received to resume "${movieTitle}"`);
     return sleep(seconds)
-        .then(() => kodiFindMovie(movieTitle, Kodi))
+        .then(() => kodiFindMovie(request, movieTitle))
         .then((movie) => resumeMovie(request, movie));
 };
 
@@ -1104,6 +1103,28 @@ exports.kodiOpenTvshow = (request) => {
 
     return kodiFindTvShow(request, tvshowTitle)
         .then((tvShow) => kodiOpenVideoWindow(tvShow.file, request.kodi));
+};
+
+exports.kodiOpenMovie = (request) => {
+    let movieTitle = request.query.q;
+    let kodi = request.kodi;
+
+    return kodi.Input.Home() // eslint-disable-line new-cap
+        .then(() => kodi.Input.Back()) // eslint-disable-line new-cap
+        .then(() => kodiFindMovie(request, movieTitle))
+        .then((movie) => kodi.Playlist.Clear({ // eslint-disable-line new-cap
+            playlistid: VIDEO_PLAYER
+        })
+            .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
+                item: { movieid: movie.movieid },
+                playlistid: VIDEO_PLAYER
+            }))
+            .then(() => kodi.GUI.ActivateWindow({ // eslint-disable-line new-cap
+                window: 'videoplaylist'
+            }))
+            .then(() => sleep(1)
+                .then(() => kodi.Input.Info()) // eslint-disable-line new-cap
+            ));
 };
 
 // Start a full library scan

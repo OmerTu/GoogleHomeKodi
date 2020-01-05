@@ -129,7 +129,7 @@ app.all('/resumemovie', exec(Helper.kodiResumeMovie));
 
 // Supports optional genre and year query parameters
 app.all('/playrandommovie', exec(Helper.kodiPlayRandomMovie));
-
+app.all('/openmovie', exec(Helper.kodiOpenMovie));
 // Parse request to open a specific tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
 app.all('/opentvshow', exec(Helper.kodiOpenTvshow));
