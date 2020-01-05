@@ -696,6 +696,42 @@ exports.kodiSetSubs = (request, response) => { // eslint-disable-line no-unused-
     throw new Error('unknown subs command', setsubs);
 };
 
+// Set subtitles on
+exports.kodiSetSubsOn = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+
+    console.log('Change subtitles on received');
+
+    return Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': 'on' }); // eslint-disable-line new-cap
+};
+
+// Set subtitles off
+exports.kodiSetSubsOff = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+
+    console.log('Change subtitles off received');
+
+    return Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': 'off' }); // eslint-disable-line new-cap
+};
+
+// Set subtitles previous
+exports.kodiSetSubsPrevious = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+
+    console.log('Change subtitles previous received');
+
+    return Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': 'previous' }); // eslint-disable-line new-cap
+};
+
+// Set subtitles next
+exports.kodiSetSubsNext = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+
+    console.log('Change subtitles next received');
+
+    return Kodi.Player.SetSubtitle({ 'playerid': 1, 'subtitle': 'next' }); // eslint-disable-line new-cap
+};
+
 // Set subtitles direct
 exports.kodiSetSubsDirect = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
