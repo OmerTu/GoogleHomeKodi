@@ -321,7 +321,7 @@ const kodiFindMostRecentlyAddedEpisode = (request) => {
 };
 
 const kodiFindSpecificEpisode = (request, tvShow, seasonNum, episodeNum) => {
-    console.log(`Searching Season ${seasonNum}, episode ${episodeNum} of Show ${tvShow}...`);
+    console.log(`Searching Season ${seasonNum}, episode ${episodeNum} of Show '${tvShow.label}'...`);
 
     // Build filter to search for specific season and episode number
     let param = {
@@ -1054,13 +1054,19 @@ exports.kodiBingeWatchTvshow = (request, response) => { // eslint-disable-line n
 
 exports.kodiPlayEpisodeHandler = (request, response) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
+    let splitter = request.query.splitter || 'season';
     let fullQuery = request.query.q.toLowerCase();
-    let splittedQuery = fullQuery.split('season');
+    let splittedQuery = fullQuery.split(splitter.toLowerCase());
+
+    if (splittedQuery.length !== 2) {
+        throw new Error(`Could not split season from episode info '${fullQuery}' with splitter '${splitter}'`);
+    }
+
     let tvshowTitle = splittedQuery[0].trim();
     let seasonNum = splittedQuery[1].trim();
     let episodeNum = request.query.e.trim();
 
-    console.log(`Specific Episode request received to play ${tvshowTitle} Season ${seasonNum} Episode ${episodeNum}`);
+    console.log(`Specific Episode request received to play '${tvshowTitle}' (Season ${seasonNum}, Episode ${episodeNum})`);
 
     return kodiFindTvShow(request, tvshowTitle)
         .then((tvShow) => kodiFindSpecificEpisode(request, tvShow, seasonNum, episodeNum))

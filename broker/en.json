@@ -32,7 +32,7 @@
     "kodiPlayArtist": "play the artist (?<q>.+)",
     "kodiPlayChannelByName": "switch to (?<q>.+) channel",
     "kodiPlayChannelByNumber": "switch to channel number (?<q>\\d+)",
-    "kodiPlayEpisodeHandler": "play (?<q>.+) episode (?<e>\\d+)",
+    "kodiPlayEpisodeHandler": "play (?<q>.+(?<splitter>season).+) episode (?<e>\\d+)",
     "kodiPlayMovie": "play (?<q>.+)",
     "kodiPlayMovie:1": "play (?<q>.+) delay (?<delay>\\d+)",
     "kodiPlayMusicByGenre": "play the music genre (?<q>.+)",
