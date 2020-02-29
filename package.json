@@ -1,6 +1,6 @@
 {
   "name": "googlehomekodi",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "A node express server for relaying google home commands from IFTTT to your Kodi installation.",
   "main": "server.js",
   "scripts": {
