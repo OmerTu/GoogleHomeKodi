@@ -1,6 +1,7 @@
+dist: bionic
 language: node_js
 node_js:
   - "12.16.1"
 
 script:
-  - npm run lint --ignore-pattern "node_modules/fuse.js"
+  - npm run lint
