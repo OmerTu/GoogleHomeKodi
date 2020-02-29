@@ -1,4 +1,5 @@
 {
+    "parser": "babel-eslint",
     "env": {
       "node": true,
       "es6": true
@@ -69,7 +70,7 @@
       "vars-on-top": 2,
       "wrap-iife": [ 2, "inside" ],
       "yoda": 2,
-      "strict": [ 2, "global" ],
+      "strict": 0,
       "no-catch-shadow": 2,
       "no-delete-var": 2,
       "no-shadow-restricted-names": 2,
@@ -110,7 +111,7 @@
       // "one-var": [ 2, "always" ],
       "operator-linebreak": [ 2, "none" ],
       // "quote-props": [ 2, "always" ],
-      "quotes": [ 1, "single", "avoid-escape" ],
+      "quotes": [ 1, "single", { "allowTemplateLiterals": true } ],
       "semi": [ 2, "always" ],
       "keyword-spacing": [ "error", {
             "before": true,

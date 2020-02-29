@@ -31,7 +31,7 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
 
     try {
         let userRequest = request.query ? request.query.q : '';
-        Helper.kodiShowError(request, response, userRequest + ': ' + publicError);
+        Helper.kodiShowError(`${request} ${response} ${userRequest} : ${publicError}`);
     } catch (err) {
         // swallow early error handling error
     }
