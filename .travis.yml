@@ -3,4 +3,4 @@ node_js:
   - "12.16.1"
 
 script:
-  - npm run lint --no-error-on-unmatched-pattern
+  - npm run lint

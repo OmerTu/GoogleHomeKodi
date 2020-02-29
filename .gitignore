@@ -3,3 +3,4 @@ kodi-hosts.config.js
 **/node_modules
 **/launch.json
 .idea/
+package-lock.json
