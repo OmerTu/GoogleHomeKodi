@@ -3,4 +3,5 @@ node_js:
   - "12.16.1"
 
 script:
+  - npm cache clean --force
   - npm run lint
