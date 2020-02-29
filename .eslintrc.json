@@ -4,7 +4,6 @@
       "node": true,
       "es6": true
     },
-    "ignorePatterns": [ "node_modules/" ],
     "rules": {
       "comma-dangle": [ 2, "never" ],
       "no-console": 0,
