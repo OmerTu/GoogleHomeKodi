@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
   },
   "dependencies": {
     "body-parser": "1.19.0",
