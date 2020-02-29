@@ -32,7 +32,7 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
     try {
         let userRequest = request.query ? request.query.q : '';
         Helper.kodiShowError(request, response, userRequest + ': ' + publicError);
-    } catch(err) {
+    } catch (err) {
         // swallow early error handling error
     }
 
@@ -44,12 +44,12 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
 const exec = (action) => {
     return (request, response, next) => {
         action(request, response, next)
-        .then(() => {
-            if (!response.headersSent) {
-                response.send('OK');
-            }
-        })
-        .catch((error) => handleError(error, request, response, next));
+            .then(() => {
+                if (!response.headersSent) {
+                    response.send('OK');
+                }
+            })
+            .catch((error) => handleError(error, request, response, next));
     };
 };
 
@@ -284,7 +284,7 @@ app.all('/playercontrol', exec(Helper.playercontrol));
 
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
 
-//broker for parsing all phrases
+// broker for parsing all phrases
 app.all('/broker', exec(Broker.processRequest));
 
 app.use('/settings', SettingsApp.build(exec));

@@ -2,7 +2,7 @@
 FROM node:alpine as linter
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --no-fund
 COPY . .
 RUN npm run lint
 
@@ -10,7 +10,7 @@ RUN npm run lint
 FROM node:alpine as production-builder
 
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --production --no-fund
 
 #### Step 3 ####
 FROM node:alpine as app
