@@ -1,6 +1,6 @@
 {
   "name": "googlehomekodi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A node express server for relaying google home commands from IFTTT to your Kodi installation.",
   "main": "server.js",
   "scripts": {
@@ -8,17 +8,17 @@
     "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "fuse.js": "^3.4.6",
-    "node-fetch": "^2.6.0",
-    "youtube-search": "^1.1.4",
-    "words-to-numbers": "^1.5.1"
+    "body-parser": "1.19.0",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "fuse.js": "3.4.6",
+    "node-fetch": "2.6.0",
+    "youtube-search": "1.1.4",
+    "words-to-numbers": "1.5.1"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2"
+    "babel-eslint": "10.1.0",
+    "eslint": "6.7.2"
   },
   "engines": {
     "node": "13.9.0"
@@ -28,8 +28,8 @@
   },
   "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
+    "Kodi",
+    "Google Home",
+    "IFTTT"
   ]
 }
