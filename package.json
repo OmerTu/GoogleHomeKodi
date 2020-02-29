@@ -21,7 +21,7 @@
     "eslint": "^6.7.2"
   },
   "engines": {
-    "node": "12.16.1"
+    "node": "13.9.0"
   },
   "repository": {
     "url": "https://github.com/OmerTu/GoogleHomeKodi"
