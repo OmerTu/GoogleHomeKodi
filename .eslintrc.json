@@ -1,4 +1,5 @@
 {
+    "parser": "babel-eslint",
     "env": {
       "node": true,
       "es6": true
@@ -23,7 +24,6 @@
       "no-unreachable": 2,
       "use-isnan": 2,
       "valid-typeof": 2,
-
       "accessor-pairs": 2,
       "block-scoped-var": 2,
       "curly": 2,
@@ -70,9 +70,7 @@
       "vars-on-top": 2,
       "wrap-iife": [ 2, "inside" ],
       "yoda": 2,
-
-      "strict": [ 2, "global" ],
-
+      "strict": 0,
       "no-catch-shadow": 2,
       "no-delete-var": 2,
       "no-shadow-restricted-names": 2,
@@ -80,11 +78,9 @@
       "no-undef-init": 2,
       "no-unused-vars": 2,
       "no-use-before-define": 2,
-
       "global-require": 2,
       "handle-callback-err": 1,
       "no-new-require": 2,
-
       "array-bracket-spacing": [ 1, "never" ],
       "block-spacing": [ 2, "always" ],
       "brace-style": [ 2, "1tbs", { "allowSingleLine": false } ],
@@ -99,7 +95,7 @@
       "key-spacing": [ 2, { "beforeColon": false, "afterColon": true } ],
       "new-cap": 2,
       "new-parens": 2,
-      "newline-after-var": [ 2, "always" ],
+      //"newline-after-var": [ 2, "always" ],
       "no-array-constructor": 2,
       "no-bitwise": 2,
       "no-continue": 2,
@@ -115,7 +111,7 @@
       // "one-var": [ 2, "always" ],
       "operator-linebreak": [ 2, "none" ],
       // "quote-props": [ 2, "always" ],
-      "quotes": [ 1, "single", "avoid-escape" ],
+      "quotes": [ 1, "single", { "allowTemplateLiterals": true } ],
       "semi": [ 2, "always" ],
       "keyword-spacing": [ "error", {
             "before": true,
@@ -127,7 +123,6 @@
       "space-infix-ops": 2,
       "space-unary-ops": [ 2, { "words": true, "nonwords": false } ],
       "spaced-comment": [ 2, "always" ],
-
       "arrow-parens": [ 2, "always" ],
       "arrow-spacing": 2,
       "constructor-super": 2,

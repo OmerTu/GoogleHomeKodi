@@ -16,9 +16,7 @@ const testRegexNamedGroupesFeature = () => {
     }
 
     if (!match) {
-        throw new Error(
-            `regex named groups test failed. ` +
-            `You need nodejs version 10 or higher for the broker to work!`);
+        throw new Error(`regex named groups test failed. You need nodejs version 10 or higher for the broker to work!`);
     }
 };
 
@@ -31,6 +29,7 @@ exports.processRequest = (request, response) => {
 
     if (lastUsedLanguage !== language) {
         // reload lang file if language has changed
+        // eslint-disable-next-line global-require
         localizedPhrases = require(`./broker/${language}.json`);
         lastUsedLanguage = language;
     }

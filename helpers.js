@@ -97,20 +97,20 @@ const playTvShowEpisodes = (request, episodes, isShuffled = false) => {
     return kodi.Playlist.Clear({ // eslint-disable-line new-cap
         playlistid: VIDEO_PLAYER
     })
-    .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
-        item: items,
-        playlistid: VIDEO_PLAYER
-    }))
-    .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
-        item: {
+        .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
+            item: items,
             playlistid: VIDEO_PLAYER
-        },
-        options: {
-            shuffled: isShuffled
-        }
-    })).then(() => kodi.GUI.SetFullscreen({ // eslint-disable-line new-cap
-        fullscreen: true
-    }));
+        }))
+        .then(() => kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                playlistid: VIDEO_PLAYER
+            },
+            options: {
+                shuffled: isShuffled
+            }
+        })).then(() => kodi.GUI.SetFullscreen({ // eslint-disable-line new-cap
+            fullscreen: true
+        }));
 };
 
 const playMusicGenre = (request, genre) => {
@@ -414,24 +414,24 @@ const kodiGetMovieGenres = (Kodi) => {
     return Kodi.VideoLibrary.GetGenres({ // eslint-disable-line new-cap
         type: 'movie'
     })
-    .then((genres) => {
-        if (!(genres && genres.result && genres.result.genres && genres.result.genres.length > 0)) {
-            throw new Error('Your kodi library does not contain a single genre!');
-        }
-        return genres.result.genres;
-    });
+        .then((genres) => {
+            if (!(genres && genres.result && genres.result.genres && genres.result.genres.length > 0)) {
+                throw new Error('Your kodi library does not contain a single genre!');
+            }
+            return genres.result.genres;
+        });
 };
 
 const getDirecoryContents = (kodi, path) => {
     return kodi.Files.GetDirectory({ // eslint-disable-line new-cap
         directory: path
     })
-    .then((kodiResponse) => {
-        if (!(kodiResponse && kodiResponse.result && kodiResponse.result.files && kodiResponse.result.files.length > 0)) {
-            throw new Error('directory was empty');
-        }
-        return kodiResponse.result.files;
-    });
+        .then((kodiResponse) => {
+            if (!(kodiResponse && kodiResponse.result && kodiResponse.result.files && kodiResponse.result.files.length > 0)) {
+                throw new Error('directory was empty');
+            }
+            return kodiResponse.result.files;
+        });
 };
 
 const kodiGetProfiles = (Kodi) => {
@@ -444,6 +444,8 @@ const kodiGetProfiles = (Kodi) => {
         });
 };
 
+// ESLINT error 'tryPlayingChannelInGroup' is assigned a value but never used  no-unused-vars
+/*
 const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
     if (currGroupI >= chGroups.length) {
         return Promise.resolve('group out of range');
@@ -479,6 +481,7 @@ const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroup
         return tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, currGroupI + 1, Kodi);
     });
 };
+*/
 
 const kodiPlayChannel = (request, response, searchOptions) => {
     let reqChannel = request.query.q.trim();
@@ -892,15 +895,15 @@ exports.kodiPlayPlaylist = (request, response) => { // eslint-disable-line no-un
     console.log(`Request for playing playlist "${playlistName}" received!`);
 
     return getDirecoryContents(Kodi, `special://profile/playlists/music`)
-    .then((lists) => fuzzySearchBestMatch(lists, playlistName))
-    .catch(() =>
-        getDirecoryContents(Kodi, `special://profile/playlists/video`)
-            .then((lists) => fuzzySearchBestMatch(lists, playlistName)))
-    .then((playlist) => Kodi.Player.Open({ // eslint-disable-line new-cap
-        item: {
-            directory: playlist.file
-        }
-    }));
+        .then((lists) => fuzzySearchBestMatch(lists, playlistName))
+        .catch(() =>
+            getDirecoryContents(Kodi, `special://profile/playlists/video`)
+                .then((lists) => fuzzySearchBestMatch(lists, playlistName)))
+        .then((playlist) => Kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                directory: playlist.file
+            }
+        }));
 };
 
 exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
@@ -1185,11 +1188,11 @@ const kodiShowNotification = (request, response, message, image) => {
 
 exports.kodiTestConnection = (request, response) => {
     return kodiShowNotification(request, response, 'Test Successful!', 'info')
-    .then((result) => {
-        console.log('Check your kodi screen for the notification!');
-        response.send('Check your kodi screen for the notification!');
-        return result;
-    });
+        .then((result) => {
+            console.log('Check your kodi screen for the notification!');
+            response.send('Check your kodi screen for the notification!');
+            return result;
+        });
 };
 
 exports.kodiShowError = (request, response, message) => {
@@ -1248,22 +1251,22 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
 
         })).then((foundVideos) => {
 
-            let items = foundVideos
-                .filter((video) => video.filetype === 'file' || video.kind === 'youtube#video')
-                .map((video) => ({
-                    file: `plugin://plugin.video.youtube/play/?video_id=${video.id}`
-                }));
+        let items = foundVideos
+            .filter((video) => video.filetype === 'file' || video.kind === 'youtube#video')
+            .map((video) => ({
+                file: `plugin://plugin.video.youtube/play/?video_id=${video.id}`
+            }));
 
-            if (items.length === 0) {
-                console.log(foundVideos);
-                return new Error(`No playable videos found!`);
-            }
+        if (items.length === 0) {
+            console.log(foundVideos);
+            return new Error(`No playable videos found!`);
+        }
 
-            console.log(`Playing ${items.length} youtube videos:`);
+        console.log(`Playing ${items.length} youtube videos:`);
 
-            return kodi.Playlist.Clear({ // eslint-disable-line new-cap
-                playlistid: VIDEO_PLAYER
-            })
+        return kodi.Playlist.Clear({ // eslint-disable-line new-cap
+            playlistid: VIDEO_PLAYER
+        })
             .then(() => kodi.Playlist.Add({ // eslint-disable-line new-cap
                 item: items,
                 playlistid: VIDEO_PLAYER
@@ -1278,7 +1281,7 @@ exports.kodiPlayYoutube = (request, response) => { // eslint-disable-line no-unu
             })).then(() => kodi.GUI.SetFullscreen({ // eslint-disable-line new-cap
                 fullscreen: true
             }));
-        });
+    });
 };
 
 exports.kodiShutdown = (request) => request.kodi.System.Shutdown(); // eslint-disable-line new-cap
@@ -1332,7 +1335,7 @@ const kodiGetAddons = (kodi) => {
     return kodi.Addons.GetAddons({ // eslint-disable-line new-cap
         properties: ['enabled', 'name']
     })
-    .then((kodiResponse) => kodiResponse.result.addons);
+        .then((kodiResponse) => kodiResponse.result.addons);
 };
 
 const removeNotExecuteableAddons = (addons) => {
