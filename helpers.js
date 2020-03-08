@@ -738,13 +738,13 @@ exports.kodiSetSubsNext = (request, response) => { // eslint-disable-line no-unu
 // Set subtitles direct
 exports.kodiSetSubsDirect = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
-    const setsubs = request.query.q.trim();
+    const setsubs = getRequestedNumberOrDefaulValue(request, 0);
 
     console.log(`Change subtitle track request received Index - ${setsubs}`);
 
     return Kodi.Player.SetSubtitle({ // eslint-disable-line new-cap
         'playerid': VIDEO_PLAYER,
-        'subtitle': parseInt(setsubs)
+        'subtitle': setsubs
     });
 };
 
@@ -768,14 +768,14 @@ exports.kodiSetAudio = (request, response) => { // eslint-disable-line no-unused
 // Set audiostream direct
 exports.kodiSetAudioDirect = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
-    const setaudiostream = request.query.q.trim();
+    const setaudiostream = getRequestedNumberOrDefaulValue(request, 0);
 
     // Write to log
     console.log(`Change audio stream request received Index - ${setaudiostream}`);
 
     return Kodi.Player.SetAudioStream({ // eslint-disable-line new-cap
         'playerid': VIDEO_PLAYER,
-        'stream': parseInt(setaudiostream)
+        'stream': setaudiostream
     });
 };
 
@@ -784,7 +784,7 @@ exports.kodiSeektominutes = (request, response) => { // eslint-disable-line no-u
     console.log('Skip to x minutes request received');
     let Kodi = request.kodi;
 
-    const seektominutes = request.query.q.trim();
+    const seektominutes = getRequestedNumberOrDefaulValue(request, 1);
 
     let hours = parseInt(seektominutes / 60);
     let minutes = parseInt(seektominutes % 60);
@@ -883,7 +883,7 @@ exports.playercontrol = (request, response) => { // eslint-disable-line no-unuse
         return kodiGoTo(Kodi, playercommand);
     }
 
-    const playlistindex = parseInt(playercommand) - 1;
+    const playlistindex = getRequestedNumberOrDefaulValue(request, 0) - 1;
 
     return kodiGoTo(Kodi, playlistindex);
 };
@@ -936,7 +936,7 @@ const setVolume = (Kodi, volume) => {
 };
 
 exports.kodiSetVolume = (request, response) => { // eslint-disable-line no-unused-vars
-    const requestedVolume = request.query.q.trim();
+    const requestedVolume = getRequestedNumberOrDefaulValue(request, 50);
     let Kodi = request.kodi;
 
     console.log(`set volume to "${requestedVolume}" percent request received`);
