@@ -43,13 +43,16 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
 
 const exec = (action) => {
     return (request, response, next) => {
+        let route = request.route ? request.route.path : '';
+        console.log('==== BEGIN === route: ', route);
         action(request, response, next)
             .then(() => {
                 if (!response.headersSent) {
                     response.send('OK');
                 }
             })
-            .catch((error) => handleError(error, request, response, next));
+            .catch((error) => handleError(error, request, response, next))
+            .then(() => console.log('==== END === route: ', route));
     };
 };
 
