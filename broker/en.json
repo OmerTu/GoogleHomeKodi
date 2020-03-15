@@ -36,7 +36,7 @@
     "kodiPlayChannelByNumber": "switch to channel number (?<q>.+)",
     "kodiPlayEpisodeHandler": "play (?<q>.+(?<splitter>season).+) episode (?<e>\\d+)",
     "kodiPlayMusicByGenre": "play the music genre (?<q>.+)",
-    "kodiPlayPause": "(pause|resume$)",
+    "kodiPlayPause": "(unpause|pause|resume)",
     "kodiPlayRandomMovie": "play a random (?<genre>.+ )?movie( of year (?<year>\\d+))?",
     "kodiPlayRecentEpisodeHandler": "play new episode",
     "kodiPlaySong": "play the song (?<q>.+)",
