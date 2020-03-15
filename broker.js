@@ -56,6 +56,10 @@ exports.processRequest = (request, response) => {
 
     testRegexNamedGroupesFeature();
 
+    if (request.query.phrase === undefined) {
+        throw new Error(`Missing mandatory query parameter 'phrase'`);
+    }
+
     let phrase = request.query.phrase.toLowerCase().trim();
     let language = request.query.lang || `en`;
 
