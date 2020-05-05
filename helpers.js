@@ -10,14 +10,15 @@ const VIDEO_PLAYER = 1;
 
 // Set option for fuzzy search
 const fuzzySearchOptions = {
-    caseSensitive: false, // Don't care about case whenever we're searching titles by speech
-    includeScore: false, // Don't need the score, the first item has the highest probability
-    shouldSort: true, // Should be true, since we want result[0] to be the item with the highest probability
-    threshold: 0.4, // 0 = perfect match, 1 = match all..
+    isCaseSensitive: false,
+    includeScore: true,
+    shouldSort: true,
+    threshold: 0.4, // 0 = perfect match, 1 = match anything..
     location: 0,
     distance: 100,
     tokenize: true,
     maxPatternLength: 64,
+    minMatchCharLength: 3,
     keys: ['label']
 };
 
@@ -158,7 +159,7 @@ const fuzzySearchBestMatch = (items, needle, optionalTargetProperties) => {
     let bestMatch = searchResult[0];
 
     console.log(`best fuzzy match for '${cleanNeedle}' is:`, bestMatch);
-    return Promise.resolve(bestMatch);
+    return Promise.resolve(bestMatch.item);
 };
 
 const addYearFilterToParam = (request, param) => {
@@ -518,7 +519,7 @@ const kodiPlayChannel = (request, response, searchOptions) => {
             if (searchResult.length === 0) {
                 throw new Error('channels not found');
             }
-            let channelFound = searchResult[0];
+            let channelFound = searchResult[0].item;
 
             console.log(`Found PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
             return Kodi.Player.Open({ // eslint-disable-line new-cap
@@ -1458,7 +1459,7 @@ exports.listRoutes = function(request, response) {
 
         routes = fuse
             .search(request.query.q)
-            .map((route) => route.path);
+            .map((route) => route.item.path);
     }
 
     response.set('Content-Type', 'text/json');

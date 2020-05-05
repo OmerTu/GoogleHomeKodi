@@ -3,9 +3,12 @@ kodi-hosts.config*.js
 **/node_modules
 **/launch.json
 *.sh
-.git/
-.gitignore
 examples/
+.env
+.git/
+.github/
+.gitignore
 .glitch-assets
 .travis.yml
+.vscode/
 README.md
