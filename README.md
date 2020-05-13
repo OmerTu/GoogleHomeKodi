@@ -653,6 +653,8 @@ Execute the following tests in their listed order! Since early errors can make a
 
 7. Whaat? How did you manage to pass all previous tests and yet still have trouble?  
    Go to _github_, open an issue and explain yourself!
+   
+8. For obtain a connection password, for use in token ({"token":"*YOUR_CONNECTION_PASSWORD*"}) you need see the next link, for obtain API code: https://platform.ifttt.com/ then go to API and copy the code for paste in kodi-hosts.config.js
 
 ------------
 ## Credits ##
