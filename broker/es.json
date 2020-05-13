@@ -6,3 +6,4 @@
 "kodiSeekForwardMinutes": "(salta|avanza) ( (?<q>.+) minuto(s)? )?",
 "kodiSeekBackwardMinutes": "(rerocede|vuelve) ( (?<q>.+) minuto(s)? )?"
 }
+
