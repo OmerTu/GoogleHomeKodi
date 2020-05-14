@@ -1,13 +1,13 @@
 {
-"kodiPlayPause": "pausa|detén|arranca",
+"kodiPlayPause": "pausa|detén(er)?|arranca(r)?",
 "kodiStop": "stop|para|parar",
+"kodiNavSelect": "selecciona(r)?|acepta(r)?|ok(ey)?",
 "kodiNavBack": "atrás|salir|retrocede",
 "kodiDisplayInfo": "muestra info",
 "kodiPlayMovie": "reproduce (?<q>.+)",
 "kodiResumeTvshow": "pon un episodio de( la serie)? (?<q>.+)",
 "kodiSeekForwardMinutes": "(salta|avanza) ( (?<q>.+) minuto(s)? )?",
-"kodiSeekBackwardMinutes": "(retrocede|vuelve) ( (?<q>.+) minuto(s)? )?",
-"kodiExecuteAddon": "ejecuta plugin (?<q>.+)",
+"kodiSeekBackwardMinutes": "(rerocede(r)?|vuelve) ( (?<q>.+) minuto(s)? )?",
+"kodiExecuteAddon": "ejecuta(r)?|activa(r)? (?<q>.+)",
 "kodiScanLibrary": "actualiza|escanea(r)? (la|el)? (contenido|librería)"
 }
-
