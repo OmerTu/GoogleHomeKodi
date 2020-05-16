@@ -1,17 +1,15 @@
 'use strict'; // eslint-disable-line strict
-// server.js
-// where your node app starts
 
-// init project
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const Helper = require('./helpers.js');
 const Broker = require('./broker.js');
+const bodyParser = require('body-parser');
 const LoadConfig = require('./config.js');
-const config = new LoadConfig();
-const ResponseException = require('./exceptions.js').ResponseException;
 const SettingsApp = require('./apps/settings.js');
+const ResponseException = require('./exceptions.js').ResponseException;
+
+const config = new LoadConfig();
 
 const handleError = (error, request, response, next) => { // eslint-disable-line no-unused-vars
 

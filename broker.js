@@ -52,7 +52,7 @@ const loadLanguageFile = (language) => {
     }
 };
 
-exports.processRequest = (request, response) => {
+const matchPhraseToEndpoint = (request) => {
 
     testRegexNamedGroupesFeature();
 
@@ -80,7 +80,7 @@ exports.processRequest = (request, response) => {
             // copy named groups to request.query
             for (let g in match.groups) {
                 if (match.groups[g]) {
-                    request.query[g] = match.groups[g];
+                    request.query[g] = match.groups[g].trim();
                 }
             }
 
@@ -88,8 +88,15 @@ exports.processRequest = (request, response) => {
 
             // call original handler
             console.log(`redirecting request to: '${endpoint}`);
-            return Helper[endpoint](request, response);
+            return endpoint;
         }
     }
     throw new Error(`Broker unknown phrase: '${phrase}' (${language})`);
+};
+
+exports.matchPhraseToEndpoint = matchPhraseToEndpoint;
+
+exports.processRequest = (request, response) => {
+    let endpoint = matchPhraseToEndpoint(request, response);
+    return Helper[endpoint](request, response);
 };
