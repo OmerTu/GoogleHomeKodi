@@ -9,5 +9,5 @@
 "kodiSeekForwardMinutes": "(salta|avanza) ( (?<q>.+) minuto(s)? )?",
 "kodiSeekBackwardMinutes": "(rerocede(r)?|vuelve) ( (?<q>.+) minuto(s)? )?",
 "kodiExecuteAddon": "ejecuta(r)?|activa(r)? (?<q>.+)",
-"kodiScanLibrary": "actualiza|escanea(r)? (la|el)? (contenido|librería)"
+"kodiScanLibrary": "actualiza(r)?|escanea(r)? (la|el)? (contenido|librería)"
 }
