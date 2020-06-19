@@ -548,24 +548,26 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate left # <br> Kodi Navigate left | _YOUR_NODE_SERVER_/navleft?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navleft                 |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate right # <br> Kodi Navigate right | _YOUR_NODE_SERVER_/navright?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navright                 |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi Navigate back # <br> Kodi Navigate back | _YOUR_NODE_SERVER_/navback?q={{NumberField}} <br> _YOUR_NODE_SERVER_/navback                 |                 |
-| Say a simple phrase                                   | Kodi select                     | _YOUR_NODE_SERVER_/navselect                                         |
-| Say a simple phrase                                   | Kodi show context menu          | _YOUR_NODE_SERVER_/navcontextmenu                                   |
-| Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                           |
-| Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                       |
-| Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi show movie genre $         | _YOUR_NODE_SERVER_/showMovieGenre?q={{TextField}}               |
-| Say a phrase with a text ingredient                   | Kodi execute addon $            | _YOUR_NODE_SERVER_/executeAddon?q={{TextField}}                 |
-| Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                   |
-| Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}                 |
-| Say a phrase with a text ingredient                   | Kodi audio stream $             | _YOUR_NODE_SERVER_/setaudio?q={{TextField}}                   |
-| Say a phrase with a number                            | Kodi audio stream direct select #| _YOUR_NODE_SERVER_/setaudiodirect?q={{NumberField}}                 |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi seek forward # minutes <br> Kodi seek forward | _YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekforwardminutes                       |
-| Say a phrase with a number <br> Say a simple phrase   | Kodi seek backward # minutes <br> Kodi seek backward | _YOUR_NODE_SERVER_/seekbackwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekbackwardminutes                       |
-| Say a phrase with a number                            | Kodi seek to # minutes        | _YOUR_NODE_SERVER_/seektominutes?q={{NumberField}}                       |
-| Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                   |
-| Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                   |
+| Say a simple phrase                                   | Kodi select                     | _YOUR_NODE_SERVER_/navselect                                       |
+| Say a simple phrase                                   | Kodi show context menu          | _YOUR_NODE_SERVER_/navcontextmenu                                  |
+| Say a simple phrase                                   | Kodi go home                    | _YOUR_NODE_SERVER_/navhome                                         |
+| Say a simple phrase                                   | Kodi whats playing              | _YOUR_NODE_SERVER_/displayinfo                                     |
+| Say a phrase with a text ingredient                   | Kodi show $                     | _YOUR_NODE_SERVER_/showWindow?q={{TextField}}                      |
+| Say a phrase with a text ingredient                   | Kodi show movie genre $         | _YOUR_NODE_SERVER_/showMovieGenre?q={{TextField}}                  |
+| Say a phrase with a text ingredient                   | Kodi execute addon $            | _YOUR_NODE_SERVER_/executeAddon?q={{TextField}}                    |
+| Say a phrase with a text ingredient                   | Kodi subtitles $                | _YOUR_NODE_SERVER_/setsubtitles?q={{TextField}}                    |
+| Say a phrase with a number                            | Kodi subtitles direct select #  | _YOUR_NODE_SERVER_/setsubtitlesdirect?q={{NumberField}}            |
+| Say a phrase with a text ingredient                   | Kodi audio stream $             | _YOUR_NODE_SERVER_/setaudio?q={{TextField}}                        |
+| Say a phrase with a number                            | Kodi audio stream direct select #| _YOUR_NODE_SERVER_/setaudiodirect?q={{NumberField}}               |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek forward # minutes <br> Kodi seek forward   | _YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekforwardminutes   |
+| Say a phrase with both a number and a text ingredient | Kodi seek forward $ hour and # minutes               | _YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}}&hours={{TextField}}                          |
+| Say a phrase with a number <br> Say a simple phrase   | Kodi seek backward # minutes <br> Kodi seek backward | _YOUR_NODE_SERVER_/seekbackwardminutes?q={{NumberField}} <br> _YOUR_NODE_SERVER_/seekbackwardminutes |
+| Say a phrase with both a number and a text ingredient | Kodi seek backward $ hour and # minutes              | _YOUR_NODE_SERVER_/seekbackwardminutes?q={{NumberField}}&hours={{TextField}}                         |
+| Say a phrase with a number                            | Kodi seek to # minutes          | _YOUR_NODE_SERVER_/seektominutes?q={{NumberField}}                 |
+| Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                        |
+| Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                       |
+| Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                      |
+| Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                       |
 | Say a phrase with a text ingredient                   | Kodi play playlist $            | _YOUR_NODE_SERVER_/playplaylist?q={{TextField}}                    |
 | Say a phrase with a text ingredient                   | Kodi playlist $                 | _YOUR_NODE_SERVER_/playercontrol?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle party mode          | _YOUR_NODE_SERVER_/togglePartymode                                 |
