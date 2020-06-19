@@ -71,7 +71,9 @@
     "kodiSuspend": "suspend",
     "kodiToggleFullscreen": "toggle fullscreen",
     "kodiTogglePartymode": "toggle party mode",
-    "playercontrol": "playlist (?<q>.+)",
+    "playercontrol:words": "(play(list)? )?(?<q>previous|next).*?( playlist)?$",
+    "playercontrol:index": "playlist( index| number)? (?<q>\\d+)",
+    "kodiPlayPlaylist": "(play )?playlist (?<q>.+)",
     "kodiPlayMovie": "play (the movie )?(?<q>.+)",
     "kodiPlayMovie:1": "play (the movie )?(?<q>.+) with a delay of (?<delay>\\d+)"
 }

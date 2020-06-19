@@ -19,5 +19,28 @@
       { "phrase": "seek forward one hour and 50 minutes", "q": "50" },
       { "phrase": "seek forward one hour" }
     ]
+  },
+  {
+    "endpoint": "playercontrol",
+    "phrases": [
+      { "phrase": "playlist previous", "q": "previous"},
+      { "phrase": "playlist next", "q": "next" },
+      { "phrase": "previous item/song/whatever in/of playlist", "q": "previous"},
+      { "phrase": "previous", "q": "previous"},
+      { "phrase": "next", "q": "next"},
+      { "phrase": "play previous", "q": "previous"},
+      { "phrase": "play next", "q": "next"},
+      { "phrase": "playlist 6", "q": "6" },
+      { "phrase": "playlist index 6", "q": "6" },
+      { "phrase": "playlist number 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayPlaylist",
+    "phrases": [
+      { "phrase": "play playlist workout music", "q": "workout music"},
+      { "phrase": "play playlist my favorite love songs", "q": "my favorite love songs" },
+      { "phrase": "playlist speechless", "q": "speechless" }
+    ]
   }
 ]

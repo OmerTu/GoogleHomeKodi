@@ -429,5 +429,14 @@
       { "phrase": "schalte party modus ausschalten" },
       { "phrase": "toggle feier modus" }
     ]
+  },
+  {
+    "endpoint": "kodiPlayPlaylist",
+    "phrases": [
+      { "phrase": "spiele die playlist meine tanzmusik ab", "q": "meine tanzmusik"},
+      { "phrase": "spiele playlist guten morgen", "q": "guten morgen" },
+      { "phrase": "starte die wiedergabelist meine kinderlieder", "q": "meine kinderlieder" },
+      { "phrase": "gebe die playlist volksmusik wieder", "q": "volksmusik"}
+    ]
   }
 ]
