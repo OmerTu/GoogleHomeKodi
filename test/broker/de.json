@@ -338,8 +338,12 @@
     "endpoint": "kodiSeekForwardMinutes",
     "phrases": [
       { "phrase": "spule vorwärts 5 minuten", "q": "5" },
+      { "phrase": "spule vor 2 stunden 5 minuten", "q": "5" },
       { "phrase": "vor 3 minuten", "q": "3" },
-      { "phrase": "spule 1 minute vor", "q": "1" }
+      { "phrase": "vor eine stunde 3 minuten", "q": "3" },
+      { "phrase": "spule 1 minute vor", "q": "1" },
+      { "phrase": "spule 1 stunde und 2 minuten vor", "q": "2" },
+      { "phrase": "spule zwei stunden und 1 minute vor", "q": "1" }
     ]
   },
   {

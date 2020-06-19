@@ -84,11 +84,8 @@ const matchPhraseToEndpoint = (request) => {
                 }
             }
 
-            let endpoint = key.split(`:`, 1)[0];
-
-            // call original handler
-            console.log(`redirecting request to: '${endpoint}`);
-            return endpoint;
+            console.log(`redirecting request to: '${key}`);
+            return key;
         }
     }
     throw new Error(`Broker unknown phrase: '${phrase}' (${language})`);
@@ -97,6 +94,7 @@ const matchPhraseToEndpoint = (request) => {
 exports.matchPhraseToEndpoint = matchPhraseToEndpoint;
 
 exports.processRequest = (request, response) => {
-    let endpoint = matchPhraseToEndpoint(request, response);
+    let endpointKey = matchPhraseToEndpoint(request, response);
+    let endpoint = endpointKey.split(`:`, 1)[0];
     return Helper[endpoint](request, response);
 };

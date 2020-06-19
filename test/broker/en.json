@@ -1,0 +1,23 @@
+[
+  {
+    "endpoint": "kodiSeekBackwardMinutes",
+    "phrases": [
+      { "phrase": "seek backwards" },
+      { "phrase": "seek backwards 5 minutes", "q": "5" },
+      { "phrase": "seek backwards three minutes", "q": "three" },
+      { "phrase": "seek backward one hour and 50 minutes", "q": "50" },
+      { "phrase": "seek backward one hour" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeekForwardMinutes",
+    "phrases": [
+      { "phrase": "seek"},
+      { "phrase": "seek 5 hours and one minute", "q": "one" },
+      { "phrase": "seek forwards 5 minutes", "q": "5" },
+      { "phrase": "seek forwards three minutes", "q": "three" },
+      { "phrase": "seek forward one hour and 50 minutes", "q": "50" },
+      { "phrase": "seek forward one hour" }
+    ]
+  }
+]
