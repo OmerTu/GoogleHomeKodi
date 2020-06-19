@@ -537,14 +537,16 @@ const kodiSeek = (Kodi, seekValue) => {
     ]);
 };
 
-const getRequestedNumberOrDefaulValue = (request, defaultValue) => {
+const getRequestedNumberOrDefaulValue = (request, defaultValue, parameterName) => {
 
-    if (!request.query || !request.query.q) {
-        console.log('no number given, falling back:', defaultValue);
+    let paramName = parameterName || 'q';
+
+    if (!request.query || !request.query[paramName]) {
+        console.log('no number given, falling back:', defaultValue, paramName);
         return defaultValue;
     }
 
-    let requestNumber = request.query.q.trim();
+    let requestNumber = request.query[paramName].trim();
 
     console.log('trying to parse: ', requestNumber);
 
@@ -802,10 +804,13 @@ exports.kodiSeekForwardMinutes = (request, response) => { // eslint-disable-line
     console.log('Seek x minutes forwards request received');
     let Kodi = request.kodi;
 
-    const seekForwardminutes = getRequestedNumberOrDefaulValue(request, 1);
+    const seekForwardHours = getRequestedNumberOrDefaulValue(request, 0, 'hours');
+    const seekForwardMinutes = getRequestedNumberOrDefaulValue(request, 1);
+
+    const totalSeconds = seekForwardHours * 60 * 60 + seekForwardMinutes * 60;
 
     return kodiSeek(Kodi, {
-        seconds: parseInt(seekForwardminutes * 60)
+        seconds: parseInt(totalSeconds)
     });
 };
 
@@ -814,10 +819,13 @@ exports.kodiSeekBackwardMinutes = (request, response) => { // eslint-disable-lin
     console.log('Seek x minutes backward request received');
     let Kodi = request.kodi;
 
-    const seekbackwardMinutes = getRequestedNumberOrDefaulValue(request, 1);
+    const seekBackwardHours = getRequestedNumberOrDefaulValue(request, 0, 'hours');
+    const seekBackwardMinutes = getRequestedNumberOrDefaulValue(request, 1);
+
+    const totalSeconds = seekBackwardHours * 60 * 60 + seekBackwardMinutes * 60;
 
     return kodiSeek(Kodi, {
-        seconds: parseInt(-seekbackwardMinutes * 60)
+        seconds: -parseInt(totalSeconds)
     });
 };
 
