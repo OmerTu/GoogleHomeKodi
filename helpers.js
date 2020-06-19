@@ -1217,6 +1217,8 @@ exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-lin
     tryActivateTv(request, response);
     let pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
 
+    request.query.q = '' + getRequestedNumberOrDefaulValue(request, -1);
+
     pvrFuzzySearchOptions.keys[0] = 'channelnumber';
     return kodiPlayChannel(request, response, pvrFuzzySearchOptions);
 };
