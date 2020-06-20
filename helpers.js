@@ -445,89 +445,30 @@ const kodiGetProfiles = (Kodi) => {
         });
 };
 
-// ESLINT error 'tryPlayingChannelInGroup' is assigned a value but never used  no-unused-vars
-/*
-const tryPlayingChannelInGroup = (searchOptions, reqChannel, chGroups, currGroupI, Kodi) => {
-    if (currGroupI >= chGroups.length) {
-        return Promise.resolve('group out of range');
-    }
-
-    // Build filter to search for all channel under the channel group
+const getKodiChannels = (request, channelGroupId) => {
     let param = {
-        channelgroupid: 'alltv',
-        properties: ['uniqueid', 'channelnumber']
-    };
-
-    return Kodi.PVR.GetChannels(param).then((channels) => { // eslint-disable-line new-cap
-        if (!(channels && channels.result && channels.result.channels && channels.result.channels.length > 0)) {
-            throw new Error('no channels were found');
-        }
-
-        let rChannels = channels.result.channels;
-        // Create the fuzzy search object
-        let fuse = new Fuse(rChannels, searchOptions);
-        let searchResult = fuse.search(reqChannel);
-
-        // If there's a result
-        if (searchResult.length > 0) {
-            let channelFound = searchResult[0];
-
-            console.log(`Found PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
-            return Kodi.Player.Open({ // eslint-disable-line new-cap
-                item: {
-                    channelid: channelFound.channelid
-                }
-            });
-        }
-        return tryPlayingChannelInGroup(searchOptions, reqChannel, chGroups, currGroupI + 1, Kodi);
-    });
-};
-*/
-
-const kodiPlayChannel = (request, response, searchOptions) => {
-    let reqChannel = request.query.q.trim();
-
-    console.log(`PVR channel request received to play "${reqChannel}"`);
-
-    // Build filter to search for all channel under the channel group
-    let param = {
-        channelgroupid: 'alltv',
+        channelgroupid: channelGroupId,
         properties: ['uniqueid', 'channelnumber']
     };
     let Kodi = request.kodi;
-
     return Kodi.PVR.GetChannels(param) // eslint-disable-line new-cap
         .then((channels) => {
             if (!(channels && channels.result && channels.result.channels && channels.result.channels.length > 0)) {
-                throw new Error('no channels were found');
+                throw new Error('no channels at all were found');
             }
-
-            let rChannels = channels.result.channels;
-
-            // We need to override getFn, as we're trying to search an integer.
-            searchOptions.getFn = (obj, path) => {
-                if (Number.isInteger(obj[path])) {
-                    return JSON.stringify(obj[path]);
-                }
-                return obj[path];
-            };
-
-            // Create the fuzzy search object
-            let fuse = new Fuse(rChannels, searchOptions);
-            let searchResult = fuse.search(reqChannel);
-
-            if (searchResult.length === 0) {
-                throw new Error('channels not found');
-            }
-            let channelFound = searchResult[0].item;
-
-            console.log(`Found PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
-            return Kodi.Player.Open({ // eslint-disable-line new-cap
-                item: {
-                    channelid: channelFound.channelid
-                }
-            });
+            return Promise.resolve(channels.result.channels);
         });
+};
+
+const kodiPlayChannel = (request, channelFound) => {
+    let Kodi = request.kodi;
+
+    console.log(`Playing PVR channel ${channelFound.label} - ${channelFound.channelnumber} (${channelFound.channelid})`);
+    return Kodi.Player.Open({ // eslint-disable-line new-cap
+        item: {
+            channelid: channelFound.channelid
+        }
+    });
 };
 
 const kodiSeek = (Kodi, seekValue) => {
@@ -1208,20 +1149,45 @@ exports.kodiShowError = (request, response, message) => {
     return kodiShowNotification(request, response, message, 'error');
 };
 
-exports.kodiPlayChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
+const kodiPlayChannelByName = (request, response, channelGroupId) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
-    return kodiPlayChannel(request, response, fuzzySearchOptions);
+    let requestedChannel = request.query.q.trim();
+
+    return getKodiChannels(request, channelGroupId)
+        .then((channels) => fuzzySearchBestMatch(channels, requestedChannel))
+        .then((channel) => kodiPlayChannel(request, channel));
 };
 
-exports.kodiPlayChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
+const kodiPlayChannelByNumber = (request, response, channelGroupId) => { // eslint-disable-line no-unused-vars
     tryActivateTv(request, response);
-    let pvrFuzzySearchOptions = JSON.parse(JSON.stringify(fuzzySearchOptions));
 
-    request.query.q = '' + getRequestedNumberOrDefaulValue(request, -1);
+    let requestedChannel = getRequestedNumberOrDefaulValue(request, -1).toString();
+    
+    if (requestedChannel === '-1') {
+        return kodiPlayChannelByName(request, response, channelGroupId);
+    }
 
-    pvrFuzzySearchOptions.keys[0] = 'channelnumber';
-    return kodiPlayChannel(request, response, pvrFuzzySearchOptions);
+    return getKodiChannels(request, channelGroupId)
+        .then((channels) => fuzzySearchBestMatch(channels, requestedChannel, ['channelnumber']))
+        .then((channel) => kodiPlayChannel(request, channel));
 };
+
+exports.kodiPlayTvChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
+    return kodiPlayChannelByName(request, response, 'alltv');
+};
+
+exports.kodiPlayTvChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
+    return kodiPlayChannelByNumber(request, response, 'alltv');
+};
+
+exports.kodiPlayRadioChannelByName = (request, response) => { // eslint-disable-line no-unused-vars
+    return kodiPlayChannelByName(request, response, 'allradio');
+};
+
+exports.kodiPlayRadioChannelByNumber = (request, response) => { // eslint-disable-line no-unused-vars
+    return kodiPlayChannelByNumber(request, response, 'allradio');
+};
+
 
 exports.kodiSearchYoutube = (request, response) => { // eslint-disable-line no-unused-vars
     let searchString = request.query.q.trim();

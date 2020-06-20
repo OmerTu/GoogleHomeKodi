@@ -481,14 +481,16 @@ To **Set Volume** on kodi use "Say a phrase with a number" and the URL:
   To **Seek forward** by x minutes use "Say a phrase with a number" and the URL:
   >_YOUR_NODE_SERVER_/seekforwardminutes?q={{NumberField}}
 
-For **PVR TV support - Set channel by name**, follow all the steps in **D**, except these changes:
+For **PVR TV/radio support - Set channel by name**, follow all the steps in **D**, except these changes:
   * Choose a different phrase (e.g. "switch kodi to $ channel")
   * Use this URL:
-    >_YOUR_NODE_SERVER_/playpvrchannelbyname?q={{TextField}}
+    >_YOUR_NODE_SERVER_/playtvchannelbyname?q={{TextField}}
+    >_YOUR_NODE_SERVER_/playradiochannelbyname?q={{TextField}}
 
-For **PVR TV support - Set channel by number**, use "Say a phrase with a number" and the URL:
+For **PVR TV/radio support - Set channel by number**, use "Say a phrase with a number" and the URL:
 
-  >_YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}
+  >_YOUR_NODE_SERVER_/playtvchannelbynumber?q={{NumberField}}
+  >_YOUR_NODE_SERVER_/playradiochannelbynumber?q={{NumberField}}
 
 ### Phrase broker: ###
  Instead of defining each phrase separately on IFTTT, you can use built-in phrase broker, which will parse phrase on node server.
@@ -530,9 +532,11 @@ For **PVR TV support - Set channel by number**, use "Say a phrase with a number"
 | Say a phrase with a number                            | Kodi set volume #               | _YOUR_NODE_SERVER_/volume?q={{NumberField}}                       |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | _YOUR_NODE_SERVER_/volumeup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumeup                       |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | _YOUR_NODE_SERVER_/volumedown?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumedown                       |
-| Say a phrase with a text ingredient                   | Kodi switch to $ channel        | _YOUR_NODE_SERVER_/playpvrchannelbyname?q={{TextField}}           |
-| Say a phrase with a number                            | Kodi switch to channel number # | _YOUR_NODE_SERVER_/playpvrchannelbynumber?q={{NumberField}}       |
-| Say a simple phrase                                   | Kodi activate                   | _YOUR_NODE_SERVER_/activatetv                                       |
+| Say a phrase with a text ingredient                   | Kodi switch to $ channel        | _YOUR_NODE_SERVER_/playtvchannelbyname?q={{TextField}}             |
+| Say a phrase with a number                            | Kodi switch to channel number # | _YOUR_NODE_SERVER_/playtvchannelbynumber?q={{NumberField}}         |
+| Say a phrase with a text ingredient                   | Kodi switch to $ radio channel        | _YOUR_NODE_SERVER_/playradiochannelbyname?q={{TextField}}    |
+| Say a phrase with a number                            | Kodi switch to radio channel number # | _YOUR_NODE_SERVER_/playradiochannelbynumber?q={{NumberField}} |
+| Say a simple phrase                                   | Kodi activate                   | _YOUR_NODE_SERVER_/activatetv                                      |
 | Say a simple phrase                                   | Kodi standby                    | _YOUR_NODE_SERVER_/standbytv                                       |
 | Say a simple phrase                                   | Kodi shutdown                   | _YOUR_NODE_SERVER_/shutdown                                        |
 | Say a simple phrase                                   | Kodi hibernate                  | _YOUR_NODE_SERVER_/hibernate                                       |

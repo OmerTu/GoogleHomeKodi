@@ -170,9 +170,17 @@ app.all('/shuffleepisode', exec(Helper.kodiShuffleEpisodeHandler));
 // Parse request to watch all episodes of a show on shuffle
 app.all('/shuffleshow', exec(Helper.kodiShuffleShowHandler));
 
-// Parse request to watch a PVR channel by name
-// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
+// Deprecated! Use explicit TV or Radio Versions
 app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
+// Deprecated! Use explicit TV or Radio Versions
+app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
+
+// TV
+app.all('/playtvchannelbyname', exec(Helper.kodiPlayTvChannelByName));
+app.all('/playtvchannelbynumber', exec(Helper.kodiPlayTvChannelByNumber));
+// Radio
+app.all('/playradiochannelbyname', exec(Helper.kodiPlayRadioChannelByName));
+app.all('/playradiochannelbynumber', exec(Helper.kodiPlayRadioChannelByNumber));
 
 // Parse request to search for a youtube video. The video will be played using the youtube addon.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playyoutube?q=[TV_SHOW_NAME]
@@ -182,9 +190,6 @@ app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
 app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
 
-// Parse request to watch a PVR channel by number
-// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
-app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
 
 // Parse request to test the end2end kodi connectivity.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection

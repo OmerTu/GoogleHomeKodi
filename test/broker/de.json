@@ -235,12 +235,21 @@
     ]
   },
   {
-    "endpoint": "kodiPlayChannelByName",
+    "endpoint": "kodiPlayTvChannelByNumber",
     "phrases": [
       { "phrase": "schalte auf den sender ZDF", "q": "zdf" },
       { "phrase": "wechsle auf den kanal RTL", "q": "rtl" },
-      { "phrase": "wechsle auf den sender Pro 7", "q": "pro 7" },
-      { "phrase": "schalte auf den kanal deluxe music", "q": "deluxe music" }
+      { "phrase": "wechsle auf den tv sender Pro 7", "q": "pro 7" },
+      { "phrase": "schalte auf den tv kanal deluxe music", "q": "deluxe music" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByNumber",
+    "phrases": [
+      { "phrase": "schalte auf den radio sender ZDF", "q": "zdf" },
+      { "phrase": "wechsle auf den radio kanal RTL", "q": "rtl" },
+      { "phrase": "wechsle auf den radio sender Pro 7", "q": "pro 7" },
+      { "phrase": "schalte auf den radio kanal deluxe music", "q": "deluxe music" }
     ]
   },
   {

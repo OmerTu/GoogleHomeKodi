@@ -1,5 +1,35 @@
 [
   {
+    "endpoint": "kodiPlayTvChannelByNumber",
+    "phrases": [
+      { "phrase": "switch to channel number 4", "q": "4" },
+      { "phrase": "switch to tv channel number four", "q": "four" },
+      { "phrase": "channel 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayTvChannelByName",
+    "phrases": [
+      { "phrase": "switch to the weather channel channel", "q": "the weather channel" },
+      { "phrase": "switch to the channel named 4", "q": "4" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByNumber",
+    "phrases": [
+      { "phrase": "switch to radio channel number 4", "q": "4" },
+      { "phrase": "switch to radio channel number four", "q": "four" },
+      { "phrase": "radio channel 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByName",
+    "phrases": [
+      { "phrase": "switch to the weather channel radio channel", "q": "the weather channel" },
+      { "phrase": "switch to the radio channel named 4", "q": "4" }
+    ]
+  },
+  {
     "endpoint": "kodiSeekBackwardMinutes",
     "phrases": [
       { "phrase": "seek backwards" },
