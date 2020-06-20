@@ -72,5 +72,14 @@
       { "phrase": "play playlist my favorite love songs", "q": "my favorite love songs" },
       { "phrase": "playlist speechless", "q": "speechless" }
     ]
+  },
+  {
+    "endpoint": "kodiPlayYoutube",
+    "phrases": [
+      { "phrase": "play youtube catvideos", "q": "catvideos"},
+      { "phrase": "youtube play catvideos", "q": "catvideos"},
+      { "phrase": "play funny videos on youtube", "q": "funny videos" },
+      { "phrase": "play news from youtube", "q": "news" }
+    ]
   }
 ]

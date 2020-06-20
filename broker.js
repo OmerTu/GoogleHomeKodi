@@ -84,7 +84,7 @@ const matchPhraseToEndpoint = (request) => {
                 }
             }
 
-            console.log(`redirecting request to: '${key}`);
+            console.log(`redirecting request to: '${key}'`);
             return key;
         }
     }
