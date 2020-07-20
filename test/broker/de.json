@@ -1,0 +1,451 @@
+[
+  {
+    "endpoint": "kodiActivateTv",
+    "phrases": [
+      { "phrase": "bitte einschalten" },
+      { "phrase": "jetzt aktivieren" },
+      { "phrase": "einschalten" }
+    ]
+  },
+  {
+    "endpoint": "kodiBingeWatchTvshow",
+    "phrases": [
+      { "phrase": "binge die ganze serie die simpsons", "q": "die simpsons" },
+      { "phrase": "spiele die komplette sendung aktenzeichen xy", "q": "aktenzeichen xy" },
+      { "phrase": "starte die ganze serie Stumptown", "q": "stumptown" },
+      { "phrase": "spiel die ganze sendung gotham", "q": "gotham" }
+    ]
+  },
+  {
+    "endpoint": "kodiCleanLibrary",
+    "phrases": [
+      { "phrase": "bibliothek aufräumen" },
+      { "phrase": "bibliothek bereinigen" }
+    ]
+  },
+  {
+    "endpoint": "kodiDecreaseVolume",
+    "phrases": [
+      { "phrase": "verringere die lautstärke" },
+      { "phrase": "verringere die lautstärke um 3", "q": "3" },
+      { "phrase": "leiser" },
+      { "phrase": "leiser um 50", "q": "50" }
+    ]
+  },
+  {
+    "endpoint": "kodiIncreaseVolume",
+    "phrases": [
+      { "phrase": "erhöhe die lautstärke" },
+      { "phrase": "erhöhe die lautstärke um 3", "q": "3" },
+      { "phrase": "lauter" },
+      { "phrase": "lauter um 50", "q": "50" }
+    ]
+  },
+  {
+    "endpoint": "kodiDisplayInfo",
+    "phrases": [
+      { "phrase": "was spielt" },
+      { "phrase": "was spielt gerade" },
+      { "phrase": "was spielt jetzt" },
+      { "phrase": "mehr info" },
+      { "phrase": "mehr informationen anzeigen" }
+    ]
+  },
+  {
+    "endpoint": "kodiExecuteAddon",
+    "phrases": [
+      { "phrase": "starte das addon youtube", "q": "youtube" },
+      { "phrase": "öffne das addon spotify", "q": "spotify" },
+      { "phrase": "führe das addon youtube aus", "q": "youtube" }
+    ]
+  },
+  {
+    "endpoint": "kodiHibernate",
+    "phrases": [
+      { "phrase": "schlafen" },
+      { "phrase": "schlafen legen" },
+      { "phrase": "ruhezustand" },
+      { "phrase": "ruhezustand bitte" }
+    ]
+  },
+  {
+    "endpoint": "kodiLoadProfile",
+    "phrases": [
+      { "phrase": "lade das profil omertu", "q": "omertu" },
+      { "phrase": "öffne das profil keydon", "q": "keydon" },
+      { "phrase": "starte das profil master", "q": "master" }
+    ]
+  },
+  {
+    "endpoint": "kodiMuteToggle",
+    "phrases": [
+      { "phrase": "ton aus" },
+      { "phrase": "ton aus jetzt" },
+      { "phrase": "ruhe" },
+      { "phrase": "ruhe bitte" },
+      { "phrase": "ruhig" },
+      { "phrase": "ruhig jetzt" },
+      { "phrase": "mute" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavBack",
+    "phrases": [
+      { "phrase": "zurück" },
+      { "phrase": "zurück gehen" },
+      { "phrase": "zurück zur serie" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavContextMenu",
+    "phrases": [
+      { "phrase": "öffne das kontext menü" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavDown",
+    "phrases": [
+      { "phrase": "navigiere nach unten" },
+      { "phrase": "navigiere nach unten 30", "q": "30" },
+      { "phrase": "navigiere nach unten 3 mal", "q": "3" },
+      { "phrase": "gehe runter" },
+      { "phrase": "gehe nach unten 4", "q": "4" },
+      { "phrase": "gehe 40 mal runter", "q": "40" },
+      { "phrase": "navigiere 5 mal nach unten", "q": "5" },
+      { "phrase": "gehe 60 runter", "q": "60" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavUp",
+    "phrases": [
+      { "phrase": "navigiere nach oben" },
+      { "phrase": "navigiere nach oben 30", "q": "30" },
+      { "phrase": "navigiere nach oben 3 mal", "q": "3" },
+      { "phrase": "gehe rauf" },
+      { "phrase": "gehe nach oben 4", "q": "4" },
+      { "phrase": "gehe 40 mal rauf", "q": "40" },
+      { "phrase": "navigiere 5 mal nach oben", "q": "5" },
+      { "phrase": "gehe 60 rauf", "q": "60" },
+      { "phrase": "gehe hoch" },
+      { "phrase": "gehe 40 mal hoch", "q": "40" },
+      { "phrase": "gehe 60 hoch", "q": "60" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavHome",
+    "phrases": [
+      { "phrase": "navigiere zum start" },
+      { "phrase": "navigiere zum startbildschirm" },
+      { "phrase": "navigiere zum start, bitte!" },
+      { "phrase": "gehe zum anfang" },
+      { "phrase": "gehe zum anfangsbildschirm" },
+      { "phrase": "gehe zum anfang, bitte!" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavLeft",
+    "phrases": [
+      { "phrase": "navigiere nach links" },
+      { "phrase": "navigiere nach links 30", "q": "30" },
+      { "phrase": "navigiere nach links 3 mal", "q": "3" },
+      { "phrase": "gehe links" },
+      { "phrase": "gehe nach links 4", "q": "4" },
+      { "phrase": "gehe 40 mal links", "q": "40" },
+      { "phrase": "navigiere 5 mal nach links", "q": "5" },
+      { "phrase": "gehe 60 links", "q": "60" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavRight",
+    "phrases": [
+      { "phrase": "navigiere nach rechts" },
+      { "phrase": "navigiere nach rechts 30", "q": "30" },
+      { "phrase": "navigiere nach rechts 3 mal", "q": "3" },
+      { "phrase": "gehe rechts" },
+      { "phrase": "gehe nach rechts 4", "q": "4" },
+      { "phrase": "gehe 40 mal rechts", "q": "40" },
+      { "phrase": "navigiere 5 mal nach rechts", "q": "5" },
+      { "phrase": "gehe 60 rechts", "q": "60" }
+    ]
+  },
+  {
+    "endpoint": "kodiNavSelect",
+    "phrases": [
+      { "phrase": "auswählen" },
+      { "phrase": "bestätigen" },
+      { "phrase": "ja" },
+      { "phrase": "ok" },
+      { "phrase": "okey" },
+      { "phrase": "okay" },
+      { "phrase": "enter" },
+      { "phrase": "enter drücken" },
+      { "phrase": "eingabetaste" },
+      { "phrase": "eingabetaste drücken" }
+    ]
+  },
+  {
+    "endpoint": "kodiOpenFavourite",
+    "phrases": [
+      { "phrase": "öffne fitness routine aus meinen favoriten", "q": "fitness routine" },
+      { "phrase": "öffne katzenvideos von den favoriten", "q": "katzenvideos" },
+      { "phrase": "öffne katzenvideos aus den favoriten", "q": "katzenvideos" },
+      { "phrase": "öffne aus meinen favoriten fitness routine", "q": "fitness routine" },
+      { "phrase": "öffne von den favoriten katzenvideos", "q": "katzenvideos" }
+    ]
+  },
+  {
+    "endpoint": "kodiOpenMovie",
+    "phrases": [
+      { "phrase": "öffne Star Trek aus meinen filmen", "q": "star trek" },
+      { "phrase": "öffne informationen von Star Trek aus meinen filmen", "q": "star trek" },
+      { "phrase": "zeige Herr der Ringe von den filmen", "q": "herr der ringe" },
+      { "phrase": "zeige Herr der Ringe aus meinen filmen", "q": "herr der ringe" },
+      { "phrase": "zeige details über Herr der Ringe von den filmen", "q": "herr der ringe" },
+      { "phrase": "information über Herr der Ringe von den filmen", "q": "herr der ringe" },
+      { "phrase": "informationen über Herr der Ringe von den filmen", "q": "herr der ringe" }
+    ]
+  },
+  {
+    "endpoint": "kodiOpenTvshow",
+    "phrases": [
+      { "phrase": "öffne Star Trek aus meinen serien", "q": "star trek" },
+      { "phrase": "öffne informationen von Star Trek aus meinen serien", "q": "star trek" },
+      { "phrase": "zeige Friends von den serien", "q": "friends" },
+      { "phrase": "zeige Friends aus meinen serien", "q": "friends" },
+      { "phrase": "zeige details über Friends von den serien", "q": "friends" },
+      { "phrase": "information über Friends von den serien", "q": "friends" },
+      { "phrase": "informationen über Friends von den serien", "q": "friends" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayAlbum",
+    "phrases": [
+      { "phrase": "spiele das album Yellow Submarine", "q": "yellow submarine" },
+      { "phrase": "spiel das album Genesis", "q": "genesis" },
+      { "phrase": "starte das album Random Access Memories", "q": "random access memories" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayArtist",
+    "phrases": [
+      { "phrase": "spiele den künstler chefket", "q": "chefket" },
+      { "phrase": "spiel den musiker Eminem", "q": "eminem" },
+      { "phrase": "starte die band die beatles", "q": "die beatles" },
+      { "phrase": "spiele die gruppe daft punk", "q": "daft punk" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayTvChannelByNumber",
+    "phrases": [
+      { "phrase": "schalte auf den sender ZDF", "q": "zdf" },
+      { "phrase": "wechsle auf den kanal RTL", "q": "rtl" },
+      { "phrase": "wechsle auf den tv sender Pro 7", "q": "pro 7" },
+      { "phrase": "schalte auf den tv kanal deluxe music", "q": "deluxe music" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByNumber",
+    "phrases": [
+      { "phrase": "schalte auf den radio sender ZDF", "q": "zdf" },
+      { "phrase": "wechsle auf den radio kanal RTL", "q": "rtl" },
+      { "phrase": "wechsle auf den radio sender Pro 7", "q": "pro 7" },
+      { "phrase": "schalte auf den radio kanal deluxe music", "q": "deluxe music" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayMusicByGenre",
+    "phrases": [
+      { "phrase": "spiele Hip-Hop musik", "q": "hip-hop" },
+      { "phrase": "starte jazzmusik", "q": "jazz" },
+      { "phrase": "spiel rockmusik", "q": "rock" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayPause",
+    "phrases": [
+      { "phrase": "pause" },
+      { "phrase": "pausieren" },
+      { "phrase": "anhalten" },
+      { "phrase": "halt" },
+      { "phrase": "weiter" },
+      { "phrase": "abspielen" },
+      { "phrase": "fortsetzen" },
+      { "phrase": "einen moment bitte" },
+      { "phrase": "play" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRecentEpisodeHandler",
+    "phrases": [
+      { "phrase": "spiele die neuste folge" },
+      { "phrase": "starte die aller neuste episode" },
+      { "phrase": "spiel die aller neuste folge" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlaySong",
+    "phrases": [
+      { "phrase": "spiele das lied Relapse", "q": "relapse" },
+      { "phrase": "spiel den song Empty Sky", "q": "empty sky" },
+      { "phrase": "starte den titel Once Again", "q": "once again" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayTvshow",
+    "phrases": [
+      { "phrase": "spiel die serie Breaking Bad", "q": "breaking bad" },
+      { "phrase": "spiele die sendung Heute Show", "q": "heute show" },
+      { "phrase": "starte die serie Better Call Saul", "q": "better call saul" },
+      { "phrase": "spiel eine folge aus der serie Young Sheldon", "q": "young sheldon" },
+      { "phrase": "spiele eine episode von the big BANG theory", "q": "the big bang theory" },
+      { "phrase": "starte eine folge aus Rick & Morty", "q": "rick & morty" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayYoutube",
+    "phrases": [
+      { "phrase": "youtube spiele katzenvideos", "q": "katzenvideos" },
+      { "phrase": "youtube starte musik", "q": "musik" },
+      { "phrase": "youtube spiel Peppa Wutz", "q": "peppa wutz" }
+    ]
+  },
+  {
+    "endpoint": "kodiResumeTvshow",
+    "phrases": [
+      { "phrase": "setze die serie Loudermilk fort", "q": "loudermilk" },
+      { "phrase": "die serie Dexter fortsetzen", "q": "dexter" },
+      { "phrase": "fortsetzen der sendung frontal24", "q": "frontal24" },
+      { "phrase": "Shameless fortsetzen", "q": "shameless" }
+    ]
+  },
+  {
+    "endpoint": "kodiResumeMovie",
+    "phrases": [
+      { "phrase": "setze den film Django fort", "q": "django" },
+      { "phrase": "den film matrix fortsetzen", "q": "matrix" },
+      { "phrase": "fortsetzen von dem film Rush Hour", "q": "rush hour" }
+    ]
+  },
+  {
+    "endpoint": "kodiSearchYoutube",
+    "phrases": [
+      { "phrase": "suche auf youtube nach boobs", "q": "boobs" },
+      { "phrase": "durchsuche youtube für musik", "q": "musik" },
+      { "phrase": "suche katzenvideos auf youtube", "q": "katzenvideos" },
+      { "phrase": "finde leckere rezepte auf youtube", "q": "leckere rezepte" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeekBackwardMinutes",
+    "phrases": [
+      { "phrase": "spule zurück 5 minuten", "q": "5" },
+      { "phrase": "zurück 3 minuten", "q": "3" },
+      { "phrase": "spule 1 minute zurück", "q": "1" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeekForwardMinutes",
+    "phrases": [
+      { "phrase": "spule vorwärts 5 minuten", "q": "5" },
+      { "phrase": "spule vor 2 stunden 5 minuten", "q": "5" },
+      { "phrase": "vor 3 minuten", "q": "3" },
+      { "phrase": "vor eine stunde 3 minuten", "q": "3" },
+      { "phrase": "spule 1 minute vor", "q": "1" },
+      { "phrase": "spule 1 stunde und 2 minuten vor", "q": "2" },
+      { "phrase": "spule zwei stunden und 1 minute vor", "q": "1" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeektominutes",
+    "phrases": [
+      { "phrase": "spule zur 5 minute", "q": "5" },
+      { "phrase": "springe zur 6 minute", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiSetAudioDirect",
+    "phrases": [
+      { "phrase": "wechsle auf ton spur 0", "q": "0" },
+      { "phrase": "wechsle auf den audio kanal 6", "q": "6" },
+      { "phrase": "schalte auf ton spur 0", "q": "0" },
+      { "phrase": "schalte auf den audio kanal 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiSetSubsDirect",
+    "phrases": [
+      { "phrase": "untertitel 0", "q": "0" },
+      { "phrase": "untertitel 1 einblenden", "q": "1" },
+      { "phrase": "untertitel 2 einschalten", "q": "2" },
+      { "phrase": "untertitel 3 anzeigen", "q": "3" }
+    ]
+  },
+  {
+    "endpoint": "kodiSetVolume",
+    "phrases": [
+      { "phrase": "stelle lautstärke auf 50", "q": "50" },
+      { "phrase": "drehe lautstärke auf 60", "q": "60" },
+      { "phrase": "setze lautstärke auf 100", "q": "100" },
+      { "phrase": "lautstärke 70", "q": "70" }
+    ]
+  },
+  {
+    "endpoint": "kodiShowMovieGenre",
+    "phrases": [
+      { "phrase": "zeige horror filme", "q": "horror" },
+      { "phrase": "zeige musikfilme", "q": "musik" }
+    ]
+  },
+  {
+    "endpoint": "kodiShuffleEpisodeHandler",
+    "phrases": [
+      { "phrase": "spiele eine zufällige folge von den simpsons", "q": "den simpsons" },
+      { "phrase": "spiel eine zufällige folge der serie Banshee", "q": "banshee" },
+      { "phrase": "starte eine zufällige episode der sendung bares für rares", "q": "bares für rares" }
+    ]
+  },
+  {
+    "endpoint": "kodiShutdown",
+    "phrases": [
+      { "phrase": "ausschalten" },
+      { "phrase": "herunterfahren" }
+    ]
+  },
+  {
+    "endpoint": "kodiStop",
+    "phrases": [
+      { "phrase": "stop" },
+      { "phrase": "abbrechen" },
+      { "phrase": "aufhören" },
+      { "phrase": "beenden" },
+      { "phrase": "wiedergabe beenden" }
+    ]
+  },
+  {
+    "endpoint": "kodiToggleFullscreen",
+    "phrases": [
+      { "phrase": "toggle zu vollbild" },
+      { "phrase": "wechsle zum fenster" },
+      { "phrase": "wechsle zu vollbild" }
+    ]
+  },
+  {
+    "endpoint": "kodiTogglePartymode",
+    "phrases": [
+      { "phrase": "schalte party modus ein" },
+      { "phrase": "schalte party modus einschalten" },
+      { "phrase": "schalte party modus aus" },
+      { "phrase": "schalte party modus ausschalten" },
+      { "phrase": "toggle feier modus" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayPlaylist",
+    "phrases": [
+      { "phrase": "spiele die playlist meine tanzmusik ab", "q": "meine tanzmusik"},
+      { "phrase": "spiele playlist guten morgen", "q": "guten morgen" },
+      { "phrase": "starte die wiedergabelist meine kinderlieder", "q": "meine kinderlieder" },
+      { "phrase": "gebe die playlist volksmusik wieder", "q": "volksmusik"}
+    ]
+  }
+]

@@ -1,8 +1,10 @@
+'use strict';
+
 const namespaces = require('./api-methods.js');
 const ResponseException = require('../exceptions.js').ResponseException;
 
 module.exports = (fetch) => {
-    
+
     const addMethods = (obj) => {
         namespaces.forEach((namespace) => {
             obj[namespace.name] = namespace.methods.reduce((result, method) => {
@@ -15,13 +17,13 @@ module.exports = (fetch) => {
     };
 
     const Kodi = function(protocol, ip, port, username, password) {
-        this.kodiAuth = `Basic ${new Buffer(`${username}:${password}`).toString('base64')}`;
+        this.kodiAuth = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
         this.url = `${protocol}://${ip}:${port}/jsonrpc`;
         addMethods(this);
     };
 
     Kodi.prototype.sendHTTP = function(body, callback) {
-        console.log(`Command sent = ${body}`);
+        console.log(`Sending command to kodi ${this.url}:\r\n${body}`);
         const headers = {
             'Content-type': 'application/json',
             'Accept': 'application/json',
@@ -33,22 +35,22 @@ module.exports = (fetch) => {
             body: body,
             headers: headers
         })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
 
-            throw new ResponseException(
-                `Error in response, ${response.statusText} with status code: ${response.status}`,
-                response.status,
-                response.statusText);
-        })
-        .then((data) => {
-            if (callback) {
-                callback(data);
-            }
-            return data;
-        });
+                throw new ResponseException(
+                    `Error in response, ${response.statusText} with status code: ${response.status}`,
+                    response.status,
+                    response.statusText);
+            })
+            .then((data) => {
+                if (callback) {
+                    callback(data);
+                }
+                return data;
+            });
     };
 
     Kodi.prototype.send = function(method, params, callback) {
@@ -61,7 +63,7 @@ module.exports = (fetch) => {
         if (params) {
             body.params = params;
         }
-        body = JSON.stringify(body);
+        body = JSON.stringify(body, null, 2);
         return this.sendHTTP(body, callback);
     };
 

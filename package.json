@@ -1,34 +1,39 @@
 {
   "name": "googlehomekodi",
-  "version": "0.0.1",
-  "description": "A node express server for relaying google home commands from IFTTT to your kodi installation.",
+  "version": "0.0.2",
+  "description": "A node express server for relaying google home commands from IFTTT to your Kodi installation.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
+    "test": "mocha --recursive --require should"
   },
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "express": "^4.15.2",
-    "fuse.js": "^2.0.1",
-    "node-fetch": "^1.3.2",
-    "youtube-search": "^1.0.10",
-    "body-parser": "^1.18.1"
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fuse.js": "^5.2.1",
+    "node-fetch": "^2.6.0",
+    "words-to-numbers": "^1.5.1",
+    "youtube-search": "^1.1.4"
   },
   "devDependencies": {
-    "babel-eslint": "^5.0.0-beta8",
-    "eslint": "^1.9.0"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "mocha": "^7.1.2",
+    "node-mocks-http": "^1.8.1",
+    "should": "^13.2.3"
   },
   "engines": {
-    "node": "6.10.x"
+    "node": "^13.9.0"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/welcome-project"
+    "url": "https://github.com/OmerTu/GoogleHomeKodi"
   },
   "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
+    "Kodi",
+    "Google Home",
+    "IFTTT"
   ]
 }

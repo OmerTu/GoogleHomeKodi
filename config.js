@@ -1,13 +1,13 @@
 'use strict'; // eslint-disable-line strict
 
-require('dotenv').load();
+require('dotenv').config();
 const Kodi = require('./kodi-connection/node.js');
 
 let kodiConfig = [];
 let globalConfig = {};
 
 try {
-    // Try to import the kodi hosts. If not found, we'll asume that env varialbes are available.
+    // Try to import the kodi hosts. If not found, we'll assume that env variables are available.
     let configFile = process.env.GOOGLE_HOME_KODI_CONFIG || './kodi-hosts.config.js';
     let config = require(configFile); // eslint-disable-line global-require
 

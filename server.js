@@ -1,15 +1,15 @@
 'use strict'; // eslint-disable-line strict
-// server.js
-// where your node app starts
 
-// init project
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const Helper = require('./helpers.js');
+const Broker = require('./broker.js');
+const bodyParser = require('body-parser');
 const LoadConfig = require('./config.js');
-const config = new LoadConfig();
+const SettingsApp = require('./apps/settings.js');
 const ResponseException = require('./exceptions.js').ResponseException;
+
+const config = new LoadConfig();
 
 const handleError = (error, request, response, next) => { // eslint-disable-line no-unused-vars
 
@@ -18,12 +18,20 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
     console.log('query: ', request.query);
     console.log('error: ', error);
     console.log('body: ', request.body);
+    console.log('versions: ', process.versions);
 
     let publicError = error;
 
     if (error instanceof Error) {
         // native js-errors are not stringifyable
         publicError = error.message;
+    }
+
+    try {
+        let userRequest = request.query ? request.query.q : '';
+        Helper.kodiShowError(`${request} ${response} ${userRequest} : ${publicError}`);
+    } catch (err) {
+        // swallow early error handling error
     }
 
     response
@@ -33,13 +41,16 @@ const handleError = (error, request, response, next) => { // eslint-disable-line
 
 const exec = (action) => {
     return (request, response, next) => {
+        let route = request.route ? request.route.path : '';
+        console.log('==== BEGIN === route: ', route);
         action(request, response, next)
-        .then(() => {
-            if (!response.headersSent) {
-                response.send('OK');
-            }
-        })
-        .catch((error) => handleError(error, request, response, next));
+            .then(() => {
+                if (!response.headersSent) {
+                    response.send('OK');
+                }
+            })
+            .catch((error) => handleError(error, request, response, next))
+            .then(() => console.log('==== END === route: ', route));
     };
 };
 
@@ -64,7 +75,7 @@ const authenticate = function(request, response, next) {
 
     if (requestToken !== config.globalConf.authToken) {
         console.log(`wrong secret token = ${requestToken}`);
-        throw new ResponseException('403 - Forbidden', 403);
+        throw new ResponseException('403 - Wrong access token', 403);
     }
 
     console.log('Authentication succeeded');
@@ -110,6 +121,8 @@ app.all('/activatetv', exec(Helper.kodiActivateTv));
 // Send HDMI-CEC 'StandBy' command to power off TV
 app.all('/standbytv', exec(Helper.kodiStandbyTv));
 
+app.all('/playfile', exec(Helper.kodiPlayFile));
+
 // Parse request to watch a movie
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playmovie?q=[MOVIE_NAME]
 app.all('/playmovie', exec(Helper.kodiPlayMovie));
@@ -117,13 +130,14 @@ app.all('/resumemovie', exec(Helper.kodiResumeMovie));
 
 // Supports optional genre and year query parameters
 app.all('/playrandommovie', exec(Helper.kodiPlayRandomMovie));
-
+app.all('/openmovie', exec(Helper.kodiOpenMovie));
 // Parse request to open a specific tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/opentvshow?q=[TV_SHOW_NAME]
 app.all('/opentvshow', exec(Helper.kodiOpenTvshow));
 
 // Start a new library scan
 app.all('/scanlibrary', exec(Helper.kodiScanLibrary));
+app.all('/cleanlibrary', exec(Helper.kodiCleanLibrary));
 
 // Parse request to watch your next unwatched episode for a given tv show
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playtvshow?q=[TV_SHOW_NAME]
@@ -156,9 +170,17 @@ app.all('/shuffleepisode', exec(Helper.kodiShuffleEpisodeHandler));
 // Parse request to watch all episodes of a show on shuffle
 app.all('/shuffleshow', exec(Helper.kodiShuffleShowHandler));
 
-// Parse request to watch a PVR channel by name
-// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbyname?q=[CHANNEL_NAME]
+// Deprecated! Use explicit TV or Radio Versions
 app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
+// Deprecated! Use explicit TV or Radio Versions
+app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
+
+// TV
+app.all('/playtvchannelbyname', exec(Helper.kodiPlayTvChannelByName));
+app.all('/playtvchannelbynumber', exec(Helper.kodiPlayTvChannelByNumber));
+// Radio
+app.all('/playradiochannelbyname', exec(Helper.kodiPlayRadioChannelByName));
+app.all('/playradiochannelbynumber', exec(Helper.kodiPlayRadioChannelByNumber));
 
 // Parse request to search for a youtube video. The video will be played using the youtube addon.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playyoutube?q=[TV_SHOW_NAME]
@@ -166,9 +188,8 @@ app.all('/playpvrchannelbyname', exec(Helper.kodiPlayChannelByName));
 // http://1.1.1.1/playyoutube?q=bla
 app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
-// Parse request to watch a PVR channel by number
-// Request format:     http://[THIS_SERVER_IP_ADDRESS]/playpvrchannelbynumber?q=[CHANNEL_NUMBER]
-app.all('/playpvrchannelbynumber', exec(Helper.kodiPlayChannelByNumber));
+app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
+
 
 // Parse request to test the end2end kodi connectivity.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection
@@ -254,6 +275,8 @@ app.all('/playartist', exec(Helper.kodiPlayArtist));
 
 app.all('/playgenre', exec(Helper.kodiPlayMusicByGenre));
 
+app.all('/loadProfile', exec(Helper.kodiLoadProfile));
+
 app.all('/showMovieGenre', exec(Helper.kodiShowMovieGenre));
 
 app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
@@ -261,10 +284,16 @@ app.all('/togglePartymode', exec(Helper.kodiTogglePartymode));
 app.all('/toggleFullscreen', exec(Helper.kodiToggleFullscreen));
 
 // Playlist Control
+app.all('/playplaylist', exec(Helper.kodiPlayPlaylist));
+
 app.all('/playercontrol', exec(Helper.playercontrol));
 
-
 app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
+
+// broker for parsing all phrases
+app.all('/broker', exec(Broker.processRequest));
+
+app.use('/settings', SettingsApp.build(exec));
 
 // error handlers need to be last
 app.use(handleError);

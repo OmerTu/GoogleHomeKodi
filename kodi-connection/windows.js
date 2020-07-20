@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 
 	This file is based on http://kodi.wiki/view/Opening_Windows_and_Dialogs
@@ -58,7 +60,13 @@ const KodiWindows = [
         { 'Recently Added Music Videos': 'videodb://recentlyaddedmusicvideos/' },
         { 'Playlists': 'special://videoplaylists/' },
         { 'Video Add-ons': 'addons://sources/video/' },
-        { 'Files': 'sources://video/' }
+        { 'Files': 'sources://video/' },
+        { 'new YouTube videos': 'plugin://plugin.video.youtube/special/new_uploaded_videos_tv/' },
+        { 'YouTube recommendations': 'plugin://plugin.video.youtube/special/recommendations/]' },
+        { 'YouTube subscriptions': 'plugin://plugin.video.youtube/subscriptions/list/' },
+        { 'YouTube watch later': 'plugin://plugin.video.youtube/channel/mine/playlist/%20WL/' },
+        { 'YouTube history': 'plugin://plugin.video.youtube/special/watch_history_tv/' },
+        { 'YouTube settings': 'plugin://plugin.video.youtube/config/youtube/' }
     ] },
     { 'Music': [
         { '': 'library://music/' },
@@ -76,7 +84,9 @@ const KodiWindows = [
         { 'Singles': 'musicdb://singles/' },
         { 'Files': 'sources://music/' },
         { 'Playlists': 'special://musicplaylists/' },
-        { 'Music Add-ons': 'addons://sources/audio/' }
+        { 'Music Add-ons': 'addons://sources/audio/' },
+        { 'spotify explore': 'plugin://plugin.audio.spotify/?action=browse_main_explore' },
+        { 'spotify featured playlists': 'plugin://plugin.audio.spotify/?action=browse_playlists&applyfilter=featured' }
     ] },
     { 'Programs': [
         { 'Addons': 'addons://sources/executable/' },

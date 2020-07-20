@@ -1,0 +1,76 @@
+[
+  {
+    "endpoint": "kodiPlayTvChannelByNumber",
+    "phrases": [
+      { "phrase": "switch to channel number 4", "q": "4" },
+      { "phrase": "switch to tv channel number four", "q": "four" },
+      { "phrase": "channel 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayTvChannelByName",
+    "phrases": [
+      { "phrase": "switch to the weather channel channel", "q": "the weather channel" },
+      { "phrase": "switch to the channel named 4", "q": "4" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByNumber",
+    "phrases": [
+      { "phrase": "switch to radio channel number 4", "q": "4" },
+      { "phrase": "switch to radio channel number four", "q": "four" },
+      { "phrase": "radio channel 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayRadioChannelByName",
+    "phrases": [
+      { "phrase": "switch to the weather channel radio channel", "q": "the weather channel" },
+      { "phrase": "switch to the radio channel named 4", "q": "4" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeekBackwardMinutes",
+    "phrases": [
+      { "phrase": "seek backwards" },
+      { "phrase": "seek backwards 5 minutes", "q": "5" },
+      { "phrase": "seek backwards three minutes", "q": "three" },
+      { "phrase": "seek backward one hour and 50 minutes", "q": "50" },
+      { "phrase": "seek backward one hour" }
+    ]
+  },
+  {
+    "endpoint": "kodiSeekForwardMinutes",
+    "phrases": [
+      { "phrase": "seek"},
+      { "phrase": "seek 5 hours and one minute", "q": "one" },
+      { "phrase": "seek forwards 5 minutes", "q": "5" },
+      { "phrase": "seek forwards three minutes", "q": "three" },
+      { "phrase": "seek forward one hour and 50 minutes", "q": "50" },
+      { "phrase": "seek forward one hour" }
+    ]
+  },
+  {
+    "endpoint": "playercontrol",
+    "phrases": [
+      { "phrase": "playlist previous", "q": "previous"},
+      { "phrase": "playlist next", "q": "next" },
+      { "phrase": "previous item/song/whatever in/of playlist", "q": "previous"},
+      { "phrase": "previous", "q": "previous"},
+      { "phrase": "next", "q": "next"},
+      { "phrase": "play previous", "q": "previous"},
+      { "phrase": "play next", "q": "next"},
+      { "phrase": "playlist 6", "q": "6" },
+      { "phrase": "playlist index 6", "q": "6" },
+      { "phrase": "playlist number 6", "q": "6" }
+    ]
+  },
+  {
+    "endpoint": "kodiPlayPlaylist",
+    "phrases": [
+      { "phrase": "play playlist workout music", "q": "workout music"},
+      { "phrase": "play playlist my favorite love songs", "q": "my favorite love songs" },
+      { "phrase": "playlist speechless", "q": "speechless" }
+    ]
+  }
+]

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = [
     {
         name: 'Addons',
@@ -38,6 +40,14 @@ module.exports = [
     {
         name: 'Playlist',
         methods: ['Add', 'Clear', 'GetItems', 'GetPlaylists', 'GetProperties', 'Insert', 'Remove', 'Swap']
+    },
+    {
+        name: 'Profiles',
+        methods: ['GetCurrentProfile', 'GetProfiles', 'LoadProfile']
+    },
+    {
+        name: 'Settings',
+        methods: ['GetCategories', 'GetSections', 'GetSettings', 'GetSettingValue', 'ResetSettingValue', 'SetSettingValue']
     },
     {
         name: 'System',
