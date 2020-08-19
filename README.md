@@ -147,12 +147,13 @@ Disclaimer: Use on your own risk and choose complex username & password in the b
 3. Choose a port number (e.g. 8080). We will refer to that port as *YOUR_KODI_PORT*
 4. Choose a username and password (Important!). We will refer to those values as *YOUR_KODI_USER_NAME* and *YOUR_KODI_PASSWORD*
 
+
 ### **B) Set up a nodejs-webserver to control your kodi**
-We currently support three methods of how this app can be hosted.
-1. Hosting it in Glitch, a 3rd-party web-hosting service
-2. Hosting it yourself
-3. Hosting it yourself with Docker
-4. Hosting it with Google Cloud Run
+We currently support three methods of how this app can be hosted.   
+~~1. Hosting it in Glitch, a 3rd-party web-hosting service~~ **(No longer usable)**   
+2. Hosting it yourself   
+3. Hosting it yourself with Docker   
+4. Hosting it with Google Cloud Run   
 
 The first method is very easy to set up and to maintain and also free of charge.
 The second method is for advanced users. You have to setup and maintain the nodejs environment yourself. But it supports multiple Kodi instances, greatly reduces latency and does not expose your kodi-webservice to the internet directly.
@@ -160,6 +161,8 @@ The third method is also for advanced users. After installing docker, you can si
 
 <details>
   <summary><b>B.1 Set up a webserver in Glitch</b> (Click to expand instructions)</summary><p />
+  
+  **Please note, this method is no longer usable, due to Glitch's new policy regarding IFTTT and other pinging services like it. This section is left here for historic reasons. See #305 for more details.**
 
 1. Configure your router to forward *YOUR_KODI_PORT*.  
    _Note:_ This is needed, so your kodi can be contacted from the internet. 
