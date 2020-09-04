@@ -81,5 +81,14 @@
       { "phrase": "play funny videos on youtube", "q": "funny videos" },
       { "phrase": "play news from youtube", "q": "news" }
     ]
+  },
+  {
+    "endpoint": "kodiPlayTvshow",
+    "phrases": [
+      { "phrase": "play an episode of the simpsons", "q": "the simpsons"},
+      { "phrase": "play tv show jack ryan", "q": "jack ryan"},
+      { "phrase": "play an episode of tv show mcgyver", "q": "mcgyver"},
+      { "phrase": "play an episode of the tvshow suits", "q": "suits"}
+    ]
   }
 ]
