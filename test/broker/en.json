@@ -90,5 +90,19 @@
       { "phrase": "play an episode of tv show mcgyver", "q": "mcgyver"},
       { "phrase": "play an episode of the tvshow suits", "q": "suits"}
     ]
+  },
+  {
+    "endpoint": "kodiResumeMovie",
+    "phrases": [
+      { "phrase": "resume boss baby", "q": "boss baby"}
+    ]
+  },
+  {
+    "endpoint": "kodiResumeTvshow",
+    "phrases": [
+      { "phrase": "resume an episode of jack ryan", "q": "jack ryan"},
+      { "phrase": "resume the episode of jack ryan", "q": "jack ryan"},
+      { "phrase": "resume the tv show jack ryan", "q": "jack ryan"}
+    ]
   }
 ]
