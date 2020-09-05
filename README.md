@@ -530,8 +530,10 @@ For **PVR TV/radio support - Set channel by number**, use "Say a phrase with a n
 | Say a phrase with both a number and a text ingredient | Kodi play $ episode #           | _YOUR_NODE_SERVER_/playepisode?q={{TextField}}&e= {{NumberField}} |
 | Say a simple phrase                                   | Kodi play new episode           | _YOUR_NODE_SERVER_/playrecentepisode                              |
 | Say a simple phrase                                   | Kodi pause                      | _YOUR_NODE_SERVER_/playpause                                      |
+| Say a simple phrase                                   | Kodi unpause                    | _YOUR_NODE_SERVER_/playpause                                      |
 | Say a simple phrase                                   | Kodi stop                       | _YOUR_NODE_SERVER_/stop                                           |
 | Say a simple phrase                                   | Kodi mute                       | _YOUR_NODE_SERVER_/mute                                           |
+| Say a simple phrase                                   | Kodi unmute                     | _YOUR_NODE_SERVER_/mute                                           |
 | Say a phrase with a number                            | Kodi set volume #               | _YOUR_NODE_SERVER_/volume?q={{NumberField}}                       |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi volume up by # <br> Kodi volume up | _YOUR_NODE_SERVER_/volumeup?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumeup                       |
 | Say a phrase with a number <br> Say a simple phrase   | Kodi volume down by # <br> Kodi volume down | _YOUR_NODE_SERVER_/volumedown?q={{NumberField}} <br> _YOUR_NODE_SERVER_/volumedown                       |
