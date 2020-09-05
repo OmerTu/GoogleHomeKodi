@@ -148,7 +148,8 @@ const fuzzySearchBestMatch = (items, needle, optionalTargetProperties) => {
 
     let cleanNeedle = needle
         .trim()
-        .replace(/^of /gi, '');
+        .replace(/^of /gi, '')
+        .replace(/^sur /gi, '');
     let fuse = new Fuse(items, options);
     let searchResult = fuse.search(cleanNeedle);
 

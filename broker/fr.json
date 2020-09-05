@@ -20,6 +20,7 @@
     "kodiDecreaseVolume": "(baisse|descend|diminue?)( le )?(volume|son)( de (?<q>.+))?",
     "kodiPlayTvChannelByNumber": "change la chaîne au numéro (?<q>.+)",
     "kodiPlayTvChannelByName": "change à la chaine (?<q>.+)",
+    "kodiPlayTvChannelByName:1": "change la télé sur (?<q>.+)",
     "kodiShuffleEpisodeHandler": "au hasard (?<q>.+)",
     "kodiPlayYoutube": "(youtube (joue|lance)|(joue|lance) (sur)? youtube) (?<q>.+)",
     "kodiScanLibrary": "(fait un )?(scan|(mise|mets) à jour) (de )?(la )?(librairie|bibliothèque|mediathèque)( vidéo)?",

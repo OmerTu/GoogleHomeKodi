@@ -1,0 +1,8 @@
+[
+  {
+    "endpoint": "kodiPlayTvChannelByName",
+    "phrases": [
+      { "phrase": "change la télé sur m6", "q": "m6" }
+    ]
+  }
+]
