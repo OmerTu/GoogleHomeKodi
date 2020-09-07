@@ -104,5 +104,13 @@
       { "phrase": "resume the episode of jack ryan", "q": "jack ryan"},
       { "phrase": "resume the tv show jack ryan", "q": "jack ryan"}
     ]
+  },
+  {
+    "endpoint": "kodiMuteToggle",
+    "phrases": [
+      { "phrase": "mute that noise!"},
+      { "phrase": "unmute"},
+      { "phrase": "mute"}
+    ]
   }
 ]

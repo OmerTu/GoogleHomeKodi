@@ -10,7 +10,7 @@
     "kodiIncreaseVolume": "volume up( by (?<q>.+))?",
     "kodiIncreaseVolume": "increase volume( by (?<q>.+))?",
     "kodiLoadProfile": "load profile (?<q>.+)",
-    "kodiMuteToggle": "mute",
+    "kodiMuteToggle": "(mute|unmute)",
     "kodiNavBack": "navigate back( (?<q>.+))?",
     "kodiNavContextMenu": "show context menu",
     "kodiNavDown": "navigate down( (?<q>.+))?",
