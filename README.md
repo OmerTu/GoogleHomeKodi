@@ -2,9 +2,8 @@ Control Kodi through your Google Home / Google Assistant
 =========================
 ## Table of contents:
 - [What it can do](#what-it-can-do)
-- [How to setup](#how-to-setup)
+- [How to setup and update](#how-to-setup-and-update)
 - [Full table with available actions](#full-table-with-available-actions)
-- [How to update to the latest version](#how-to-update-to-the-latest-version)
 - [Troubleshooting](#troubleshooting)
 
 ------------
@@ -137,7 +136,7 @@ There are many more windows to choose from, a full list can be found [here](http
 "Hey Google, kodi playlist previous/next/[list item number]" --> This will go forward/backward or select an item on the currently playing playlist #.  
 
 ------------
-## How to setup
+## How to setup and update
 
 Disclaimer: Use on your own risk and choose complex username & password in the below steps.
 
@@ -186,6 +185,12 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
 
 8. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar, you will need that later. We will refer to this address as _YOUR_NODE_SERVER_. (i.e. https://green-icecream.glitch.me)
+
+------------
+## How to update to the latest version
+1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
+2. Select your Glitch project and under *advance settings* choose *Import from GitHub*
+3. Enter this project *OmerTu/GoogleHomeKodi*
 </details>
 
 <details>
@@ -195,7 +200,7 @@ AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
 1. Install the [Node.js](https://nodejs.org/en/download/) application server on your target computer  
    _Note:_ Minimum required Version is **6.10** (but 10 or higher for the broker feature)
 2. Choose a location, where your app will live (i.e `C:\node\`)
-3. Clone this repo with git or simply download and unzip the sourcecode (green button on the top-right)
+3. Clone this repo with git (recommended) or simply download and unzip the sourcecode (green button on the top-right)
 4. You now should have a folder with a bunch of files in it (i.e. here `C:\node\GoogleHomeKodi`)
 5. Install this app  
   ```batch
@@ -240,6 +245,11 @@ SyslogIdentifier=nodejs-example
 [Install]
 WantedBy=multi-user.target
 ```
+
+------------
+## How to update to the latest version
+a. If you cloned the repo, just do `git pull --autostash && npm install`  
+b. If you downloaded and unzipped, backup your configuration, redownload and unzip, followed by `npm install`. Finally reapply your config.
 
 </details>
 
@@ -320,10 +330,14 @@ You can configure your instance simply through *environment variables* or a `kod
    _Hint:_ It is strongly recommended to setup a dynDNS service of your choice. (i.e. selfhost.me)
 7. The address of your self hosted node server now consists of the port of step 5 and the ip/host of step 6.  
    We will refer to this address later as _YOUR_NODE_SERVER_. (i.e. http://omertu.selfhost.me:8099)
-8. In case you need to update to a newer version of this app later, just repeat steps 2 and 3 after executing:
+
+------------
+## How to update to the latest version
+Execute:
    ```
    docker rmi --force omertu/googlehomekodi
    ```
+then just repeat steps 2 and 3 of the installation above.
 </details>
 
 <details>
@@ -609,12 +623,6 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
     * Turn off: Add another command: follow the same instructions as pause but use this URL:
     >_YOUR_NODE_SERVER_/standbytv
 
-
-------------
-## How to update to the latest version
-1. Go to [Glitch.com](https://glitch.com) and sign in with your github user
-2. Select your Glitch project and under *advance settings* choose *Import from GitHub*
-3. Enter this project *OmerTu/GoogleHomeKodi*
 
 ------------
 ## Troubleshooting
