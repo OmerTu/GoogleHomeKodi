@@ -92,4 +92,7 @@
     "kodiPlayPlaylist": "(play )?playlist (?<q>.+)",
     "kodiPlayMovie": "play (the movie )?(?<q>.+)",
     "kodiPlayMovie:1": "play (the movie )?(?<q>.+) with a delay of (?<delay>\\d+)"
+    "kodiSearchSerenForMovies": "search movies for (?<q>.+)",
+    "kodiSearchSerenForShows": "search( tv)? shows for (?<q>.+)"
+
 }
