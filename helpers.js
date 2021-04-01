@@ -1452,3 +1452,18 @@ exports.listRoutes = function(request, response) {
     response.set('Content-Type', 'text/json');
     response.send(routes);
 };
+
+
+exports.kodiSearchSerenForShows = function(request, response) {
+    let searchString = request.query.q.trim();
+    let Kodi = request.kodi;
+    const params =  "plugin://plugin.video.seren?action=showsSearch&actionArgs=" +searchString;
+    return kodiOpenVideoWindow(params, Kodi);
+};
+
+exports.kodiSearchSerenForMovies = (request, response) => {
+    let searchString = request.query.q.trim();
+    let Kodi = request.kodi;
+    const params = "plugin://plugin.video.seren?action=moviesSearch&actionArgs="+searchString;
+    return kodiOpenVideoWindow(params, Kodi);
+};
