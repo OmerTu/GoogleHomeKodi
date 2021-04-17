@@ -90,7 +90,8 @@
       { "phrase": "play an episode of tv show mcgyver", "q": "mcgyver"},
       { "phrase": "play an episode of the tvshow suits", "q": "suits"},
       { "phrase": "play episode of the tv show the mandalorian", "q": "the mandalorian"},
-      { "phrase": "play episode of young sheldon", "q": "young sheldon"}
+      { "phrase": "play episode of young sheldon", "q": "young sheldon"},
+      { "phrase": "play next episode of the simpsons", "q": "the simpsons"}
 
     ]
   },
