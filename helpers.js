@@ -1381,13 +1381,7 @@ const kodiFindFavourite = (request, favouriteName) => {
             throw new Error('Your kodi library does not contain a single favourite!');
         }
 
-        let favouriteList = query.result.favourites
-            .map((x) => x.title);
-
-        return fuzzySearchBestMatch(favouriteList, favouriteName)
-            .then((matchingFavourite) => {
-                return query.result.favourites[matchingFavourite];
-            });
+        return fuzzySearchBestMatch(query.result.favourites, favouriteName, ["title"]);
     });
 };
 
