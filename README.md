@@ -598,7 +598,9 @@ For **PVR TV/radio support - Set channel by number**, use "Say a phrase with a n
 | Say a phrase with a text ingredient                   | Kodi open $ from my tvshows     | _YOUR_NODE_SERVER_/opentvshow?q={{TextField}}                   |
 | Say a phrase with a text ingredient                   | Kodi open $ from my movies      | _YOUR_NODE_SERVER_/openmovie?q={{TextField}}                   |
 | Say a simple phrase                                   | Kodi toggle fullscreen          | _YOUR_NODE_SERVER_/togglefullscreen                                |
-| Say a phrase with a text ingredient			| Kodi load profile $		  | _YOUR_NODE_SERVER_/loadProfile                                     |
+| Say a phrase with a text ingredient		              	| Kodi load profile $		          | _YOUR_NODE_SERVER_/loadProfile                                     |
+| Say a simple phrase                                   | Kodi play tagesschau            | _YOUR_NODE_SERVER_/tagesschau/playTodaysBroadcast                             |
+
 
 To **Start/resume a movie/tv episode with a delay**
   The commands marked with *delay (above) take an optional delay parameter to delay startup of the media by the specified number of seconds.

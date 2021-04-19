@@ -7,6 +7,7 @@ const Broker = require('./broker.js');
 const bodyParser = require('body-parser');
 const LoadConfig = require('./config.js');
 const SettingsApp = require('./apps/settings.js');
+const TagesschauApp = require('./apps/tagesschau.js');
 const ResponseException = require('./exceptions.js').ResponseException;
 
 const config = new LoadConfig();
@@ -294,6 +295,8 @@ app.all('/playfavourite', exec(Helper.kodiOpenFavourite));
 app.all('/broker', exec(Broker.processRequest));
 
 app.use('/settings', SettingsApp.build(exec));
+
+app.use('/tagesschau', TagesschauApp.build(exec));
 
 // error handlers need to be last
 app.use(handleError);

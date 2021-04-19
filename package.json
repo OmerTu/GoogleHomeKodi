@@ -9,9 +9,11 @@
     "test": "mocha --recursive --require should"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "fast-xml-parser": "^3.19.0",
     "fuse.js": "^5.2.1",
     "node-fetch": "^2.6.0",
     "words-to-numbers": "^1.5.1",

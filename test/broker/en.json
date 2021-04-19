@@ -96,6 +96,17 @@
     ]
   },
   {
+    "endpoint": "tagesschau/playTodaysBroadcast",
+    "phrases": [
+      { "phrase": "tagesschau"},
+      { "phrase": "play tagesschau"},
+      { "phrase": "play todays tagesschau"},
+      { "phrase": "play todays tagesschau episode"},
+      { "phrase": "play todays tagesschau broadcast"},
+      { "phrase": "play tagesschau episode"}
+    ]
+  },
+  {
     "endpoint": "kodiResumeMovie",
     "phrases": [
       { "phrase": "resume boss baby", "q": "boss baby"}
@@ -108,6 +119,12 @@
       { "phrase": "resume the episode of jack ryan", "q": "jack ryan"},
       { "phrase": "resume the tv show jack ryan", "q": "jack ryan"}
     ]
+  },
+  {
+"endpoint": "kodiToggleFullscreen",
+"phrases": [
+  { "phrase": "toggle fullscreen" }
+]
   },
   {
     "endpoint": "kodiMuteToggle",

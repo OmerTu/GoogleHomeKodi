@@ -1,4 +1,5 @@
 {
+    "tagesschau/playTodaysBroadcast": "(play )?(todays )?tagesschau( broadcast| episode)?",
     "kodiActivateTv": "activate",
     "kodiBingeWatchTvshow": "binge watch (?<q>.+)",
     "kodiCleanLibrary": "clean library",
