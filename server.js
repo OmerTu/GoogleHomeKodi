@@ -191,6 +191,8 @@ app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
 app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
 
+app.all('/playItemOfDirectory', exec(Helper.playItemOfDirectory))
+
 
 // Parse request to test the end2end kodi connectivity.
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/koditestconnection

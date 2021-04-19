@@ -857,6 +857,22 @@ exports.kodiPlayPlaylist = (request, response) => { // eslint-disable-line no-un
         }));
 };
 
+exports.playItemOfDirectory = (request, response) => { // eslint-disable-line no-unused-vars
+    let Kodi = request.kodi;
+    const needle = request.query.q.trim();
+    const directory = request.query.directory.trim();
+
+    console.log(`Request for playing item "${needle}" if directory "${directory}"!`);
+
+    return getDirecoryContents(Kodi, directory)
+        .then((lists) => fuzzySearchBestMatch(lists, needle))
+        .then((item) => Kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                file: item.file
+            }
+        }));
+};
+
 exports.kodiStop = (request, response) => { // eslint-disable-line no-unused-vars
     console.log('Stop request received');
     let Kodi = request.kodi;
