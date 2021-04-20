@@ -98,10 +98,10 @@ exports.processRequest = (request, response) => {
     let endpoint = endpointKey.split(`:`, 1)[0];
 
     let legacyRoute = Helper[endpoint];
-    if(legacyRoute){
+    if (legacyRoute) {
         return Helper[endpoint](request, response);
     }
 
-    request.url = '/' + endpoint;
+    request.url = `/${endpoint}`;
     return Promise.resolve(request.app.handle(request, response));
 };
