@@ -88,7 +88,22 @@
       { "phrase": "play an episode of the simpsons", "q": "the simpsons"},
       { "phrase": "play tv show jack ryan", "q": "jack ryan"},
       { "phrase": "play an episode of tv show mcgyver", "q": "mcgyver"},
-      { "phrase": "play an episode of the tvshow suits", "q": "suits"}
+      { "phrase": "play an episode of the tvshow suits", "q": "suits"},
+      { "phrase": "play episode of the tv show the mandalorian", "q": "the mandalorian"},
+      { "phrase": "play episode of young sheldon", "q": "young sheldon"},
+      { "phrase": "play next episode of the simpsons", "q": "the simpsons"}
+
+    ]
+  },
+  {
+    "endpoint": "tagesschau/playTodaysBroadcast",
+    "phrases": [
+      { "phrase": "tagesschau"},
+      { "phrase": "play tagesschau"},
+      { "phrase": "play todays tagesschau"},
+      { "phrase": "play todays tagesschau episode"},
+      { "phrase": "play todays tagesschau broadcast"},
+      { "phrase": "play tagesschau episode"}
     ]
   },
   {
@@ -104,6 +119,12 @@
       { "phrase": "resume the episode of jack ryan", "q": "jack ryan"},
       { "phrase": "resume the tv show jack ryan", "q": "jack ryan"}
     ]
+  },
+  {
+"endpoint": "kodiToggleFullscreen",
+"phrases": [
+  { "phrase": "toggle fullscreen" }
+]
   },
   {
     "endpoint": "kodiMuteToggle",

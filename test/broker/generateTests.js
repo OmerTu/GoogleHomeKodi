@@ -56,3 +56,4 @@ const testBroker = function(language) {
 testBroker('de');
 testBroker('en');
 testBroker('fr');
+testBroker('es');
