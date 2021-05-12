@@ -189,6 +189,8 @@ app.all('/playradiochannelbynumber', exec(Helper.kodiPlayRadioChannelByNumber));
 app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
 app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
+app.all('/searchserenforshows', exec(Helper.kodiSearchSerenForShows));
+app.all('/searchserenmovies', exec(Helper.kodiSearchSerenForMovies));
 
 
 // Parse request to test the end2end kodi connectivity.
