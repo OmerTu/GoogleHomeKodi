@@ -1454,16 +1454,16 @@ exports.listRoutes = function(request, response) {
 };
 
 
-exports.kodiSearchSerenForShows = function(request, response) {
-    let searchString = request.query.q.trim();
+exports.kodiSearchSerenForShows = function(request, response) { // eslint-disable-line no-unused-vars
+    let searchString = request.query.q.trim(); // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
-    const params =  "plugin://plugin.video.seren?action=showsSearch&actionArgs=" +searchString;
+    const params = 'plugin://plugin.video.seren?action=showsSearch&actionArgs=$(searchString}';
     return kodiOpenVideoWindow(params, Kodi);
 };
 
-exports.kodiSearchSerenForMovies = (request, response) => {
-    let searchString = request.query.q.trim();
+exports.kodiSearchSerenForMovies = (request, response) => { // eslint-disable-line no-unused-vars
+    let searchString = request.query.q.trim(); // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
-    const params = "plugin://plugin.video.seren?action=moviesSearch&actionArgs="+searchString;
+    const params = 'plugin://plugin.video.seren?action=moviesSearch&actionArgs=${searchString}';
     return kodiOpenVideoWindow(params, Kodi);
 };
