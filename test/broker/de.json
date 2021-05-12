@@ -302,6 +302,17 @@
     ]
   },
   {
+    "endpoint": "tagesschau/playTodaysBroadcast",
+    "phrases": [
+      { "phrase": "tagesschau"},
+      { "phrase": "spiele tagesschau"},
+      { "phrase": "spiele die tagesschau ab"},
+      { "phrase": "spiele die heutige tagesschau folge"},
+      { "phrase": "spiele tagesschau ausstrahlung ab"},
+      { "phrase": "tagesschau ausstrahlung von heute"}
+    ]
+  },
+  {
     "endpoint": "kodiPlayYoutube",
     "phrases": [
       { "phrase": "youtube spiele katzenvideos", "q": "katzenvideos" },

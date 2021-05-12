@@ -1,4 +1,5 @@
 {
+    "tagesschau/playTodaysBroadcast": "(spiele|spiel|starte)?( die)?( heutige)? ?tagesschau ?(folge|episode|ausstrahlung)?( von heute)?( ab)?",
     "kodiBingeWatchTvshow": "(binge|spiele|spiel|starte) die (komplette|ganze) (serie|sendung) (?<q>.+)",
     "kodiCleanLibrary": ".*bibliothek (aufräumen|bereinigen)",
     "kodiDecreaseVolume": "verringere die lautstärke( um (?<q>.+))?",

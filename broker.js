@@ -96,5 +96,12 @@ exports.matchPhraseToEndpoint = matchPhraseToEndpoint;
 exports.processRequest = (request, response) => {
     let endpointKey = matchPhraseToEndpoint(request, response);
     let endpoint = endpointKey.split(`:`, 1)[0];
-    return Helper[endpoint](request, response);
+
+    let legacyRoute = Helper[endpoint];
+    if(legacyRoute){
+        return Helper[endpoint](request, response);
+    }
+
+    request.url = '/' + endpoint;
+    return Promise.resolve(request.app.handle(request, response));
 };

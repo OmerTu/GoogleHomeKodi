@@ -1,0 +1,8 @@
+[
+  {
+    "endpoint": "kodiPlayTvChannelByNumber",
+    "phrases": [
+      { "phrase": "pon el canal número 6", "q": "6"}
+    ]
+  }
+]
