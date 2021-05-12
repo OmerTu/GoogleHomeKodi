@@ -190,6 +190,8 @@ app.all('/playradiochannelbynumber', exec(Helper.kodiPlayRadioChannelByNumber));
 app.all('/playyoutube', exec(Helper.kodiPlayYoutube));
 
 app.all('/searchyoutube', exec(Helper.kodiSearchYoutube));
+app.all('/searchserenforshows', exec(Helper.kodiSearchSerenForShows));
+app.all('/searchserenmovies', exec(Helper.kodiSearchSerenForMovies));
 
 app.all('/playItemOfDirectory', exec(Helper.playItemOfDirectory));
 
