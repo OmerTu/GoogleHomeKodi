@@ -107,6 +107,20 @@
     ]
   },
   {
+    "endpoint": "kodiSearchSerenForMovies",
+    "phrases": [
+      { "phrase": "search seren for the movie apollo 13", "q": "apollo 13"},
+      { "phrase": "search seren for movie cinderella", "q": "cinderella"}
+    ]
+  },
+  {
+    "endpoint": "kodiSearchSerenForShows",
+    "phrases": [
+      { "phrase": "search seren for the tv show the simpsons", "q": "the simpsons"},
+      { "phrase": "search seren for tv show the simpsons", "q": "the simpsons"}
+    ]
+  },
+  {
     "endpoint": "kodiResumeMovie",
     "phrases": [
       { "phrase": "resume boss baby", "q": "boss baby"}

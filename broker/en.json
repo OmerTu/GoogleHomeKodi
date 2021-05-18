@@ -92,8 +92,8 @@
     "playercontrol:index": "playlist( index| number)? (?<q>\\d+)",
     "kodiPlayPlaylist": "(play )?playlist (?<q>.+)",
     "kodiPlayMovie": "play (the movie )?(?<q>.+)",
-    "kodiPlayMovie:1": "play (the movie )?(?<q>.+) with a delay of (?<delay>\\d+)"
-    "kodiSearchSerenForMovies": "search movies for (?<q>.+)",
-    "kodiSearchSerenForShows": "search( tv)? shows for (?<q>.+)"
+    "kodiPlayMovie:1": "play (the movie )?(?<q>.+) with a delay of (?<delay>\\d+)",
+    "kodiSearchSerenForMovies": "search seren for( the)? movie (?<q>.+)",
+    "kodiSearchSerenForShows": "search seren for( the)?( tv)? show (?<q>.+)"
 
 }
