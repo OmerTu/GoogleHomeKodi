@@ -82,7 +82,7 @@
     "kodiShowMovieGenre": "show movie genre (?<q>.+)",
     "kodiShowWindow": "show (?<q>.+)",
     "kodiShuffleEpisodeHandler": "shuffle (?<q>.+)",
-    "kodiShutdown": "shutdown",
+    "kodiShutdown": "shut\s*down",
     "kodiStandbyTv": "standby",
     "kodiStop": "stop",
     "kodiSuspend": "suspend",
