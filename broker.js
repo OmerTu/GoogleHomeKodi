@@ -3,6 +3,7 @@
 const Helper = require('./helpers.js');
 const path = require('path');
 const fs = require('fs');
+const accents = require('remove-accents');
 
 let lastUsedLanguage = ``;
 let localizedPhrases = null;
@@ -61,6 +62,7 @@ const matchPhraseToEndpoint = (request) => {
     }
 
     let phrase = request.query.phrase.toLowerCase().trim();
+    phrase = accents.remove(phrase);
     let language = request.query.lang || `en`;
 
     if (lastUsedLanguage !== language) {
