@@ -45,6 +45,12 @@ const testBroker = function(language) {
                 endpointTest.phrases.forEach(function(phraseTest) {
                     it(phraseTest.phrase, function(done) {
                         this.testRequest.query.phrase = phraseTest.phrase;
+                        
+                        // Set or clear configuration for the phrase
+                        this.testRequest.config = endpointTest.config !== undefined || phraseTest.config !== undefined
+                            ? {...endpointTest.config, ...phraseTest.config}
+                            : undefined;
+                        
                         testSimplePhrase(this.testRequest, this.testResponse, endpointTest.endpoint, phraseTest.q, done);
                     });
                 });
