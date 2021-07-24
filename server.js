@@ -273,6 +273,7 @@ app.all('/playsong', exec(Helper.kodiPlaySong));
 // Parse request to play an album
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playalbum?q=[ALBUM_NAME]
 app.all('/playalbum', exec(Helper.kodiPlayAlbum));
+app.all('/shuffleAlbum', exec(Helper.kodiShuffleAlbum));
 
 // Parse request to play an artist
 // Request format:     http://[THIS_SERVER_IP_ADDRESS]/playartist?q=[artist_NAME]

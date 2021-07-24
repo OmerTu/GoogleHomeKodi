@@ -24,6 +24,14 @@
     ]
   },
   {
+    "endpoint": "kodiShuffleAlbum",
+    "phrases": [
+      { "phrase": "spiele das album uups in zufälliger reihenfolge ab", "q": "uups" },
+      { "phrase": "starte album blub durcheinander", "q": "blub" },
+      { "phrase": "spiel das album oink zufällig wieder", "q": "oink" }
+    ]
+  },
+  {
     "endpoint": "kodiDecreaseVolume",
     "phrases": [
       { "phrase": "verringere die lautstärke" },

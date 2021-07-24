@@ -822,6 +822,24 @@ exports.kodiPlayAlbum = (request, response) => { // eslint-disable-line no-unuse
         }));
 };
 
+exports.kodiShuffleAlbum = (request, response) => { // eslint-disable-line no-unused-vars
+    tryActivateTv(request, response);
+
+    let albumTitle = request.query.q;
+    let Kodi = request.kodi;
+
+    console.log(`Album request received to shuffle "${albumTitle}"`);
+    return kodiFindAlbum(albumTitle, Kodi)
+        .then((data) => Kodi.Player.Open({ // eslint-disable-line new-cap
+            item: {
+                albumid: data.albumid
+            },
+            options: {
+                shuffled: true
+            }
+        }));
+};
+
 // Player Control
 exports.playercontrol = (request, response) => { // eslint-disable-line no-unused-vars
     let Kodi = request.kodi;
