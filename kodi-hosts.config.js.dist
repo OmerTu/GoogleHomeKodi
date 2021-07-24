@@ -31,5 +31,14 @@ exports.globalConfig = {
     // YOUR_LOCAL_LISTENING_PORT
     listenerPort: '8099',
     // YOUR_YOUTUBE_API_KEY
-    youtubeKey: 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w'
+    youtubeKey: 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w',
+    // Configure how broker handle accents in phrase matching.
+    // Set to `true` to enable accent insensitive matching or `false` to enable accent sensitive matching.
+    // Can be configure by environment variable BROKER_ACCENT_INSENSITIVE_MATCH
+    brokerAccentInsensitiveMatch: false,
+    // Configure how broker caches language file.
+    // Set to `true` to use previously loaded language file if previous and actual request language are equals
+    // or to `false` to force broker to reload language file on every request.
+    // Can be configure by environment variable BROKER_LANGUAGE_CACHE_ENABLE
+    brokerLanguageCacheEnable: true
 };

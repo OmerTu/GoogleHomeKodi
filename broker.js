@@ -3,6 +3,7 @@
 const Helper = require('./helpers.js');
 const path = require('path');
 const fs = require('fs');
+const accents = require('remove-accents');
 
 let lastUsedLanguage = ``;
 let localizedPhrases = null;
@@ -61,19 +62,33 @@ const matchPhraseToEndpoint = (request) => {
     }
 
     let phrase = request.query.phrase.toLowerCase().trim();
+    // Replace multiple space with single space.
+    phrase = phrase.replace(/\s\s+/g, ' ');
+
+    if (request.config?.brokerAccentInsensitiveMatch) {
+        phrase = accents.remove(phrase);
+    }
+
     let language = request.query.lang || `en`;
 
-    if (lastUsedLanguage !== language) {
-        // reload lang file if language has changed
+    if (request.config?.brokerLanguageCacheEnable === false || lastUsedLanguage !== language) {
+        // reload lang file if caching is disabled or language has changed
         localizedPhrases = loadLanguageFile(language);
-        lastUsedLanguage = language;
     }
+
+    lastUsedLanguage = language;
 
     console.log(`Broker processing phrase: '${phrase}' (${language})`);
 
     for (let key in localizedPhrases) {
 
-        let match = phrase.match(`^${localizedPhrases[key]}`);
+        let localizedPhrase = localizedPhrases[key];
+
+        if (request.config?.brokerAccentInsensitiveMatch) {
+            localizedPhrase = accents.remove(localizedPhrase);
+        }
+
+        let match = phrase.match(`^${localizedPhrase}`);
 
         if (match) {
 

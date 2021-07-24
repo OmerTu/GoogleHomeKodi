@@ -4,6 +4,7 @@ Control Kodi through your Google Home / Google Assistant
 - [What it can do](#what-it-can-do)
 - [How to setup and update](#how-to-setup-and-update)
 - [Full table with available actions](#full-table-with-available-actions)
+- [Testing language files](#testing-language-files)
 - [Troubleshooting](#troubleshooting)
 
 ------------
@@ -181,8 +182,14 @@ KODI_PORT="YOUR_KODI_PORT"
 KODI_USER="YOUR_KODI_USER_NAME"
 KODI_PASSWORD="YOUR_KODI_PASSWORD"
 AUTH_TOKEN="YOUR_CONNECTION_PASSWORD"
+BROKER_ACCENT_INSENSITIVE_MATCH="true"
+BROKER_LANGUAGE_CACHE_ENABLE="false"
 ```
 *YOUR_CONNECTION_PASSWORD* can be anything you want.
+*BROKER_ACCENT_INSENSITIVE_MATCH* is a boolean value indicating if broker should do accent insensitive pattern matching (default: false).
+If set to true, broker will convert accentued characters from the sent phrase and the configured pattern in `<lang_code>.json` (for example `é`, `è`, `ê` and `ë`) to the unaccentued equivalent character (for example `e`).
+This allow to configure pattern `regarde` in `<lang_code>.json` and match `regarde`, `regardé`.
+*BROKER_LANGUAGE_CACHE_ENABLE* is a boolean value indicating if broker should can cache language file if previous and actual request language are equals (default: true).
 
 8. Check your Glitch server address by choosing 'Show Live' on the top left. A new tab with your server will open. Note your server address in the address bar, you will need that later. We will refer to this address as _YOUR_NODE_SERVER_. (i.e. https://green-icecream.glitch.me)
 
@@ -283,6 +290,8 @@ You can configure your instance simply through *environment variables* or a `kod
         -e KODI_USER="YOUR_KODI_USER_NAME" \
         -e KODI_PASSWORD="YOUR_KODI_PASSWORD" \
         -e AUTH_TOKEN="YOUR_CONNECTION_PASSWORD" \
+        -e BROKER_ACCENT_INSENSITIVE_MATCH="false" \
+        -e BROKER_LANGUAGE_CACHE_ENABLE="true" \
         --name googlehomekodi \
         omertu/googlehomekodi
      ```
@@ -302,6 +311,8 @@ You can configure your instance simply through *environment variables* or a `kod
             - KODI_USER=YOUR_KODI_USER_NAME
             - KODI_PASSWORD=YOUR_KODI_PASSWORD
             - AUTH_TOKEN=YOUR_CONNECTION_PASSWORD
+            - BROKER_ACCENT_INSENSITIVE_MATCH=true
+            - BROKER_LANGUAGE_CACHE_ENABLE=false
           restart: always
      ```  
      and then just fire it up with  
@@ -518,6 +529,7 @@ For **PVR TV/radio support - Set channel by number**, use "Say a phrase with a n
  If you want to use other language than english, just lang parameter to that URL:
  >_YOUR_NODE_SERVER_/broker?phrase={{TextField}}&lang=<lang_code>
 
+
  where <lang_code> is name of json file in app's _broker_ folder without json extension (so for example "lang=en")
 
  If there is not your language in _broker_ folder yet, it is easy to add a new language. Just copy en.json and name it with your language's code.
@@ -625,6 +637,39 @@ To **Turn on/off the TV and switch Kodi's HDMI input**
     * Turn off: Add another command: follow the same instructions as pause but use this URL:
     >_YOUR_NODE_SERVER_/standbytv
 
+------------
+## Testing language files
+When testing language files present in `test/broker/<lang_code>.json,` you can define a `config` key used when handling the request.
+
+The config key can be defined for the entire endpoint :
+```javascript
+  {
+    "endpoint": "kodiPlayTvChannelByName",
+    "phrases": [
+      // config is inherited from endpoint
+      { "phrase": "change la télé sur m6", "q": "m6" },
+    ],
+    "config": {
+      "brokerAccentInsensitiveMatch": true
+      "brokerLanguageCacheEnable": false
+    }
+  }
+```
+
+The config key can also be defined for a given phrase and take precedence on endpoint config :
+```javascript
+  {
+    "endpoint": "kodiPlayTvChannelByName",
+    "phrases": [
+      // config from phrase overrides endpoint config
+      { "phrase": "change la télé sur m6", "q": "m6", "config": { "brokerAccentInsensitiveMatch": false },
+    ],
+    "config": {
+      "brokerAccentInsensitiveMatch": true
+      "brokerLanguageCacheEnable": false
+    }
+  }
+```
 
 ------------
 ## Troubleshooting
