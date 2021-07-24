@@ -83,6 +83,14 @@
     ]
   },
   {
+    "endpoint": "kodiShuffleAlbum",
+    "phrases": [
+      { "phrase": "shuffle album uups", "q": "uups" },
+      { "phrase": "shuffle the album blub", "q": "blub" },
+      { "phrase": "play the album oink randomized", "q": "oink" }
+    ]
+  },
+  {
     "endpoint": "kodiPlayTvshow",
     "phrases": [
       { "phrase": "play an episode of the simpsons", "q": "the simpsons"},

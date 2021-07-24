@@ -601,6 +601,7 @@ For **PVR TV/radio support - Set channel by number**, use "Say a phrase with a n
 | Say a phrase with a number                            | Kodi seek to # minutes          | _YOUR_NODE_SERVER_/seektominutes?q={{NumberField}}                 |
 | Say a phrase with a text ingredient                   | Kodi play the song $            | _YOUR_NODE_SERVER_/playsong?q={{TextField}}                        |
 | Say a phrase with a text ingredient                   | Kodi play the album $           | _YOUR_NODE_SERVER_/playalbum?q={{TextField}}                       |
+| Say a phrase with a text ingredient                   | Kodi shuffle the album $        | _YOUR_NODE_SERVER_/shufflealbum?q={{TextField}}                    |
 | Say a phrase with a text ingredient                   | Kodi play the artist $          | _YOUR_NODE_SERVER_/playartist?q={{TextField}}                      |
 | Say a phrase with a text ingredient                   | Kodi play the music genre $     | _YOUR_NODE_SERVER_/playgenre?q={{TextField}}                       |
 | Say a phrase with a text ingredient                   | Kodi play playlist $            | _YOUR_NODE_SERVER_/playplaylist?q={{TextField}}                    |

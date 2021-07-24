@@ -35,6 +35,7 @@
     "kodiOpenTvshow:2": ".*info(rmation|rmationen)? (über|von) (?<q>.+) (aus|von) (den |meinen )?(serien|fernseh.*)",
     "kodiOpenTvshow:3": ".*info(rmation|rmationen)?  (über|von) (die |meine )?(serie|fernsehserie|sendung|fernsehsendung) (?<q>.+)",
     "kodiOpenTvshow:4": "(öffne|zeige) (?<q>.+) (aus|von) (den |meinen )?(serien|fernseh.*)",
+    "kodiShuffleAlbum": "(spiele |spiel |starte )(das )?album (?<q>.+?)( durcheinander| in zufälliger| zufällig)",
     "kodiPlayAlbum": "(spiele |spiel |starte )das album (?<q>.+)",
     "kodiPlayArtist": "(spiele |spiel |starte )(den künstler|den musiker|die band|die gruppe) (?<q>.+)",
     "kodiPlayRadioChannelByNumber": "(schalte|wechsle) auf den radio ?(kanal|sender) (?<q>.+)",
