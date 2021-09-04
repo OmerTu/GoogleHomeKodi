@@ -74,8 +74,8 @@ const Init = function() {
         this.globalConf.authToken = process.env.AUTH_TOKEN;
         this.globalConf.listenerPort = process.env.PORT;
         this.globalConf.youtubeKey = process.env.YOUTUBE_KEY || 'AIzaSyBYKxhPJHYUnzYcdOAv14Gmq-43_W9_79w';
-        this.globalConf.brokerAccentInsensitiveMatch = process.env.BROKER_ACCENT_INSENSITIVE_MATCH === 'true' ? true : false;
-        this.globalConf.brokerLanguageCacheEnable = process.env.BROKER_LANGUAGE_CACHE_ENABLE === 'false' ? false : true;
+        this.globalConf.brokerAccentInsensitiveMatch = process.env.BROKER_ACCENT_INSENSITIVE_MATCH === 'true';
+        this.globalConf.brokerLanguageCacheEnable = process.env.BROKER_LANGUAGE_CACHE_ENABLE === 'false';
         console.log('Loaded config from .env (environment)');
     }
 

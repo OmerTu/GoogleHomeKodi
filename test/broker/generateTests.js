@@ -48,7 +48,7 @@ const testBroker = function(language) {
                         
                         // Set or clear configuration for the phrase
                         this.testRequest.config = endpointTest.config !== undefined || phraseTest.config !== undefined
-                            ? {...endpointTest.config, ...phraseTest.config}
+                            ? { ...endpointTest.config, ...phraseTest.config }
                             : undefined;
                         
                         testSimplePhrase(this.testRequest, this.testResponse, endpointTest.endpoint, phraseTest.q, done);
