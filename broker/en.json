@@ -97,5 +97,7 @@
     "kodiPlayMovie:1": "play (the movie )?(?<q>.+) with a delay of (?<delay>\\d+)",
     "kodiSearchSerenForMovies": "search seren for( the)? movie (?<q>.+)",
     "kodiSearchSerenForShows": "search seren for( the)?( tv)? show (?<q>.+)"
+    "kodiSearchVenomForMovies": "search venom for ( the)? movie (?<q>.+)",
+    "kodiSearchVenomForShows": "search venom for( the)?( tv)? show (?<q>.+)"
 
 }
