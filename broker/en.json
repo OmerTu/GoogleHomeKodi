@@ -84,7 +84,7 @@
     "kodiShowWindow": "show (?<q>.+)",
     "kodiShuffleAlbum": "shuffle( the)? album (?<q>.+)",
     "kodiShuffleEpisodeHandler": "shuffle (?<q>.+)",
-    "kodiShutdown": "shutdown",
+    "kodiShutdown": "shut\s*down",
     "kodiStandbyTv": "standby",
     "kodiStop": "stop",
     "kodiSuspend": "suspend",
