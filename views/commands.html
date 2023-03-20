@@ -1,0 +1,231 @@
+<meta charset="utf-8" />
+<title></title>
+<style media="screen" type="text/css">body { color: #333333; font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif; margin-top: 25px;background-color:rgb(42, 43, 44);}
+      h1 { text-align: center; color:rgb(244, 244, 244);}
+      a { color: #fff; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .logo { display: block; margin: auto }
+      .content { margin: 20px 25%; }
+      .docs { background-color: #f4f4f4; border-radius: 4px; padding: 10px; margin-bottom: 20px;}
+      .docs p, .docs li { padding: 0; margin: 0; line-height: 28px; font-size: 14px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+      .docs .method { background-color: #dbdbdb; padding: 4px; border-radius: 2px; margin-right: 4px;}
+      .docs h2 { margin-bottom: 8px;}
+      .docs h2:first-child { margin-top: 0;}
+      .docs h4 { margin-left: 10px; }
+      .docs ul { list-style-type: none; padding-left: 20px; }
+      .docs .explanation { margin-left: 20px; font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif; font-size: 14px; }
+      .docs .experimental { background-color: red; border-radius: 3px; color: white; font-size: 10px; line-height: 12px; padding: 2px 6px; font-weight: bold; }
+      .footer { text-align: center; font-size: 12px; margin: 10px 0 50px 0; color:rgb(244, 244, 244);}
+      .header{text-align: center; font-size: 12px; margin: 10px 0 10px 0; color:rgb(244, 244, 244);}
+</style>
+<p>&nbsp;</p>
+
+<div class="content">
+<h1>Kodi API</h1>
+
+<p class="header">All commands are for a single kodi instance unless multiple hosts are setup in the kodi-hosts.config.js file and method is set to POST.</p>
+
+<div class="docs">
+<h2>Playback Control</h2>
+
+<p><span class="method">GET</span>&nbsp;/{action}?q={parameter}</p>
+
+<h3>Actions</h3>
+
+<h4>Playback</h4>
+
+<ul>
+	<li>playpause</li>
+	<li>stop</li>
+</ul>
+
+<h4>Playback</h4>
+
+<ul>
+	<li>seekforwardminutes?q={time}</li>
+	<li>seekforwardminutes</li>
+	<li>seekbackwardminutes?q={time}</li>
+	<li>seekbackwardminutes</li>
+	<li>seektominutes?q={time}</li>
+</ul>
+
+<h4>Volume</h4>
+
+<ul>
+	<li>mute</li>
+	<li>volumeup</li>
+	<li>volumedown<br />
+	volume?q={absolute volume}</li>
+	<li>volumeup?q={increment}</li>
+	<li>volumedown?q={increment}</li>
+</ul>
+
+<h4>Subtitles \ Audio</h4>
+
+<ul>
+	<li>setsubtitles?q={subtitles_string}</li>
+	<li>setsubtitlesdirect?q={subtitles_id}</li>
+	<li>setaudio?q={audio_string}</li>
+	<li>setaudiodirect?q={audio_id}</li>
+</ul>
+</div>
+
+<div class="docs">
+<h2>Media Control</h2>
+
+<p><span class="method">GET</span>&nbsp;/{action}?q={parameter}&amp;e={parameter2}&amp;delay={delay}</p>
+
+<p>*delay is an optional command</p>
+
+<h3>Actions</h3>
+
+<h4>TV</h4>
+
+<ul>
+	<li>playtvshow?q={tv_show}&amp;delay={delay}</li>
+	<li>playepisode?q={tv_show}&amp;e={episode_number}</li>
+	<li>playrecentepisode</li>
+	<li>resumetvshow?q={tv_show}&amp;delay={delay}</li>
+	<li>bingewatchtvshow?q={tv_show}</li>
+	<li>shuffleepisode?q={tv_show}</li>
+</ul>
+
+<h4>Movies</h4>
+
+<ul>
+	<li>playmovie?q={movie_name}&amp;delay={delay}</li>
+	<li>playrandommovie?q={movie_name}&amp;delay={delay}</li>
+	<li>resumemovie?q={movie_name}&amp;delay={delay}</li>
+	<li>showMovieGenre?q={genre}</li>
+</ul>
+
+<h4>Music</h4>
+
+<ul>
+	<li>playsong?q={song_name}</li>
+	<li>playalbum?q={album_name}</li>
+	<li>playartist?q={artist_name}</li>
+	<li>playgenre?q={genre_name}</li>
+	<li>playercontrol?q={playlist_name}</li>
+</ul>
+
+<h4>Files</h4>
+
+<ul>
+	<li>playfile?q={path/to/file}&amp;delay={delay}</li>
+</ul>
+
+<h4>Now Playing</h4>
+
+<ul>
+	<li>displayinfo</li>
+</ul>
+</div>
+
+<div class="docs">
+<h2>TV Control</h2>
+
+<p><span class="method">GET</span> /{action}?q={parameter}</p>
+
+<h3>Actions</h3>
+
+<h4>PVR</h4>
+
+<ul>
+	<li>channelup</li>
+	<li>channeldown</li>
+	<li>playpvrchannelbyname?q={channel_name}</li>
+	<li>playpvrchannelbynumber?q={channel_number}</li>
+</ul>
+
+<h4>TV</h4>
+
+<ul>
+	<li>activatetv</li>
+	<li>standbytv</li>
+</ul>
+</div>
+
+<div class="docs">
+<h2>Addon &amp; Favorite Control</h2>
+
+<p><span class="method">GET</span> /executeaddon?q={addon_name}</p>
+
+<p><span class="method">GET</span> /playyoutube?q={youtube_title}</p>
+
+<p><span class="method">GET</span> /playfavourite?q={favourite_name}</p>
+</div>
+
+<div class="docs">
+<h2>System Control</h2>
+
+<p><span class="method">GET</span> /{action}?q={parameter}</p>
+
+<h3>Actions</h3>
+
+<h4>Navigation</h4>
+
+<ul>
+	<li>navup?q={number}</li>
+	<li>navup</li>
+	<li>navdown?q={number}</li>
+	<li>navdown</li>
+	<li>navleft?q={number}</li>
+	<li>navleft</li>
+	<li>navright?q={number}</li>
+	<li>navright</li>
+	<li>navback?q={number}</li>
+	<li>navback</li>
+	<li>navselect</li>
+	<li>navcontextmenu</li>
+	<li>navhome</li>
+</ul>
+
+<h4>Power</h4>
+
+<ul>
+	<li>shutdown</li>
+	<li>hibernate</li>
+	<li>reboot</li>
+	<li>suspend</li>
+</ul>
+
+<h4>Misc</h4>
+
+<ul>
+	<li>cleanlibrary</li>
+	<li>scanlibrary</li>
+	<li>showWindow?q={window}</li>
+	<li>togglefullscreen</li>
+	<li>togglePartymode</li>
+	<li>loadProfile</li>
+</ul>
+</div>
+
+<div class="docs">
+<h2>Multi-User Control</h2>
+
+<p><span class="method">POST</span> /{action}?q={parameter}</p>
+
+<h4>Headers</h4>
+
+<ul>
+	<li><code>&quot;Content-Type&quot;:&quot;application/json&quot;</code></li>
+</ul>
+
+<h4>Body</h4>
+
+<ul>
+	<li><code>{&quot;token&quot;:&quot;*YOUR_CONNECTION_PASSWORD*&quot;,</code></li>
+	<li><code>&quot;kodiid&quot;:&quot;*YOUR_ROOM_NAME*&quot;}</code></li>
+</ul>
+</div>
+
+<div class="footer">
+<p><a href="/docs">Full documentation</a></p>
+
+<p>Learn more at <a href="https://github.com/OmerTu/GoogleHomeKodi">https://github.com/OmerTu/GoogleHomeKodi</a></p>
+</div>
+</div>
+
+<p>&nbsp;</p>
