@@ -44,7 +44,7 @@ jobs:
         if: ${{ github.repository != 'OmerTu/GoogleHomeKodi'}}
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x \
+            --platform linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x \
             --output "type=image,push=true" \
             --tag ${{secrets.DOCKER_IMAGENAME}}:latest \
             --file Dockerfile .
