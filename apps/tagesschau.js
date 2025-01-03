@@ -26,16 +26,18 @@ const showNotification = (request, response, message, image) => {
 
 const express = require('express');
 const axios = require('axios');
-const xmlParser = require('fast-xml-parser');
+const { XMLParser } = require('fast-xml-parser');
 
 const feedUrl = 'https://www.tagesschau.de/export/video-podcast/webxl/tagesschau_https/';
 
 const fetchAndPlayTodaysBroadcast = async(request) => {
     let feedContent = await axios.get(feedUrl);
-    let json = xmlParser.parse(feedContent.data, {
+
+    const parser = new XMLParser();
+    let obj = parser.parse(feedContent.data, {
         ignoreAttributes: false
     });
-    let lastestItem = json.rss.channel.item[0];
+    let lastestItem = obj.rss.channel.item[0];
     let dayOfPublication = +lastestItem.title.split('.', 2)[0];
     let todaysDay = (new Date()).getDate();
     
