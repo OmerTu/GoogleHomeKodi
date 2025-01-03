@@ -1,5 +1,5 @@
 #### Step 1 ####
-FROM node:alpine as linter
+FROM node:18-alpine as linter
 
 WORKDIR /home/node/app
 COPY package*.json ./
@@ -9,14 +9,14 @@ RUN npm test
 RUN npm run lint
 
 #### Step 2 ####
-FROM node:alpine as production-builder
+FROM node:18-alpine as production-builder
 
 WORKDIR /home/node/app
 COPY package*.json ./
 RUN npm install --production
 
 #### Step 3 ####
-FROM node:alpine as app
+FROM node:18-alpine as app
 
 ENV GOOGLE_HOME_KODI_CONFIG="/config/kodi-hosts.config.js"
 ENV NODE_ENV=production
