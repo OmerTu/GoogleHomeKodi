@@ -1,5 +1,5 @@
 #### Step 1 ####
-FROM node:18-alpine as linter
+FROM node:18-alpine as test
 
 WORKDIR /home/node/app
 COPY package*.json ./
@@ -12,8 +12,8 @@ RUN npm run lint
 FROM node:18-alpine as production-builder
 
 WORKDIR /home/node/app
-COPY package*.json ./
-RUN npm install --production
+COPY --from=test /home/node/app/package.json /home/node/app/package-lock.json ./
+RUN npm install --omit=dev
 
 #### Step 3 ####
 FROM node:18-alpine as app
