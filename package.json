@@ -13,7 +13,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fast-xml-parser": "^4.5.1",
+    "fast-xml-parser": "^5.5.6",
     "fuse.js": "^5.2.1",
     "node-fetch": "^2.6.0",
     "words-to-numbers": "^1.5.1",
