@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
+    "eslint": "^10.0.3",
     "mocha": "^11.0.1",
     "node-mocks-http": "^1.8.1",
     "should": "^13.2.3"
