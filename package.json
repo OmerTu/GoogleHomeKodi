@@ -12,7 +12,7 @@
     "axios": "^1.7.9",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.22.1",
     "fast-xml-parser": "^4.5.1",
     "fuse.js": "^5.2.1",
     "node-fetch": "^2.6.0",
