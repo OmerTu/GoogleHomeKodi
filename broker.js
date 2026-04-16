@@ -14,7 +14,7 @@ const testRegexNamedGroupesFeature = () => {
 
     try {
         match = `named group test`.match(`(?<group>test)`);
-    } catch (error) {
+    } catch {
         match = false;
     }
 
@@ -36,7 +36,7 @@ const loadLanguageFile = (language) => {
             let lang = require(`${configDirectory}/${language}.json`);
             console.log(`Found customized language file for '${language}'.`);
             return lang;
-        } catch (error) {
+        } catch {
             // NOOP
         }
 
@@ -45,7 +45,7 @@ const loadLanguageFile = (language) => {
         console.log(`Found customized language file for '${language}'`);
         return lang;
 
-    } catch (error) {
+    } catch {
         console.log(`No customized language file found for '${language}', loading default file.`);
 
         // eslint-disable-next-line global-require

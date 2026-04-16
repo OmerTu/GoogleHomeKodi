@@ -8,26 +8,26 @@
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "test": "mocha --recursive --require should"
   },
+  "engines": {
+    "node": "^25.0.0"
+  },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "fast-xml-parser": "^4.5.1",
-    "fuse.js": "^5.2.1",
-    "node-fetch": "^2.6.0",
-    "remove-accents": "^0.4.2",
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "fast-xml-parser": "^5.6.0",
+    "fuse.js": "^7.3.0",
+    "remove-accents": "^0.5.0",
     "words-to-numbers": "^1.5.1",
-    "youtube-search": "^1.1.4"
+    "youtube-search": "^1.1.6"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "mocha": "^11.0.1",
-    "node-mocks-http": "^1.8.1",
+    "@eslint/js": "^9.21.0",
+    "eslint": "^10.2.0",
+    "globals": "^16.0.0",
+    "mocha": "^11.7.5",
+    "node-mocks-http": "^1.17.2",
     "should": "^13.2.3"
-  },
-  "engines": {
-    "node": "^13.9.0"
   },
   "repository": {
     "url": "https://github.com/OmerTu/GoogleHomeKodi"
