@@ -9,16 +9,15 @@
     "test": "mocha --recursive --require should"
   },
   "dependencies": {
-    "axios": "^1.7.9",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fast-xml-parser": "^4.5.1",
     "fuse.js": "^5.2.1",
     "node-fetch": "^2.6.0",
+    "remove-accents": "^0.4.2",
     "words-to-numbers": "^1.5.1",
-    "youtube-search": "^1.1.4",
-    "remove-accents": "^0.4.2"
+    "youtube-search": "^1.1.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

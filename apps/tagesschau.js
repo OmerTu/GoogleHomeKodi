@@ -25,16 +25,16 @@ const showNotification = (request, response, message, image) => {
 
 
 const express = require('express');
-const axios = require('axios');
 const { XMLParser } = require('fast-xml-parser');
 
 const feedUrl = 'https://www.tagesschau.de/export/video-podcast/webxl/tagesschau_https/';
 
 const fetchAndPlayTodaysBroadcast = async(request) => {
-    let feedContent = await axios.get(feedUrl);
+    let response = await fetch(feedUrl);
+    let feedContent = await response.text();
 
     const parser = new XMLParser();
-    let obj = parser.parse(feedContent.data, {
+    let obj = parser.parse(feedContent, {
         ignoreAttributes: false
     });
     let lastestItem = obj.rss.channel.item[0];
