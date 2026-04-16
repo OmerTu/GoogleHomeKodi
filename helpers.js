@@ -1,6 +1,6 @@
 'use strict'; // eslint-disable-line strict
 
-const { wordsToNumbers } = require('words-to-numbers');
+const wordsToNumbers = require('word-to-numbers');
 const youtubeSearch = require('youtube-search');
 const Fuse = require('fuse.js');
 const KodiWindows = require('./kodi-connection/windows.js')();
