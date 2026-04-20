@@ -1484,4 +1484,18 @@ exports.kodiSearchSerenForMovies = (request, response) => { // eslint-disable-li
     let Kodi = request.kodi;
     const params = 'plugin://plugin.video.seren?action=moviesSearch&actionArgs=${searchString}';
     return kodiOpenVideoWindow(params, Kodi);
+
+exports.kodiSearchVenomForShows = function(request, response) {
+    let searchString = request.query.q.trim();
+    let Kodi = request.kodi;
+    const params =  "plugin://plugin.video.venom/?action=tvSearchterm&name=" +searchString;
+    return kodiOpenVideoWindow(params, Kodi);
+};
+
+exports.kodiSearchVenomForMovies = function(request, response) {
+    let searchString = request.query.q.trim();
+    let Kodi = request.kodi;
+    const params =  "plugin://plugin.video.venom/?action=movieSearchterm&name=" +searchString;
+    return kodiOpenVideoWindow(params, Kodi);
+
 };
